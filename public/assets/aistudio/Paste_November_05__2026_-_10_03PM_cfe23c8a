@@ -1,0 +1,1556 @@
+# AEGIS ACADEMY
+## COMPLETE CORPORATE WEBSITE, IMMERSIVE DESIGN SYSTEM, ADMIN DASHBOARD & BACKEND DEVELOPMENT
+
+Act as an elite multidisciplinary development team consisting of:
+
+- Senior Full-Stack Software Architect
+- Enterprise UI/UX Designer
+- Creative Director
+- Motion Graphics Designer
+- GSAP Animation Specialist
+- Three.js / WebGL Developer
+- Backend Developer
+- Database Architect
+- SEO Specialist
+- Performance Engineer
+- Security Engineer
+
+Your task is to build a complete, premium, visually immersive, modern corporate website and management platform for **AEGIS ACADEMY PVT. LTD.**
+
+This must not look like a generic AI-generated template.
+
+The objective is to create an international-standard corporate digital experience combining:
+
+1. Premium EdTech branding.
+2. Modern technology-company aesthetics.
+3. Cinematic animated backgrounds.
+4. Advanced glassmorphism.
+5. Glossy and reflective UI surfaces.
+6. Sophisticated motion design.
+7. Interactive 3D-inspired elements.
+8. Complete corporate website architecture.
+9. Functional backend architecture.
+10. Professional admin dashboard.
+
+The website should feel alive, dynamic, sophisticated, and visually memorable.
+
+---
+
+# PART 1 – COMPANY IDENTITY
+
+## 1.1 Company Details
+
+Company Name: Aegis Academy Pvt. Ltd.
+
+Full Form:
+
+Alliance of Entrepreneurs Guiding Innovation and Strategies.
+
+Industry:
+- Education Technology
+- Information Technology
+- Artificial Intelligence
+- Technical Training
+- Professional Development
+- Software Development
+- Digital Solutions
+
+Core Business Divisions:
+
+1. Aegis Education
+2. Aegis Technologies
+
+Main Tagline:
+
+"Empowering Minds. Engineering Futures."
+
+Supporting Brand Messages:
+
+- Learn Beyond Boundaries.
+- Innovation Through Education.
+- Building Skills for Tomorrow.
+- Transforming Ideas into Technology.
+
+## 1.2 Brand Positioning
+
+Aegis Academy is an education and technology-oriented organization focused on empowering students, institutions, and businesses through modern education, emerging technologies, innovation, practical skill development, and digital solutions.
+
+## 1.3 Vision
+
+To empower the next generation with future-ready knowledge, practical skills, and innovative technological solutions.
+
+## 1.4 Mission
+
+To bridge the gap between education and industry through accessible learning, hands-on training, technology innovation, and meaningful collaborations.
+
+## 1.5 Company Information Rules
+
+Use the real company information provided above.
+
+For unavailable information:
+- Use realistic sample data.
+- Clearly identify fictional names and sample content.
+- Make all sample information editable.
+- Do not invent legal registrations.
+- Do not invent government approvals.
+- Do not invent partnerships.
+- Do not invent certifications.
+- Do not invent awards or achievements.
+- Do not display fake client logos as real clients.
+
+The website must distinguish actual company information from sample content.
+
+---
+
+# PART 2 – BRAND IDENTITY AND COLOUR SYSTEM
+
+## 2.1 Existing Aegis Brand Reference
+
+First inspect:
+
+https://www.aegisacademy.in/
+
+This is the primary reference for the existing Aegis Academy brand identity.
+
+Study:
+- Existing colour palette.
+- Logo appearance.
+- Typography.
+- Homepage layout.
+- Existing animations.
+- Existing visual effects.
+- Existing motion behaviour.
+
+The redesigned website must look like an evolution of the existing Aegis brand, not a completely unrelated rebrand.
+
+Retain the recognizable Aegis identity.
+
+## 2.2 Lighter Colour Direction
+
+The previously generated design was too dark and matte.
+
+I want a lighter, brighter, more elegant colour system based on the existing Aegis website.
+
+Suggested provisional colours:
+
+| Colour | Hex |
+|---|---|
+| Pearl White | #F7F8FC |
+| Soft Blue | #EAF1FA |
+| Light Steel Blue | #C9D9EC |
+| Aegis Blue | #285B91 |
+| Deep Blue | #17385F |
+| Midnight Navy | #0C1B30 |
+| Champagne Gold | #D5AD63 |
+| Pure White | #FFFFFF |
+| Charcoal | #202B3A |
+
+These are provisional values.
+
+Inspect the actual existing Aegis website and adjust the palette to preserve its recognizable brand colours.
+
+## 2.3 Colour Distribution
+
+Do not make the entire website dark.
+
+Use:
+
+- Approximately 65% light visual sections.
+- Approximately 25% dark cinematic sections.
+- Approximately 10% accent and highlighted sections.
+
+These are design guidelines, not rigid limits.
+
+Use light backgrounds for most content sections.
+
+Use selected dark blue sections for cinematic storytelling and contrast.
+
+Gold should be a subtle premium accent.
+
+Maintain readability and accessibility.
+
+## 2.4 Typography
+
+Use:
+- Manrope for headings.
+- Inter for body content.
+
+Use modern, bold, clean, professional typography.
+
+## 2.5 Logo
+
+Use the existing Aegis Academy logo asset if available.
+
+Do not distort or replace the original logo.
+
+If unavailable, create a clean editable text-based placeholder with an elegant emblem.
+
+The logo must work in:
+- Navbar.
+- Footer.
+- Loading screen.
+- Admin dashboard.
+- Mobile navigation.
+
+---
+
+# PART 3 – SIGNATURE ANIMATION AND MOTION IDENTITY
+
+THIS SECTION IS EXTREMELY IMPORTANT.
+
+I want the new Aegis website to preserve the distinctive animation currently used on:
+
+https://www.aegisacademy.in/
+
+First inspect the existing live website.
+
+Identify its signature animation:
+- Visual appearance.
+- Movement pattern.
+- Direction.
+- Speed.
+- Timing.
+- Easing.
+- Interaction behaviour.
+- Position within the page.
+
+Recreate that recognizable animation in the redesigned website.
+
+Improve its:
+- Smoothness.
+- Visual quality.
+- Lighting.
+- Depth.
+- Responsiveness.
+- Overall polish.
+
+The existing Aegis animation must become a recognizable recurring visual element in the new website.
+
+Do not replace it with an unrelated generic animation.
+
+If the live website cannot be accessed, do not pretend to have inspected it.
+
+Instead:
+1. Create a reusable SignatureAegisMotion component.
+2. Keep the animation isolated and replaceable.
+3. Document the missing reference.
+4. Request a screen recording or screenshot before claiming an exact recreation.
+
+Combine the Aegis signature animation with the dynamic motion quality of the user's SYNTRONIX'26 website.
+
+The goal is to create a unique Aegis motion identity.
+
+---
+
+# PART 4 – DYNAMIC CINEMATIC BACKGROUND
+
+The current static building background is not acceptable.
+
+Remove the static office/building visual treatment.
+
+I want a completely dynamic and immersive background inspired by the visual energy of SYNTRONIX'26.
+
+The background must feel alive.
+
+## 4.1 Visual Elements
+
+Create a futuristic innovation environment with:
+
+- Animated geometric structures.
+- Floating translucent objects.
+- Moving light trails.
+- Dynamic gradient fields.
+- Ambient particles.
+- Depth and perspective.
+- Subtle 3D formations.
+- Cinematic lighting.
+- Blue and gold reflections.
+- Smooth parallax movement.
+- Layered visual composition.
+- Interactive lighting.
+
+The environment should communicate:
+
+- Artificial Intelligence.
+- Innovation.
+- Education.
+- Technology.
+- Creativity.
+- Future readiness.
+
+## 4.2 Technical Implementation
+
+Use a suitable combination of:
+
+- Three.js.
+- WebGL.
+- HTML Canvas.
+- GSAP.
+- CSS animations.
+- Framer Motion.
+- Background video.
+
+Do not introduce heavy libraries unnecessarily.
+
+Use Three.js only when it creates a meaningful visual improvement.
+
+## 4.3 Background Video
+
+Support a replaceable cinematic background video.
+
+Requirements:
+- Muted autoplay.
+- Seamless looping.
+- No visible playback controls.
+- Optimized loading.
+- Local asset support.
+- Graceful fallback image.
+- Animated gradient fallback.
+- Mobile-specific optimization.
+
+Create a documented location where the video can be replaced easily.
+
+Do not depend on unreliable external video URLs.
+
+## 4.4 Lighting
+
+Use:
+- Electric blue.
+- Soft cyan.
+- Champagne gold.
+- Subtle violet highlights.
+- Controlled white reflections.
+
+Do not make the entire hero excessively dark.
+
+Maintain text readability.
+
+---
+
+# PART 5 – PREMIUM GLOSSY FINISH
+
+The website must not have a matte appearance.
+
+Transform the UI into a premium glossy experience.
+
+Use:
+- Reflective surfaces.
+- Specular highlights.
+- Luminous borders.
+- Subtle inner highlights.
+- Gradient reflections.
+- Ambient glow.
+- Soft depth shadows.
+- Layered transparent materials.
+- Refined hover illumination.
+
+Buttons, cards, panels, and navigation must feel polished.
+
+Avoid excessive metallic effects or cheap-looking shine.
+
+The glossy finish must be sophisticated.
+
+---
+
+# PART 6 – ADVANCED GLASSMORPHISM
+
+Glassmorphism is one of the highest-priority design requirements.
+
+The entire website must use a consistent glassmorphism design language.
+
+## 6.1 Glass Characteristics
+
+Implement:
+- Background transparency.
+- Backdrop blur.
+- Saturation.
+- Translucent surfaces.
+- Thin luminous borders.
+- Soft inner highlights.
+- Subtle reflections.
+- Layered depth.
+- Soft shadows.
+- Smooth hover transitions.
+
+Example dark glass:
+
+background: rgba(255,255,255,0.10);
+
+backdrop-filter: blur(24px) saturate(160%);
+
+border: 1px solid rgba(255,255,255,0.22);
+
+box-shadow:
+0 12px 36px rgba(13,34,61,0.16),
+inset 0 1px 0 rgba(255,255,255,0.24);
+
+Example light glass:
+
+background: rgba(255,255,255,0.58);
+
+backdrop-filter: blur(22px) saturate(155%);
+
+border: 1px solid rgba(255,255,255,0.72);
+
+box-shadow:
+0 12px 36px rgba(37,69,108,0.10),
+inset 0 1px 0 rgba(255,255,255,0.85);
+
+## 6.2 Three Glass Levels
+
+Primary Glass:
+- Navbar.
+- Hero panels.
+- Large feature panels.
+
+Secondary Glass:
+- Education cards.
+- Technology cards.
+- Project cards.
+- Event cards.
+- Testimonials.
+
+Light Glass:
+- Labels.
+- Badges.
+- Small buttons.
+- Floating controls.
+
+Do not use identical opacity everywhere.
+
+Adapt the glass tint based on the background.
+
+The background must remain visible through glass surfaces.
+
+Do not create opaque grey cards and call them glassmorphism.
+
+---
+
+# PART 7 – COMPLETE ANIMATION SYSTEM
+
+Use a consistent motion design system.
+
+## 7.1 Loading Screen
+
+Create:
+- Aegis logo animation.
+- Signature motion.
+- Glossy transition.
+- Smooth homepage reveal.
+
+Do not create unnecessary long loading delays.
+
+## 7.2 Custom Cursor
+
+Desktop:
+- Small glowing central pointer.
+- Smooth outer ring.
+- Cursor-following spotlight.
+- Interactive hover expansion.
+- Magnetic button interactions.
+- Smooth interpolation.
+
+Mobile:
+- Disable custom cursor.
+- Use normal touch interactions.
+
+## 7.3 Scroll Animations
+
+Use GSAP ScrollTrigger.
+
+Implement:
+- Animated typography.
+- Text reveals.
+- Parallax.
+- Image mask reveals.
+- Staggered cards.
+- Horizontal project showcase.
+- Signature animation transitions.
+- Scroll-triggered counters.
+- Section transitions.
+- Layered visual storytelling.
+
+## 7.4 Component Animations
+
+Use Framer Motion for:
+- Buttons.
+- Navigation.
+- Cards.
+- Modals.
+- Menus.
+- Page transitions.
+- Interactive controls.
+
+Avoid unnecessary overlap between animation libraries.
+
+## 7.5 Interactive Cards
+
+Create:
+- 3D tilt.
+- Reflective hover.
+- Luminous borders.
+- Subtle scaling.
+- Soft glow.
+- Smooth elevation.
+
+Do not over-animate.
+
+## 7.6 Reduced Motion
+
+Respect prefers-reduced-motion.
+
+Provide simpler animations for users who prefer reduced motion.
+
+---
+
+# PART 8 – COMPLETE WEBSITE STRUCTURE
+
+Build all 22 public pages.
+
+Do not stop after the homepage.
+
+All routes must work.
+
+## SECTION A – MAIN WEBSITE
+
+### PAGE 1 – HOME
+
+Route: /
+
+Sections:
+
+1. Cinematic Hero.
+2. Introduction to Aegis Academy.
+3. About Aegis.
+4. Aegis Education Division.
+5. Aegis Technologies Division.
+6. What Makes Aegis Different?
+7. Featured Programs.
+8. Featured Technology Services.
+9. Our Approach.
+10. Sample Achievements and Statistics.
+11. Featured Projects.
+12. Events and Workshops.
+13. Testimonials.
+14. Institutional Collaboration.
+15. Partnership CTA.
+16. Contact CTA.
+17. Premium Footer.
+
+Hero Heading:
+
+"Empowering Minds. Engineering Futures."
+
+Supporting Text:
+
+"Building future-ready skills and delivering innovative technology solutions for a rapidly evolving world."
+
+CTA:
+- Explore Aegis.
+- Discover Our Programs.
+- Partner With Us.
+
+Homepage requirements:
+- Dynamic background.
+- Signature Aegis animation.
+- Cinematic video option.
+- Glossy glass interface.
+- Interactive cursor.
+- Smooth scroll storytelling.
+- Responsive layout.
+
+Sample statistics must be marked as demo content.
+
+### PAGE 2 – ABOUT US
+
+Route: /about
+
+Sections:
+1. About Hero.
+2. Company Introduction.
+3. What Does AEGIS Mean?
+4. Vision.
+5. Mission.
+6. Philosophy.
+7. Core Values.
+8. Company Journey.
+9. Our Approach.
+10. Education + Technology Ecosystem.
+11. Leadership Introduction.
+12. CTA.
+
+### PAGE 3 – LEADERSHIP
+
+Route: /leadership
+
+Create profile cards for:
+
+- Founder & CEO.
+- Chief Business Officer.
+- Chief Financial Officer.
+- Chief Technology Officer.
+- Chief Product Officer.
+- Chief Marketing Officer.
+- Event Head.
+- General Manager.
+- Research & Development Manager.
+
+Use fictional sample names and placeholder images.
+
+Clearly identify all sample profiles as editable demo content.
+
+Each profile must contain:
+- Image.
+- Name.
+- Designation.
+- Biography.
+- LinkedIn placeholder.
+
+### PAGE 4 – CONTACT
+
+Route: /contact
+
+Sections:
+- Contact Hero.
+- General Inquiry.
+- Education Inquiry.
+- Technology Services Inquiry.
+- Partnership Inquiry.
+- Email.
+- Phone.
+- Address.
+- Map.
+- Contact Form.
+- WhatsApp CTA.
+
+Use editable sample contact information.
+
+---
+
+# SECTION B – AEGIS EDUCATION
+
+### PAGE 5 – EDUCATION OVERVIEW
+
+Route: /education
+
+Sections:
+- Education Hero.
+- Introduction.
+- Educational Philosophy.
+- School Programs.
+- College Programs.
+- Professional Development.
+- Learning Methodology.
+- Practical Learning.
+- Training Process.
+- Why Learn With Aegis?
+- Enrollment CTA.
+
+### PAGE 6 – SCHOOL PROGRAMS
+
+Route: /education/schools
+
+Target audience: School students aged 10–15.
+
+Programs:
+- Artificial Intelligence Awareness.
+- Generative AI Fundamentals.
+- Digital Literacy.
+- Computational Thinking.
+- Communication Skills.
+- Life Skills.
+- Creative Problem Solving.
+- Technology Awareness.
+
+Sections:
+- Hero.
+- Introduction.
+- Program Categories.
+- Learning Outcomes.
+- Practical Activities.
+- Learning Modules.
+- School Partnership Model.
+- FAQ.
+- Inquiry CTA.
+
+### PAGE 7 – COLLEGE PROGRAMS
+
+Route: /education/colleges
+
+Programs:
+- Full Stack Web Development.
+- App Development.
+- Cybersecurity.
+- Data Structures and Algorithms.
+- Python Programming.
+- Generative AI.
+- Aptitude Training.
+- Soft Skills.
+- Communication Skills.
+- Career Preparation.
+
+Sections:
+- Hero.
+- Technical Programs.
+- Non-Technical Programs.
+- Hands-on Projects.
+- Industry-Oriented Learning.
+- Training Methodology.
+- Learning Outcomes.
+- Enrollment CTA.
+
+### PAGE 8 – PROFESSIONAL DEVELOPMENT
+
+Route: /education/professional
+
+Include:
+- Professional Training.
+- Career Development.
+- Communication Training.
+- Technical Upskilling.
+- Workplace Skills.
+- Corporate Workshops.
+- Customized Training.
+
+Include editable sample programs and inquiry forms.
+
+### PAGE 9 – PROGRAM DETAILS
+
+Route: /programs/[slug]
+
+Create dynamic program detail pages.
+
+Sample programs:
+- Full Stack Development.
+- Generative AI.
+- Cybersecurity.
+- Python Programming.
+- App Development.
+- Data Structures.
+- Aptitude Training.
+- Communication Skills.
+
+Each page must contain:
+1. Program Hero.
+2. Overview.
+3. Learning Objectives.
+4. Curriculum.
+5. Duration.
+6. Eligibility.
+7. Prerequisites.
+8. Practical Projects.
+9. Learning Outcomes.
+10. FAQ.
+11. Enrollment Form.
+12. Related Programs.
+
+All sample details must be editable.
+
+---
+
+# SECTION C – AEGIS TECHNOLOGIES
+
+### PAGE 10 – TECHNOLOGIES OVERVIEW
+
+Route: /technologies
+
+Sections:
+- Technology Hero.
+- Introduction.
+- Technology Philosophy.
+- What We Build.
+- Software Solutions.
+- AI Solutions.
+- Automation.
+- Cloud Solutions.
+- Featured Projects.
+- Development Process.
+- Technology Stack.
+- Consultation CTA.
+
+Use a sophisticated technology-oriented visual experience.
+
+### PAGE 11 – SERVICES
+
+Route: /services
+
+Services:
+
+1. Web Development.
+2. Mobile App Development.
+3. AI Solutions.
+4. Cloud Solutions.
+5. Business Automation.
+6. Digital Presence and Branding.
+
+Create these routes:
+
+/services/web-development
+
+/services/app-development
+
+/services/ai-solutions
+
+/services/cloud-solutions
+
+/services/automation
+
+/services/digital-presence
+
+Each service page must contain:
+- Service Hero.
+- Overview.
+- Problems We Solve.
+- Our Solutions.
+- Technologies Used.
+- Development Process.
+- Deliverables.
+- Sample Projects.
+- FAQ.
+- Request a Quote CTA.
+
+### PAGE 12 – PROJECTS
+
+Route: /projects
+
+Categories:
+- Web Applications.
+- Mobile Applications.
+- AI and Machine Learning.
+- Automation Solutions.
+- Academic and Research Projects.
+
+Sample projects:
+- Smart Agriculture Platform.
+- AI Learning Assistant.
+- Business Management System.
+- Student Productivity Application.
+- Automated Inventory System.
+
+These are sample portfolio projects, not verified client projects.
+
+Create dynamic routes:
+
+/projects/[slug]
+
+Each project detail page:
+- Hero.
+- Problem Statement.
+- Proposed Solution.
+- Key Features.
+- Technology Stack.
+- Screenshots.
+- Project Outcomes.
+- Related Projects.
+
+---
+
+# SECTION D – COMMUNITY AND ENGAGEMENT
+
+### PAGE 13 – EVENTS AND WORKSHOPS
+
+Route: /events
+
+Include:
+- Upcoming Events.
+- Past Events.
+- Workshops.
+- Technical Sessions.
+- Hackathons.
+- Training Programs.
+- Event Details.
+
+Use editable sample event data.
+
+### PAGE 14 – GALLERY
+
+Route: /gallery
+
+Categories:
+- Workshops.
+- Events.
+- Training Sessions.
+- Team Activities.
+- Campus Activities.
+- Projects.
+
+Features:
+- Responsive image grid.
+- Category filters.
+- Lightbox.
+- Smooth transitions.
+- Image loading optimization.
+
+Use replaceable placeholder images.
+
+### PAGE 15 – PARTNERSHIPS
+
+Route: /partnerships
+
+Include:
+- School Partnerships.
+- College Partnerships.
+- University Collaborations.
+- Corporate Partnerships.
+- Training Institution Partnerships.
+- Technology Partnerships.
+
+Sections:
+- Partnership Hero.
+- Why Partner With Aegis?
+- Collaboration Models.
+- Benefits.
+- Partnership Process.
+- Partner Inquiry Form.
+
+Do not invent existing partners or display fake partner logos.
+
+---
+
+# SECTION E – CONVERSION PAGES
+
+### PAGE 16 – STUDENT ENROLLMENT
+
+Route: /enroll
+
+Form Fields:
+- Student Name.
+- Phone Number.
+- WhatsApp Number.
+- Email Address.
+- School / College Name.
+- Department.
+- Year of Study.
+- District.
+- Selected Program.
+- Learning Mode.
+- Additional Information.
+
+Features:
+- Client-side validation.
+- Required field validation.
+- Application ID generation after successful backend submission.
+- Success message.
+- Confirmation screen.
+- Responsive design.
+
+Do not display a successful real submission unless the backend actually accepts and stores it.
+
+### PAGE 17 – REQUEST A QUOTE
+
+Route: /request-quote
+
+Fields:
+- Name.
+- Organization.
+- Email.
+- Phone.
+- Service Required.
+- Project Description.
+- Estimated Budget.
+- Expected Timeline.
+- Additional Requirements.
+
+Include validation, submission status, and confirmation message.
+
+---
+
+# SECTION F – ADDITIONAL PAGES
+
+### PAGE 18 – INSIGHTS / BLOG
+
+Route: /insights
+
+Categories:
+- Artificial Intelligence.
+- Education.
+- Technology.
+- Career Development.
+- Industry Trends.
+- Company Updates.
+
+Features:
+- Featured Article.
+- Article Cards.
+- Category Filters.
+- Search.
+- Article Details.
+
+Use editable sample articles.
+
+### PAGE 19 – CAREERS
+
+Route: /careers
+
+Sections:
+- Careers Hero.
+- Working at Aegis.
+- Company Culture.
+- Open Positions.
+- Internship Opportunities.
+- Application Form.
+
+Use sample listings marked as demo content.
+
+### PAGE 20 – PRIVACY POLICY
+
+Route: /privacy-policy
+
+Create an editable draft privacy policy.
+
+Do not claim legal review.
+
+### PAGE 21 – TERMS AND CONDITIONS
+
+Route: /terms
+
+Create an editable draft terms page.
+
+Do not claim legal review.
+
+### PAGE 22 – 404 PAGE
+
+Route: /404
+
+Include:
+- Animated 404 typography.
+- Aegis visual identity.
+- Return Home CTA.
+- Explore Programs CTA.
+
+---
+
+# PART 9 – GLOBAL NAVIGATION
+
+Create a premium floating glass navbar.
+
+Desktop menu:
+
+- Home.
+- About.
+- Education.
+- Technologies.
+- Projects.
+- Events.
+- Insights.
+- Contact.
+
+Primary CTA:
+
+"Get Started"
+
+Create dropdown menus.
+
+Education:
+- Education Overview.
+- School Programs.
+- College Programs.
+- Professional Development.
+- All Programs.
+
+Technologies:
+- Technologies Overview.
+- Web Development.
+- App Development.
+- AI Solutions.
+- Cloud Solutions.
+- Automation.
+- Digital Presence.
+
+About:
+- About Us.
+- Leadership.
+- Partnerships.
+
+Mobile:
+- Animated hamburger menu.
+- Smooth slide-in navigation.
+- Expandable categories.
+- Clear CTA.
+- Touch-friendly controls.
+
+All navigation links must work.
+
+---
+
+# PART 10 – FOOTER
+
+Create a premium multi-column footer.
+
+Column 1:
+AEGIS ACADEMY
+
+Alliance of Entrepreneurs Guiding Innovation and Strategies.
+
+Column 2 – Explore:
+- About.
+- Leadership.
+- Projects.
+- Events.
+- Insights.
+
+Column 3 – Education:
+- School Programs.
+- College Programs.
+- Professional Development.
+- All Programs.
+
+Column 4 – Technologies:
+- Web Development.
+- App Development.
+- AI Solutions.
+- Cloud Solutions.
+- Automation.
+
+Column 5 – Connect:
+- Contact.
+- Partnerships.
+- Careers.
+- LinkedIn.
+- Instagram.
+
+Include:
+- Copyright.
+- Privacy Policy.
+- Terms.
+- Back to Top.
+
+All contact and social details must be editable.
+
+---
+
+# PART 11 – ADMIN DASHBOARD
+
+Create a separate private management platform.
+
+Route: /admin
+
+Design:
+- Professional SaaS dashboard.
+- Light and dark modes.
+- Sidebar.
+- Responsive layout.
+- Data tables.
+- Charts.
+- Search.
+- Filters.
+- Notifications.
+- Modal forms.
+- Glass accents.
+
+Modules:
+
+1. Dashboard.
+2. Enrollments.
+3. Programs.
+4. Services.
+5. Projects.
+6. Events.
+7. Gallery.
+8. Testimonials.
+9. Partnerships.
+10. Leads.
+11. Team Members.
+12. Contact Messages.
+13. Blog / Insights.
+14. Careers.
+15. Website Settings.
+
+Dashboard metrics:
+- Total Enrollments.
+- Total Leads.
+- Active Programs.
+- Total Projects.
+- Upcoming Events.
+- Pending Inquiries.
+
+## Admin CRUD
+
+Implement:
+- Create.
+- Read.
+- Update.
+- Delete.
+- Search.
+- Filter.
+- Pagination.
+
+Create a login interface.
+
+Do not implement fake authentication that appears production-secure.
+
+Protect admin routes and APIs using proper authentication and authorization.
+
+If backend authentication is not configured, clearly mark the dashboard as a prototype.
+
+---
+
+# PART 12 – TECHNICAL ARCHITECTURE
+
+Current baseline:
+
+- Deployment: Vercel.
+- Source control: GitHub.
+- Backend preference: Node.js.
+
+Preferred stack:
+- React.
+- TypeScript.
+- Next.js where appropriate.
+- Tailwind CSS.
+- Node.js.
+- REST APIs.
+- PostgreSQL-ready architecture.
+- GSAP.
+- GSAP ScrollTrigger.
+- Framer Motion.
+- Three.js where necessary.
+- Lucide React.
+
+IMPORTANT:
+
+First inspect the existing project and preserve the existing technology stack wherever practical.
+
+Do not unnecessarily migrate the project.
+
+Do not replace existing backend functionality.
+
+Create a maintainable architecture.
+
+Suggested entities:
+- Users.
+- Admins.
+- Programs.
+- Enrollments.
+- Services.
+- Projects.
+- Events.
+- Gallery Images.
+- Testimonials.
+- Partnerships.
+- Leads.
+- Contact Messages.
+- Blog Articles.
+- Job Listings.
+- Job Applications.
+- Website Settings.
+
+Separate:
+- UI components.
+- Business logic.
+- API services.
+- Data models.
+- Configuration.
+- Content.
+
+Use environment variables for secrets.
+
+Never hardcode passwords or API keys.
+
+---
+
+# PART 13 – BACKEND AND API REQUIREMENTS
+
+Prepare API structures for:
+
+POST /api/enrollments
+
+POST /api/contact
+
+POST /api/quote-requests
+
+POST /api/partnerships
+
+POST /api/careers/applications
+
+GET /api/programs
+
+GET /api/services
+
+GET /api/projects
+
+GET /api/events
+
+GET /api/insights
+
+Admin:
+
+GET /api/admin/dashboard
+
+GET /api/admin/enrollments
+
+GET /api/admin/leads
+
+GET /api/admin/messages
+
+Implement suitable POST, PUT, PATCH, and DELETE operations for manageable content.
+
+Requirements:
+- Input validation.
+- Consistent JSON responses.
+- Error handling.
+- Authentication.
+- Authorization.
+- Protected admin endpoints.
+- Secure environment configuration.
+- Database integration readiness.
+
+Do not claim a production database is connected if it is not.
+
+Use clearly marked demo data when necessary.
+
+---
+
+# PART 14 – CONTENT MANAGEMENT
+
+Create a central content configuration.
+
+Store editable information for:
+- Company details.
+- Logo.
+- Tagline.
+- Vision.
+- Mission.
+- Contact details.
+- Social links.
+- Leadership.
+- Programs.
+- Services.
+- Projects.
+- Events.
+- Testimonials.
+- Gallery.
+- Blog.
+- Careers.
+- Footer.
+
+Avoid hardcoding all content inside page components.
+
+Prepare the content architecture for future admin-based management.
+
+---
+
+# PART 15 – SEO, ACCESSIBILITY AND PERFORMANCE
+
+Implement:
+
+- SEO metadata for every public page.
+- Open Graph metadata.
+- Semantic HTML.
+- Accessible navigation.
+- Proper heading hierarchy.
+- Image alt text.
+- Sitemap.
+- Robots configuration.
+- Optimized fonts.
+- Responsive images.
+- Lazy loading.
+- Video optimization.
+- Keyboard accessibility.
+- Visible focus states.
+- Performance-friendly animations.
+
+Avoid:
+- Excessive blur layers.
+- Unnecessary libraries.
+- Heavy animations on mobile.
+- Layout shifts.
+- Broken routes.
+- Fake links.
+- Unoptimized background videos.
+- Poor contrast.
+
+Maintain good Core Web Vitals.
+
+---
+
+# PART 16 – RESPONSIVE DESIGN
+
+Test:
+- Desktop.
+- Laptop.
+- Tablet.
+- Mobile.
+
+Requirements:
+- Fully responsive navigation.
+- Mobile-specific hero layout.
+- Optimized background effects.
+- Touch-friendly cards.
+- Responsive glass panels.
+- No horizontal overflow.
+- Readable typography.
+- Accessible forms.
+- Appropriate animation reduction.
+
+Desktop can use advanced 3D effects.
+
+Mobile should use lightweight visual alternatives.
+
+---
+
+# PART 17 – IMPLEMENTATION PLAN
+
+Work incrementally.
+
+PHASE 1 – PROJECT AUDIT
+
+Inspect:
+- Current project structure.
+- Existing routes.
+- Components.
+- Backend.
+- API integrations.
+- Animation libraries.
+- Existing Aegis animation.
+- Existing logo and assets.
+
+Do not modify code before understanding the architecture.
+
+PHASE 2 – DESIGN SYSTEM
+
+Implement:
+- Updated Aegis colour palette.
+- Typography.
+- Glassmorphism.
+- Glossy UI surfaces.
+- Buttons.
+- Cards.
+- Navbar.
+- Footer.
+- Design tokens.
+
+PHASE 3 – MOTION SYSTEM
+
+Implement:
+- Signature Aegis animation.
+- Dynamic background.
+- Background video support.
+- GSAP animations.
+- Framer Motion interactions.
+- Custom cursor.
+- Page transitions.
+
+PHASE 4 – WEBSITE PAGES
+
+Implement all 22 public pages.
+
+PHASE 5 – ADMIN DASHBOARD
+
+Implement dashboard modules and CRUD interfaces.
+
+PHASE 6 – BACKEND
+
+Implement API structures, validation, database integration readiness, and authentication.
+
+PHASE 7 – RESPONSIVENESS
+
+Optimize desktop, tablet, and mobile experiences.
+
+PHASE 8 – TESTING
+
+Test:
+- All routes.
+- All navigation links.
+- Forms.
+- Backend endpoints.
+- Admin access.
+- CRUD.
+- Animations.
+- Mobile layout.
+- Loading performance.
+- Error states.
+
+PHASE 9 – FINAL REVIEW
+
+Review visual consistency and fix all major issues.
+
+---
+
+# PART 18 – STRICT DEVELOPMENT RULES
+
+1. Do not stop after creating the homepage.
+2. Do not leave major routes incomplete.
+3. Do not remove existing functionality.
+4. Do not break existing APIs.
+5. Do not introduce fake authentication.
+6. Do not invent company achievements.
+7. Do not invent actual partners.
+8. Do not use the same layout on every page.
+9. Do not use static building images as the main background.
+10. Do not make the entire website dark.
+11. Do not use matte-looking UI surfaces.
+12. Do not create opaque cards and call them glassmorphism.
+13. Do not replace the existing Aegis animation with an unrelated generic effect.
+14. Do not compromise mobile performance.
+15. Do not claim that unimplemented features are functional.
+16. Preserve the current project architecture wherever possible.
+
+If the complete project is too large to implement in one generation, work in controlled phases while maintaining the same architecture and visual system.
+
+Do not silently omit requirements.
+
+---
+
+# PART 19 – FINAL DELIVERY REPORT
+
+After implementation, provide:
+
+1. Complete project folder structure.
+2. All implemented public pages.
+3. All implemented admin modules.
+4. Reusable components.
+5. Animation system details.
+6. Signature Aegis animation implementation status.
+7. Background video asset location.
+8. Glassmorphism implementation details.
+9. Backend architecture.
+10. API endpoint list.
+11. Database integration status.
+12. Authentication status.
+13. Demo data details.
+14. Features that are not yet connected.
+15. Responsive testing results.
+16. Performance limitations.
+17. Local development instructions.
+18. GitHub integration instructions.
+19. Vercel deployment instructions.
+20. Pending tasks.
+
+---
+
+# FINAL CREATIVE DIRECTION
+
+The final Aegis Academy website must combine:
+
+EXISTING AEGIS BRAND:
+Preserve the recognizable identity, colours, logo, and signature animation.
+
+SYNTRONIX-INSPIRED MOTION:
+Bring dynamic backgrounds, immersive movement, cinematic visuals, and interactive experiences.
+
+LIGHTER COLOUR SYSTEM:
+Use brighter, more welcoming versions of the existing Aegis colours.
+
+GLOSSY DESIGN:
+Use premium reflective surfaces, elegant highlights, and sophisticated lighting.
+
+ADVANCED GLASSMORPHISM:
+Make transparent, layered, luminous glass an important part of the visual identity.
+
+COMPLETE WEBSITE:
+All 22 public pages with functional navigation and consistent design.
+
+ADMIN DASHBOARD:
+A structured management platform.
+
+BACKEND:
+A scalable Node.js-oriented architecture that is ready for real integrations.
+
+The final website should look like a premium international EdTech and technology company.
+
+It should be visually memorable, technically maintainable, fully responsive, and ready for future development.
+
+DO NOT JUST DESCRIBE THE DESIGN.
+
+INSPECT THE EXISTING PROJECT AND ACTUALLY IMPLEMENT THE COMPLETE WEBSITE AND THE REQUESTED UPGRADES.

@@ -1,0 +1,6 @@
+{
+  "name": "Aegis Academy - Corporate Portal & Management Platform",
+  "description": "Alliance of Entrepreneurs Guiding Innovation and Strategies - Premier EdTech & Technology Solutions corporate digital experience and SaaS management platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
