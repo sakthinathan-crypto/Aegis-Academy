@@ -17,9 +17,12 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen min-h-[100dvh] w-full flex items-center justify-center pt-32 sm:pt-36 pb-20 sm:pb-24 px-4 sm:px-6 lg:px-12 overflow-hidden bg-[#020617]">
+    <section className="relative min-h-screen min-h-[100dvh] w-full flex items-center justify-center pt-32 sm:pt-36 pb-24 sm:pb-28 px-4 sm:px-6 lg:px-12 overflow-hidden bg-[#020617]">
       {/* 1. Dynamic Hero Background (Two White Glossy Circles + Electric Blue Auroras + Particle Field) */}
       <DynamicHeroBackground className="absolute inset-0 z-0 pointer-events-none" />
+
+      {/* Bottom seamless dark grounding so no light section peeks into viewport before user deliberately scrolls */}
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-10" />
 
       {/* 2. Main Two-Column Container (Exact Composition from Reference Image 2) */}
       <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center my-auto">

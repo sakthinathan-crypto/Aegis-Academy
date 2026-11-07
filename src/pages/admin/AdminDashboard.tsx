@@ -30,19 +30,33 @@ import {
   ArrowUpRight,
   Database,
   Lock,
+  LogOut,
   X
 } from 'lucide-react';
+
+import { AdminLogin } from './AdminLogin';
+import { authService, AdminUser } from '../../services/authService';
+import { enrollmentService } from '../../services/enrollmentService';
+import { contactService } from '../../services/contactService';
+import { quoteService } from '../../services/quoteService';
+import { careerService, CareerRecord } from '../../services/careerService';
+import { adminService, DashboardMetrics, ActivityLog } from '../../services/adminService';
+import { apiClient } from '../../services/apiClient';
 
 export const AdminDashboard: React.FC = () => {
   const { navigate } = useRouter();
 
+  const [currentUser, setCurrentUser] = useState<AdminUser | null>(() => authService.getUser());
   const [activeModule, setActiveModule] = useState<
-    'overview' | 'enrollments' | 'leads' | 'messages' | 'programs' | 'projects' | 'events' | 'settings'
+    'overview' | 'enrollments' | 'leads' | 'messages' | 'applications' | 'programs' | 'projects' | 'events' | 'settings'
   >('overview');
 
   const [enrollments, setEnrollments] = useState<EnrollmentSubmission[]>([]);
   const [quotes, setQuotes] = useState<QuoteRequestSubmission[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [applications, setApplications] = useState<CareerRecord[]>([]);
+  const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('All');
@@ -51,42 +65,144 @@ export const AdminDashboard: React.FC = () => {
   const [viewEnrollment, setViewEnrollment] = useState<EnrollmentSubmission | null>(null);
   const [viewQuote, setViewQuote] = useState<QuoteRequestSubmission | null>(null);
   const [viewMessage, setViewMessage] = useState<ContactMessage | null>(null);
+  const [viewApplication, setViewApplication] = useState<CareerRecord | null>(null);
 
-  // Load from reactive store
-  const refreshData = () => {
-    setEnrollments(StorageStore.getEnrollments());
-    setQuotes(StorageStore.getQuoteRequests());
-    setMessages(StorageStore.getContactMessages());
+  // Load from backend API with local cache resilience
+  const refreshData = async () => {
+    setIsLoadingData(true);
+    const token = authService.getToken() || '';
+
+    try {
+      // 1. Enrollments
+      const enrRes = await enrollmentService.listEnrollments(token);
+      if (enrRes.success && Array.isArray(enrRes.data)) {
+        setEnrollments(enrRes.data.map((r: any) => ({
+          id: r.enrollmentId || r.id,
+          studentName: r.fullName || r.studentName,
+          email: r.email,
+          phone: r.phone,
+          whatsapp: r.guardianPhone || r.whatsapp,
+          institutionName: r.institution || r.institutionName,
+          department: r.department || '',
+          yearOfStudy: r.yearOfStudy || '',
+          district: r.district || '',
+          selectedProgram: r.programTitle || r.selectedProgram,
+          learningMode: r.deliveryMode || r.learningMode,
+          additionalInfo: r.comments || r.additionalInfo,
+          submittedAt: r.submittedAt,
+          status: r.status
+        })));
+      } else {
+        setEnrollments(StorageStore.getEnrollments());
+      }
+
+      // 2. Quotes
+      const quoRes = await quoteService.listQuotes(token);
+      if (quoRes.success && Array.isArray(quoRes.data)) {
+        setQuotes(quoRes.data.map((r: any) => ({
+          id: r.quoteId || r.id,
+          name: r.fullName || r.name,
+          organization: r.companyName || r.organization,
+          email: r.workEmail || r.email,
+          phone: r.phone,
+          serviceRequired: r.serviceRequired,
+          projectDescription: r.requirements || r.projectDescription,
+          estimatedBudget: r.budgetRange || r.estimatedBudget,
+          expectedTimeline: r.targetTimeline || r.expectedTimeline,
+          additionalRequirements: r.adminNotes || r.additionalRequirements,
+          submittedAt: r.submittedAt,
+          status: r.status
+        })));
+      } else {
+        setQuotes(StorageStore.getQuoteRequests());
+      }
+
+      // 3. Contact Messages
+      const cntRes = await contactService.listMessages(token);
+      if (cntRes.success && Array.isArray(cntRes.data)) {
+        setMessages(cntRes.data.map((r: any) => ({
+          id: r.messageId || r.id,
+          name: r.fullName || r.name,
+          email: r.email,
+          phone: r.phone,
+          category: r.inquiryType || r.category,
+          subject: r.subject,
+          message: r.message,
+          submittedAt: r.submittedAt,
+          status: r.status
+        })));
+      } else {
+        setMessages(StorageStore.getContactMessages());
+      }
+
+      // 4. Job Applications
+      const appRes = await careerService.listApplications(token);
+      if (appRes.success && Array.isArray(appRes.data)) {
+        setApplications(appRes.data);
+      }
+
+      // 5. Activity Logs
+      const logRes = await adminService.getActivityLogs();
+      if (logRes.success && Array.isArray(logRes.data)) {
+        setActivityLogs(logRes.data);
+      }
+    } catch (err) {
+      console.warn('[AdminDashboard] Fetch error, using cached records:', err);
+    } finally {
+      setIsLoadingData(false);
+    }
   };
 
   useEffect(() => {
-    refreshData();
-  }, []);
+    if (currentUser) {
+      refreshData();
+    }
+  }, [currentUser]);
 
   // Update status handlers
-  const handleUpdateEnrollmentStatus = (id: string, status: EnrollmentSubmission['status']) => {
+  const handleUpdateEnrollmentStatus = async (id: string, status: any) => {
+    setEnrollments(prev => prev.map(e => e.id === id ? { ...e, status } : e));
     StorageStore.updateEnrollmentStatus(id, status);
-    refreshData();
     if (viewEnrollment && viewEnrollment.id === id) {
       setViewEnrollment(prev => prev ? { ...prev, status } : null);
     }
+    await enrollmentService.updateStatus(id, status, '', authService.getToken() || '');
   };
 
-  const handleUpdateQuoteStatus = (id: string, status: QuoteRequestSubmission['status']) => {
+  const handleUpdateQuoteStatus = async (id: string, status: any) => {
+    setQuotes(prev => prev.map(q => q.id === id ? { ...q, status } : q));
     StorageStore.updateQuoteStatus(id, status);
-    refreshData();
     if (viewQuote && viewQuote.id === id) {
       setViewQuote(prev => prev ? { ...prev, status } : null);
     }
+    await quoteService.updateStatus(id, status, '', authService.getToken() || '');
   };
 
-  const handleUpdateMessageStatus = (id: string, status: ContactMessage['status']) => {
+  const handleUpdateMessageStatus = async (id: string, status: any) => {
+    setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m));
     StorageStore.updateMessageStatus(id, status);
-    refreshData();
     if (viewMessage && viewMessage.id === id) {
       setViewMessage(prev => prev ? { ...prev, status } : null);
     }
+    await contactService.updateStatus(id, status, '', authService.getToken() || '');
   };
+
+  const handleUpdateApplicationStatus = async (id: string, status: any) => {
+    setApplications(prev => prev.map(a => a.applicationId === id ? { ...a, status } : a));
+    if (viewApplication && viewApplication.applicationId === id) {
+      setViewApplication(prev => prev ? { ...prev, status } : null);
+    }
+    await careerService.updateStatus(id, status, '', authService.getToken() || '');
+  };
+
+  const handleLogout = () => {
+    authService.logout();
+    setCurrentUser(null);
+  };
+
+  if (!currentUser) {
+    return <AdminLogin onSuccess={user => setCurrentUser(user)} />;
+  }
 
   // KPI Calculations
   const totalEnrollments = enrollments.length;
@@ -103,23 +219,37 @@ export const AdminDashboard: React.FC = () => {
         <div className="flex items-center gap-2">
           <ShieldAlert className="w-4 h-4 text-[#D5AD63] shrink-0" />
           <span>
-            <strong className="text-white">Admin Management Console</strong> · Prototype Mode (Connected to Client Reactive Store)
+            <strong className="text-white">Admin Management Console</strong> ·{' '}
+            <span className={apiClient.isConnected() ? 'text-emerald-400 font-semibold' : 'text-[#38BDF8]'}>
+              {apiClient.isConnected() ? 'Connected to Google Sheets & Apps Script' : 'Operating in High-Resilience Local Mode'}
+            </span>
           </span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 bg-[#071426] px-2.5 py-1 rounded-lg border border-slate-700 text-[11px]">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-white font-semibold">{currentUser.name}</span>
+            <span className="text-slate-400 font-mono text-[10px]">({currentUser.role})</span>
+          </div>
           <button
-            onClick={() => {
-              StorageStore.resetToInitial();
-              refreshData();
-            }}
-            className="hover:text-[#D5AD63] transition-colors flex items-center gap-1 text-[11px]"
+            onClick={() => refreshData()}
+            disabled={isLoadingData}
+            className="hover:text-[#D5AD63] transition-colors flex items-center gap-1 text-[11px] cursor-pointer"
           >
-            <RefreshCw className="w-3 h-3" />
-            <span>Reset Demo Records</span>
+            <RefreshCw className={`w-3 h-3 ${isLoadingData ? 'animate-spin' : ''}`} />
+            <span>{isLoadingData ? 'Syncing...' : 'Sync Data'}</span>
+          </button>
+          <button
+            onClick={handleLogout}
+            className="text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1 text-[11px] cursor-pointer font-medium"
+            title="Sign out of Admin Console"
+          >
+            <LogOut className="w-3 h-3" />
+            <span>Sign Out</span>
           </button>
           <button
             onClick={() => navigate('/')}
-            className="text-[#D5AD63] hover:underline flex items-center gap-1 font-semibold"
+            className="text-[#D5AD63] hover:underline flex items-center gap-1 font-semibold cursor-pointer"
           >
             <span>Exit to Public Website</span>
             <ExternalLink className="w-3 h-3" />
@@ -143,7 +273,7 @@ export const AdminDashboard: React.FC = () => {
             <nav className="space-y-1">
               <button
                 onClick={() => setActiveModule('overview')}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl transition-colors ${
+                className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
                   activeModule === 'overview'
                     ? 'bg-[#D5AD63] text-[#071426] font-semibold'
                     : 'text-slate-300 hover:bg-[#0C1E36] hover:text-white'
@@ -155,7 +285,7 @@ export const AdminDashboard: React.FC = () => {
 
               <button
                 onClick={() => setActiveModule('enrollments')}
-                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors ${
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
                   activeModule === 'enrollments'
                     ? 'bg-[#D5AD63] text-[#071426] font-semibold'
                     : 'text-slate-300 hover:bg-[#0C1E36] hover:text-white'
@@ -172,7 +302,7 @@ export const AdminDashboard: React.FC = () => {
 
               <button
                 onClick={() => setActiveModule('leads')}
-                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors ${
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
                   activeModule === 'leads'
                     ? 'bg-[#D5AD63] text-[#071426] font-semibold'
                     : 'text-slate-300 hover:bg-[#0C1E36] hover:text-white'
@@ -189,7 +319,7 @@ export const AdminDashboard: React.FC = () => {
 
               <button
                 onClick={() => setActiveModule('messages')}
-                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors ${
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
                   activeModule === 'messages'
                     ? 'bg-[#D5AD63] text-[#071426] font-semibold'
                     : 'text-slate-300 hover:bg-[#0C1E36] hover:text-white'
@@ -204,6 +334,23 @@ export const AdminDashboard: React.FC = () => {
                     {pendingInquiries} new
                   </span>
                 )}
+              </button>
+
+              <button
+                onClick={() => setActiveModule('applications')}
+                className={`w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl transition-colors cursor-pointer ${
+                  activeModule === 'applications'
+                    ? 'bg-[#D5AD63] text-[#071426] font-semibold'
+                    : 'text-slate-300 hover:bg-[#0C1E36] hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <FileText className="w-4 h-4" />
+                  <span>Job Applications</span>
+                </div>
+                <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">
+                  {applications.length}
+                </span>
               </button>
 
               <button
@@ -647,6 +794,97 @@ export const AdminDashboard: React.FC = () => {
             </div>
           )}
 
+          {/* MODULE: APPLICATIONS */}
+          {activeModule === 'applications' && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl font-bold text-white">Career Fellowships & Job Applications</h1>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Manage applicant profiles, candidate resumes in Google Drive, and interview evaluations.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-[#0C1E36] border border-slate-800 overflow-hidden shadow-xl">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-[#09182E] border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th className="py-3 px-4">Application ID</th>
+                      <th className="py-3 px-4">Candidate</th>
+                      <th className="py-3 px-4">Role & Dept</th>
+                      <th className="py-3 px-4">Experience</th>
+                      <th className="py-3 px-4">Resume Asset</th>
+                      <th className="py-3 px-4">Status</th>
+                      <th className="py-3 px-4 text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800">
+                    {applications.length === 0 ? (
+                      <tr>
+                        <td colSpan={7} className="py-8 text-center text-slate-400">
+                          No candidate applications submitted yet.
+                        </td>
+                      </tr>
+                    ) : (
+                      applications.map(app => (
+                        <tr key={app.applicationId} className="hover:bg-[#102B4E]/20">
+                          <td className="py-3 px-4 font-mono text-[#D5AD63] font-semibold">{app.applicationId}</td>
+                          <td className="py-3 px-4">
+                            <div className="font-semibold text-white">{app.fullName}</div>
+                            <div className="text-[11px] text-slate-400">{app.email} · {app.phone}</div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="text-white font-medium">{app.roleApplied}</div>
+                            <div className="text-[10px] text-slate-400">{app.department}</div>
+                          </td>
+                          <td className="py-3 px-4 text-slate-300">{app.experienceYears} Years</td>
+                          <td className="py-3 px-4">
+                            {app.resumeDriveUrl ? (
+                              <a
+                                href={app.resumeDriveUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] text-[#38BDF8] hover:underline font-mono"
+                              >
+                                <span>Google Drive</span>
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            ) : (
+                              <span className="text-[11px] text-slate-500">None attached</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-4">
+                            <select
+                              value={app.status}
+                              onChange={e => handleUpdateApplicationStatus(app.applicationId, e.target.value)}
+                              className="px-2 py-1 rounded bg-[#071426] border border-slate-700 text-[11px] text-[#D5AD63] focus:outline-none"
+                            >
+                              <option value="Submitted">Submitted</option>
+                              <option value="Under Review">Under Review</option>
+                              <option value="Shortlisted">Shortlisted</option>
+                              <option value="Interview Scheduled">Interview Scheduled</option>
+                              <option value="Hired">Hired</option>
+                              <option value="Archived">Archived</option>
+                            </select>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              onClick={() => setViewApplication(app)}
+                              className="px-2.5 py-1 text-xs bg-[#102B4E] hover:bg-[#D5AD63] hover:text-[#071426] rounded text-slate-200 font-medium transition-colors cursor-pointer"
+                            >
+                              Inspect
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
           {/* MODULE: PROGRAMS */}
           {activeModule === 'programs' && (
             <div className="space-y-6">
@@ -996,6 +1234,103 @@ export const AdminDashboard: React.FC = () => {
               <button
                 onClick={() => setViewMessage(null)}
                 className="px-4 py-1.5 text-xs font-semibold bg-slate-800 text-slate-200 hover:text-white rounded-lg"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* INSPECT APPLICATION MODAL */}
+      {viewApplication && (
+        <div
+          className="fixed inset-0 z-50 bg-[#071426]/80 backdrop-blur-sm p-4 flex items-center justify-center animate-in fade-in duration-150"
+          onClick={() => setViewApplication(null)}
+        >
+          <div
+            className="relative max-w-lg w-full bg-[#0C1E36] border border-[#D5AD63]/30 rounded-2xl p-6 shadow-2xl space-y-4"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <span className="text-[10px] font-mono text-[#D5AD63] uppercase">{viewApplication.department}</span>
+                <h3 className="text-base font-bold text-white">{viewApplication.roleApplied}</h3>
+              </div>
+              <button onClick={() => setViewApplication(null)} className="p-1.5 text-slate-400 hover:text-white cursor-pointer">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="text-xs text-slate-300 space-y-1">
+              <div>Candidate: <strong className="text-white">{viewApplication.fullName}</strong></div>
+              <div>Email: <a href={`mailto:${viewApplication.email}`} className="text-[#38BDF8] underline">{viewApplication.email}</a></div>
+              <div>Phone: <span className="font-mono text-white">{viewApplication.phone}</span></div>
+              <div>Experience: <span className="text-white font-semibold">{viewApplication.experienceYears} Years</span></div>
+              {viewApplication.linkedinUrl && (
+                <div>
+                  Portfolio / LinkedIn:{' '}
+                  <a
+                    href={viewApplication.linkedinUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[#38BDF8] underline inline-flex items-center gap-1"
+                  >
+                    <span>{viewApplication.linkedinUrl}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Resume Drive Button */}
+            {viewApplication.resumeDriveUrl && (
+              <div className="p-3 rounded-xl bg-[#09182E] border border-blue-500/30 flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-semibold text-white">Candidate Resume</div>
+                  <div className="text-[11px] text-slate-400">{viewApplication.resumeFileName || 'Resume Document'}</div>
+                </div>
+                <a
+                  href={viewApplication.resumeDriveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-[#0052CC] hover:bg-[#0077FE] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                >
+                  <span>View in Drive</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            )}
+
+            {/* Cover Note */}
+            {viewApplication.coverNote && (
+              <div className="space-y-1">
+                <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Candidate Note</div>
+                <div className="p-3.5 rounded-xl bg-[#071426] border border-slate-800 text-xs text-slate-200 leading-relaxed max-h-40 overflow-y-auto">
+                  {viewApplication.coverNote}
+                </div>
+              </div>
+            )}
+
+            <div className="pt-2 flex items-center justify-between border-t border-slate-800">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-slate-400">Set Status:</span>
+                <select
+                  value={viewApplication.status}
+                  onChange={e => handleUpdateApplicationStatus(viewApplication.applicationId, e.target.value)}
+                  className="px-2 py-1 rounded bg-[#071426] border border-slate-700 text-xs text-[#D5AD63]"
+                >
+                  <option value="Submitted">Submitted</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Shortlisted">Shortlisted</option>
+                  <option value="Interview Scheduled">Interview Scheduled</option>
+                  <option value="Hired">Hired</option>
+                  <option value="Archived">Archived</option>
+                </select>
+              </div>
+              <button
+                onClick={() => setViewApplication(null)}
+                className="px-4 py-1.5 text-xs font-semibold bg-slate-800 text-slate-200 hover:text-white rounded-lg cursor-pointer"
               >
                 Close
               </button>

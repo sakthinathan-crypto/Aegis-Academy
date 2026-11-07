@@ -15,21 +15,62 @@ import {
   Building
 } from 'lucide-react';
 
+import { careerService, fileToBase64 } from '../services/careerService';
+
 export const CareersPage: React.FC = () => {
   const { navigate } = useRouter();
   const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
   const [appSubmitted, setAppSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [applicationId, setApplicationId] = useState('');
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [appForm, setAppForm] = useState({
     candidateName: '',
     email: '',
     phone: '',
+    experienceYears: '2',
     linkedInOrPortfolio: '',
     coverNote: ''
   });
 
-  const handleApply = (e: React.FormEvent) => {
+  const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
-    setAppSubmitted(true);
+    setApiError(null);
+
+    if (!selectedJob) return;
+
+    setIsSubmitting(true);
+    try {
+      let filePayload: { name: string; type: string; size: number; base64: string } | undefined;
+      if (resumeFile) {
+        filePayload = await fileToBase64(resumeFile);
+      }
+
+      const res = await careerService.submitApplication({
+        fullName: appForm.candidateName,
+        email: appForm.email,
+        phone: appForm.phone,
+        roleApplied: selectedJob.title,
+        department: selectedJob.department,
+        experienceYears: appForm.experienceYears,
+        linkedinUrl: appForm.linkedInOrPortfolio,
+        portfolioUrl: appForm.linkedInOrPortfolio,
+        coverNote: appForm.coverNote,
+        resumeFile: filePayload
+      });
+
+      if (res.success && (res.applicationId || res.data?.applicationId)) {
+        setApplicationId(res.applicationId || res.data?.applicationId);
+        setAppSubmitted(true);
+      } else {
+        setApiError(res.error || 'Failed to submit application. Please try again.');
+      }
+    } catch (err: any) {
+      setApiError(err.message || 'An error occurred while uploading your resume.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -179,12 +220,19 @@ export const CareersPage: React.FC = () => {
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold text-white">Application Received!</h3>
+                <div className="inline-block px-3.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono text-[#D5AD63]">
+                  Reference ID: {applicationId || 'AEG-JOB-PENDING'}
+                </div>
                 <p className="text-xs text-slate-300 max-w-md mx-auto">
-                  Thank you for applying for <strong className="text-white">{selectedJob.title}</strong>. Our talent acquisition team will review your credentials and get back to you.
+                  Thank you for applying for <strong className="text-white">{selectedJob.title}</strong>. Your resume has been uploaded to our Google Drive repository and our talent acquisition team will review your credentials.
                 </p>
                 <button
-                  onClick={() => setSelectedJob(null)}
-                  className="px-6 py-2 text-xs font-semibold bg-[#D5AD63] text-[#071426] rounded-lg"
+                  onClick={() => {
+                    setSelectedJob(null);
+                    setAppSubmitted(false);
+                    setResumeFile(null);
+                  }}
+                  className="px-6 py-2 text-xs font-semibold bg-[#D5AD63] text-[#071426] hover:bg-[#E8CA8C] rounded-lg transition-colors cursor-pointer"
                 >
                   Close
                 </button>
@@ -235,16 +283,59 @@ export const CareersPage: React.FC = () => {
                     </div>
                   </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-200 mb-1">Relevant Experience</label>
+                      <select
+                        value={appForm.experienceYears}
+                        onChange={e => setAppForm({ ...appForm, experienceYears: e.target.value })}
+                        className="w-full px-3 py-2 rounded-lg bg-[#071426] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-[#D5AD63]"
+                      >
+                        <option value="0-1">0–1 Years (Entry Level / Fresh Graduate)</option>
+                        <option value="1-3">1–3 Years (Junior Engineer / Instructor)</option>
+                        <option value="3-5">3–5 Years (Mid-level Practitioner)</option>
+                        <option value="5+">5+ Years (Senior Architect / Lead)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-200 mb-1">LinkedIn or GitHub Profile URL *</label>
+                      <input
+                        type="url"
+                        required
+                        value={appForm.linkedInOrPortfolio}
+                        onChange={e => setAppForm({ ...appForm, linkedInOrPortfolio: e.target.value })}
+                        placeholder="https://linkedin.com/in/... or github.com/..."
+                        className="w-full px-3 py-2 rounded-lg bg-[#071426] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-[#D5AD63]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Resume File Upload to Google Drive */}
                   <div>
-                    <label className="block text-xs font-semibold text-slate-200 mb-1">LinkedIn or GitHub Profile URL *</label>
+                    <label className="block text-xs font-semibold text-slate-200 mb-1">
+                      Upload Resume / Curriculum Vitae (PDF or DOCX, max 5MB)
+                    </label>
                     <input
-                      type="url"
-                      required
-                      value={appForm.linkedInOrPortfolio}
-                      onChange={e => setAppForm({ ...appForm, linkedInOrPortfolio: e.target.value })}
-                      placeholder="https://linkedin.com/in/... or github.com/..."
-                      className="w-full px-3 py-2 rounded-lg bg-[#071426] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-[#D5AD63]"
+                      type="file"
+                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      onChange={e => {
+                        const file = e.target.files?.[0] || null;
+                        if (file && file.size > 5 * 1024 * 1024) {
+                          setApiError('File is too large. Please upload a resume under 5MB.');
+                          e.target.value = '';
+                          return;
+                        }
+                        setResumeFile(file);
+                        setApiError(null);
+                      }}
+                      className="w-full px-3 py-2 rounded-lg bg-[#071426] border border-slate-700 text-xs text-slate-300 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#D5AD63] file:text-[#071426] hover:file:bg-[#E8CA8C] cursor-pointer"
                     />
+                    {resumeFile && (
+                      <p className="text-[11px] text-emerald-400 mt-1">
+                        Selected: {resumeFile.name} ({(resumeFile.size / 1024).toFixed(0)} KB)
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -258,13 +349,20 @@ export const CareersPage: React.FC = () => {
                     />
                   </div>
 
+                  {apiError && (
+                    <div className="p-3 rounded-lg bg-rose-500/20 border border-rose-500/50 text-rose-300 text-xs">
+                      {apiError}
+                    </div>
+                  )}
+
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-3 rounded-xl bg-[#D5AD63] text-[#071426] hover:bg-[#E8CA8C] font-semibold text-xs transition-colors flex items-center justify-center gap-2"
+                      disabled={isSubmitting}
+                      className="w-full py-3 rounded-xl bg-[#D5AD63] text-[#071426] hover:bg-[#E8CA8C] font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <Send className="w-4 h-4" />
-                      <span>Submit Candidacy</span>
+                      <Send className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+                      <span>{isSubmitting ? 'Uploading Resume to Drive & Submitting...' : 'Submit Candidacy'}</span>
                     </button>
                   </div>
                 </div>

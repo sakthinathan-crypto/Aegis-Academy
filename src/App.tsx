@@ -84,7 +84,7 @@ const AppContent: React.FC = () => {
   const isAdminRoute = currentPath === '/admin' || currentPath.startsWith('/admin/');
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-[#D5AD63]/30 selection:text-slate-900">
+    <div className="min-h-screen bg-[#020617] text-slate-900 flex flex-col font-sans selection:bg-[#D5AD63]/30 selection:text-slate-900">
       <CustomCursor />
 
       {!isAdminRoute && <Navbar />}

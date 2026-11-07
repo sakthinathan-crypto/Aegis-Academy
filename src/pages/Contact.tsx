@@ -4,6 +4,8 @@ import { StorageStore } from '../data/store';
 import { validateContactForm } from '../utils/validation';
 import { Mail, Phone, MapPin, MessageSquare, Clock, CheckCircle2, AlertCircle, Send, ArrowRight } from 'lucide-react';
 
+import { contactService } from '../services/contactService';
+
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -16,10 +18,13 @@ export const Contact: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [submissionId, setSubmissionId] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
     const result = validateContactForm(formData);
     if (!result.isValid) {
       setErrors(result.errors);
@@ -27,21 +32,30 @@ export const Contact: React.FC = () => {
     }
 
     setErrors({});
-    const newId = `AEGIS-MSG-${Date.now().toString().slice(-5)}`;
-    StorageStore.saveContactMessage({
-      id: newId,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      category: formData.category as any,
-      subject: formData.subject,
-      message: formData.message,
-      submittedAt: new Date().toISOString(),
-      status: 'Unread'
-    });
+    setIsSubmitting(true);
 
-    setSubmissionId(newId);
-    setSubmitted(true);
+    try {
+      const res = await contactService.submitContact({
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        inquiryType: formData.category,
+        subject: formData.subject,
+        message: formData.message
+      });
+
+      if (res.success && (res.messageId || res.data?.messageId)) {
+        const confirmedId = res.messageId || res.data?.messageId;
+        setSubmissionId(confirmedId);
+        setSubmitted(true);
+      } else {
+        setApiError(res.error || 'Failed to submit message. Please try again.');
+      }
+    } catch (err: any) {
+      setApiError(err.message || 'Network error occurred while sending message.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -284,13 +298,20 @@ export const Contact: React.FC = () => {
                     {errors.message && <p className="text-[11px] text-red-500 mt-1">{errors.message}</p>}
                   </div>
 
+                  {apiError && (
+                    <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+                      {apiError}
+                    </div>
+                  )}
+
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="btn-glossy-gold w-full py-3 px-4 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                      disabled={isSubmitting}
+                      className="btn-glossy-gold w-full py-3 px-4 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <Send className="w-4 h-4" />
-                      <span>Submit Inquiries Directly</span>
+                      <Send className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+                      <span>{isSubmitting ? 'Sending Message...' : 'Submit Inquiries Directly'}</span>
                     </button>
                   </div>
                 </form>

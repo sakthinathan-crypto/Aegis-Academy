@@ -1,0 +1,1470 @@
+# AEGIS ACADEMY
+## COMPLETE WEBSITE AUDIT REMEDIATION, GOOGLE APPS SCRIPT BACKEND INTEGRATION & PRODUCTION UPGRADE
+
+You are a senior full-stack developer, software architect, security engineer, UI/UX specialist, and Google Apps Script developer.
+
+Your responsibility is to transform the existing Aegis Academy website into a fully functional, secure, production-ready business website.
+
+You must work on the EXISTING CODEBASE.
+
+This is an upgrade project, NOT a rebuild project.
+
+---
+
+# 1. PROJECT INFORMATION
+
+### Official GitHub Repository
+
+https://github.com/sakthinathan-crypto/Aegis-Academy
+
+### Current Vercel Deployment
+
+https://aegis-academy-two.vercel.app/
+
+### Official Website
+
+https://www.aegisacademy.in/
+
+### Development Environment
+
+- Cursor IDE
+- GitHub
+- Vercel
+- Google Apps Script
+- Google Sheets
+- Google Drive
+
+### Existing Technology Stack
+
+- React 19
+- TypeScript
+- Vite 8
+- Tailwind CSS 4
+- Framer Motion
+- GSAP
+- Three.js
+- Existing custom routing system
+- Existing Admin Dashboard
+- Existing localStorage-based storage implementation
+
+The GitHub repository is the official source of truth.
+
+Before making changes, inspect the actual repository and understand its architecture.
+
+Do not assume that the previous audit describes every implementation detail correctly. Verify the current source before changing it.
+
+---
+
+# 2. PRIMARY OBJECTIVE
+
+Upgrade the existing website without destroying its existing design, architecture, animations, routes, components, and functionality.
+
+The final application must have:
+
+1. A fully functional public website.
+2. A working enrollment system.
+3. A working contact system.
+4. A working quote request system.
+5. A working careers application system.
+6. A secure Admin Dashboard.
+7. Google Apps Script as the backend.
+8. Google Sheets as the primary database.
+9. Google Drive for file storage where required.
+10. Email notifications through Google Apps Script.
+11. Real-time data retrieval for the Admin Dashboard.
+12. Proper security and validation.
+13. Responsive UI.
+14. Production-ready Vercel deployment.
+
+## Important architectural decision
+
+DO NOT implement PostgreSQL or a separate Node.js database backend at this stage.
+
+Use:
+
+- Google Apps Script for backend business logic.
+- Google Sheets for data storage.
+- Google Drive for uploaded files.
+- Google Apps Script MailApp for email notifications.
+- Existing React frontend for the website and Admin Dashboard.
+- Vercel for frontend hosting.
+
+A future migration to Node.js and PostgreSQL should remain possible without rebuilding the frontend.
+
+---
+
+# 3. NON-NEGOTIABLE DEVELOPMENT RULES
+
+1. Never rebuild the website from scratch.
+2. Never unnecessarily replace existing components.
+3. Never remove existing pages or routes.
+4. Never remove working animations.
+5. Never change the brand identity unnecessarily.
+6. Never replace the existing Admin Dashboard design with a completely different dashboard.
+7. Never delete existing functionality without a technical reason.
+8. Never expose credentials or secret keys in frontend code.
+9. Never store real admin passwords in plain text.
+10. Never trust client-side validation alone.
+11. Never use localStorage as the production database.
+12. Never insert demonstration records into production data.
+13. Never claim a feature is working without testing it.
+14. Never overwrite production data during development.
+15. Never make large unrelated changes.
+16. Never push untested changes directly to production.
+
+Before modifying a file:
+
+- Inspect its current implementation.
+- Understand its dependencies.
+- Identify the root cause of the issue.
+- Identify affected components.
+- Make the smallest appropriate change.
+
+Maintain existing functionality throughout development.
+
+---
+
+# 4. PHASE ONE — COMPLETE CODEBASE INSPECTION
+
+Inspect the complete repository.
+
+Do not inspect only the homepage.
+
+Review:
+
+- src/App.tsx
+- src/context/RouterContext.tsx
+- src/data/store.ts
+- src/data/companyData.ts
+- src/pages/
+- src/pages/admin/
+- src/components/
+- src/components/hero/
+- src/components/common/
+- src/components/effects/
+- src/utils/
+- src/types/
+- src/index.css
+- package.json
+- vite.config.ts
+- tsconfig.json
+- vercel.json
+- index.html
+- existing tests
+- existing environment configuration
+
+Identify:
+
+- Broken functionality.
+- Missing API integration.
+- Incorrect routing.
+- Missing validation.
+- Incomplete form submissions.
+- Admin authentication problems.
+- Data persistence problems.
+- Unused dependencies.
+- Performance issues.
+- Security concerns.
+- Responsive layout problems.
+- SEO problems.
+
+Create a file-level implementation plan.
+
+Do not modify the entire application before completing this inspection.
+
+---
+
+# 5. PHASE TWO — GOOGLE SHEETS DATABASE DESIGN
+
+Create a Google Spreadsheet named:
+
+AEGIS_ACADEMY_DATABASE
+
+This spreadsheet will be the central data storage system.
+
+Create the following sheets.
+
+## 5.1 Enrollments
+
+Columns:
+
+- enrollment_id
+- created_at
+- updated_at
+- student_name
+- phone
+- whatsapp
+- email
+- institution
+- department
+- year
+- district
+- program
+- learning_mode
+- additional_information
+- status
+- assigned_to
+- admin_notes
+
+Possible statuses:
+
+- New
+- Contacted
+- Follow Up
+- Approved
+- Rejected
+- Enrolled
+- Cancelled
+
+Generate unique enrollment IDs in this format:
+
+AEG-ENR-2026-0001
+
+Do not generate IDs using a simple row count without concurrency protection.
+
+Use LockService to prevent simultaneous requests from generating duplicate IDs.
+
+## 5.2 Contact_Messages
+
+Columns:
+
+- message_id
+- created_at
+- updated_at
+- name
+- email
+- phone
+- subject
+- message
+- status
+- admin_notes
+
+Possible statuses:
+
+- Unread
+- Read
+- Replied
+- Archived
+
+ID format:
+
+AEG-CNT-2026-0001
+
+## 5.3 Quote_Requests
+
+Columns:
+
+- quote_id
+- created_at
+- updated_at
+- contact_name
+- company_name
+- email
+- phone
+- service_required
+- budget
+- project_description
+- timeline
+- status
+- assigned_to
+- admin_notes
+
+Possible statuses:
+
+- New
+- Reviewing
+- Proposal Sent
+- Negotiation
+- Approved
+- Rejected
+- Completed
+
+ID format:
+
+AEG-QUO-2026-0001
+
+## 5.4 Job_Applications
+
+Columns:
+
+- application_id
+- created_at
+- updated_at
+- candidate_name
+- email
+- phone
+- position
+- linkedin
+- portfolio
+- cover_note
+- resume_file_id
+- resume_file_url
+- status
+- admin_notes
+
+Possible statuses:
+
+- Received
+- Under Review
+- Shortlisted
+- Interview
+- Selected
+- Rejected
+
+ID format:
+
+AEG-JOB-2026-0001
+
+## 5.5 Programs
+
+Columns:
+
+- program_id
+- title
+- slug
+- category
+- description
+- duration
+- mode
+- eligibility
+- published
+- created_at
+- updated_at
+
+## 5.6 Projects
+
+Columns:
+
+- project_id
+- title
+- slug
+- category
+- description
+- technologies
+- image_url
+- published
+- created_at
+- updated_at
+
+## 5.7 Events
+
+Columns:
+
+- event_id
+- title
+- slug
+- description
+- event_date
+- event_mode
+- venue
+- registration_url
+- status
+- published
+- created_at
+- updated_at
+
+## 5.8 Admin_Users
+
+Columns:
+
+- admin_id
+- name
+- email
+- role
+- active
+- created_at
+- last_login
+
+Do not store plain-text passwords in this sheet.
+
+Authentication must use a secure, independently verified mechanism.
+
+## 5.9 Activity_Logs
+
+Columns:
+
+- log_id
+- timestamp
+- admin_email
+- action
+- module
+- record_id
+- description
+
+## 5.10 Settings
+
+Columns:
+
+- setting_key
+- setting_value
+- updated_at
+- updated_by
+
+Store only appropriate configuration data here.
+
+Never store secrets or passwords in publicly accessible cells.
+
+---
+
+# 6. PHASE THREE — GOOGLE APPS SCRIPT BACKEND
+
+Create a properly structured Google Apps Script project.
+
+Organize the code into logical modules.
+
+Suggested files:
+
+Code.gs
+Config.gs
+Database.gs
+EnrollmentService.gs
+ContactService.gs
+QuoteService.gs
+CareerService.gs
+ProgramService.gs
+ProjectService.gs
+EventService.gs
+AdminService.gs
+AuthService.gs
+EmailService.gs
+Validation.gs
+Utility.gs
+
+The exact organization can be adjusted to suit Apps Script deployment requirements.
+
+Avoid placing the entire application in one enormous Code.gs file.
+
+## 6.1 Configuration
+
+Use Script Properties for sensitive configuration.
+
+Examples:
+
+- SPREADSHEET_ID
+- DRIVE_FOLDER_ID
+- ADMIN_ALLOWED_DOMAIN
+- EMAIL_SENDER_NAME
+- APPLICATION_CONFIG
+
+Do not expose these values through the frontend.
+
+Use appropriate configuration validation during initialization.
+
+## 6.2 API architecture
+
+Implement a consistent API contract.
+
+Possible operations:
+
+### Public operations
+
+- submitEnrollment
+- submitContact
+- submitQuote
+- submitJobApplication
+- getPublishedPrograms
+- getPublishedProjects
+- getPublishedEvents
+
+### Admin operations
+
+- adminLogin
+- adminLogout
+- getAdminDashboard
+- getEnrollments
+- updateEnrollment
+- deleteEnrollment
+- getContactMessages
+- updateContactMessage
+- deleteContactMessage
+- getQuoteRequests
+- updateQuoteRequest
+- deleteQuoteRequest
+- getJobApplications
+- updateJobApplication
+- deleteJobApplication
+- createProgram
+- updateProgram
+- deleteProgram
+- createProject
+- updateProject
+- deleteProject
+- createEvent
+- updateEvent
+- deleteEvent
+- getActivityLogs
+- getSettings
+- updateSettings
+
+Use a consistent response structure.
+
+Example success:
+
+{
+  "success": true,
+  "message": "Enrollment submitted successfully",
+  "data": {
+    "enrollment_id": "AEG-ENR-2026-0001"
+  }
+}
+
+Example failure:
+
+{
+  "success": false,
+  "message": "Unable to process your request",
+  "error_code": "VALIDATION_ERROR"
+}
+
+Do not expose stack traces, internal IDs, credentials, or sensitive information in public error responses.
+
+## 6.3 API request handling
+
+Implement:
+
+- doGet(e)
+- doPost(e)
+
+Validate every operation.
+
+Validate request method and operation name.
+
+Validate incoming JSON.
+
+Handle missing fields.
+
+Handle invalid data.
+
+Handle unexpected exceptions.
+
+Use consistent response structures.
+
+Prevent unauthorized operations.
+
+Avoid exposing administrative operations through public unauthenticated endpoints.
+
+## 6.4 CORS and browser communication
+
+Important:
+
+Google Apps Script web app responses and redirects may create cross-origin limitations when called directly from browser fetch requests.
+
+Do not assume that direct frontend fetch calls will work.
+
+Test actual browser behavior.
+
+Evaluate these approaches:
+
+1. Direct Apps Script web app integration, if browser-compatible.
+2. A lightweight Vercel serverless API proxy forwarding requests to Apps Script.
+
+If a proxy is necessary:
+
+- Keep Google Apps Script as the actual business logic backend.
+- Keep Google Sheets as the database.
+- Use the Vercel API layer only for secure request forwarding, session handling, and browser communication.
+- Never expose Apps Script secrets to the browser.
+- Never create a separate PostgreSQL backend.
+
+Choose the simplest architecture that works reliably and securely.
+
+Document the final request flow.
+
+---
+
+# 7. PHASE FOUR — PUBLIC FORM INTEGRATION
+
+Connect all existing forms to Google Apps Script.
+
+Do not unnecessarily redesign the forms.
+
+Preserve their existing visual appearance.
+
+## 7.1 Student Enrollment
+
+Existing file:
+
+src/pages/StudentEnrollment.tsx
+
+Integrate the form with the backend.
+
+Required workflow:
+
+1. Student enters details.
+2. Frontend validates the fields.
+3. Frontend sends the request.
+4. Backend validates the request again.
+5. Backend generates a unique enrollment ID.
+6. Backend writes the record into Enrollments.
+7. Backend sends the appropriate notification.
+8. Backend returns the application ID.
+9. Frontend displays confirmation.
+
+Required behavior:
+
+- Loading indicator.
+- Submit button disabled during submission.
+- Clear success message.
+- Clear error message.
+- Duplicate submission protection.
+- Field-level validation.
+- Mobile-friendly form.
+- Safe handling of network failures.
+
+Do not display a success message before receiving a confirmed backend response.
+
+## 7.2 Contact Form
+
+Existing file:
+
+src/pages/Contact.tsx
+
+Workflow:
+
+1. Visitor enters contact details.
+2. Validate the information.
+3. Submit to Apps Script.
+4. Store in Contact_Messages.
+5. Generate a unique message ID.
+6. Notify the Aegis team.
+7. Display confirmation.
+
+## 7.3 Request Quote
+
+Existing file:
+
+src/pages/RequestQuote.tsx
+
+Workflow:
+
+1. Visitor submits a quote request.
+2. Validate all required fields.
+3. Save the record in Quote_Requests.
+4. Generate a unique quote ID.
+5. Notify the relevant Aegis team.
+6. Show confirmation.
+
+## 7.4 Careers Application
+
+Existing file:
+
+src/pages/CareersPage.tsx
+
+The existing frontend submission behavior must be replaced with a real submission workflow.
+
+Implement:
+
+- Candidate name.
+- Email.
+- Phone.
+- Position.
+- LinkedIn URL.
+- Portfolio URL.
+- Cover note.
+- Resume upload.
+
+Store resumes in a restricted Google Drive folder.
+
+Validate:
+
+- Allowed file types.
+- File size.
+- Filename.
+- Uploaded content where feasible.
+
+Do not make resume files publicly accessible by default.
+
+Save the Drive file ID in Job_Applications.
+
+Store a reference to the file rather than attempting to store the file itself in Google Sheets.
+
+Display confirmation only after successful backend processing.
+
+---
+
+# 8. PHASE FIVE — EMAIL NOTIFICATIONS
+
+Use Google Apps Script MailApp.
+
+Implement email notifications for:
+
+### Enrollment
+
+- Notify the admissions team.
+- Send a confirmation to the student.
+
+### Contact
+
+- Notify the company contact team.
+- Optionally send a confirmation to the visitor.
+
+### Quote
+
+- Notify the business development team.
+- Send a quote reference to the requester.
+
+### Careers
+
+- Notify the recruitment team.
+- Send an application acknowledgement.
+
+Use professional email templates.
+
+Brand the emails with Aegis Academy identity.
+
+Do not expose internal administrator addresses in public responses.
+
+Handle email quota failures gracefully.
+
+Important:
+
+A database submission must not be rolled back merely because an email notification failed.
+
+Record the submission first, then handle notification failure separately.
+
+---
+
+# 9. PHASE SIX — ADMIN DASHBOARD INTEGRATION
+
+Existing file:
+
+src/pages/admin/AdminDashboard.tsx
+
+Preserve the existing design.
+
+Do not rebuild the Admin Dashboard.
+
+Replace localStorage-based production data access with the centralized API service.
+
+Keep the current module structure:
+
+1. Overview
+2. Enrollments
+3. Leads & Quotes
+4. Contact Messages
+5. Programs
+6. Projects
+7. Events
+8. Settings
+
+## 9.1 Overview
+
+Display real information from Google Sheets.
+
+KPIs:
+
+- Total enrollments.
+- New enrollments.
+- Contacted students.
+- Approved applications.
+- Total quote requests.
+- Pending quotes.
+- Unread contact messages.
+- Total job applications.
+- Upcoming events.
+
+Add:
+
+- Date filters.
+- Recent submissions.
+- Status breakdown.
+- Monthly trends.
+- Useful charts.
+
+Do not generate fake analytics.
+
+## 9.2 Enrollments
+
+Implement:
+
+- List enrollments.
+- Search.
+- Filter.
+- Pagination.
+- View details.
+- Update status.
+- Add admin notes.
+- Delete with confirmation.
+- Export CSV.
+
+## 9.3 Leads and Quotes
+
+Implement:
+
+- Search.
+- Filter by service.
+- Filter by status.
+- View request details.
+- Update lead status.
+- Add notes.
+- Track follow-ups.
+- Export CSV.
+
+## 9.4 Contact Messages
+
+Implement:
+
+- Search.
+- View messages.
+- Mark as read.
+- Mark as replied.
+- Archive.
+- Delete with confirmation.
+
+## 9.5 Job Applications
+
+Add a complete recruitment management interface.
+
+Implement:
+
+- View candidates.
+- Search.
+- Filter by position.
+- View resume securely.
+- Update application status.
+- Add notes.
+- Delete with confirmation.
+
+## 9.6 Programs
+
+Implement actual CRUD functionality.
+
+- Create.
+- View.
+- Edit.
+- Delete.
+- Publish.
+- Unpublish.
+
+## 9.7 Projects
+
+Implement:
+
+- Create project.
+- Edit project.
+- Delete project.
+- Update project description.
+- Manage technologies.
+- Manage image URLs.
+- Publish/unpublish.
+
+## 9.8 Events
+
+Implement:
+
+- Create event.
+- Edit event.
+- Delete event.
+- Event date.
+- Event mode.
+- Venue.
+- Registration URL.
+- Publish/unpublish.
+
+## 9.9 Settings
+
+Implement real settings management.
+
+Do not display only informational architecture descriptions.
+
+---
+
+# 10. PHASE SEVEN — ADMIN AUTHENTICATION AND SECURITY
+
+The current `/admin` route must not expose protected information.
+
+Implement authentication before connecting real records.
+
+Important:
+
+Google Apps Script authentication has limitations depending on deployment mode, account type, and execution identity.
+
+Do not assume that Session.getActiveUser().getEmail() will always return the visitor's email address.
+
+First evaluate the actual deployment identity and access restrictions.
+
+Use an appropriate secure authentication approach.
+
+Preferred options:
+
+- Google identity-based authentication with an authorized administrator allowlist.
+- A properly implemented secure server-side session through a Vercel API proxy.
+- Another verified authentication solution compatible with the existing architecture.
+
+Never implement a frontend-only password check.
+
+Requirements:
+
+- Authorized administrator access.
+- Role-based permissions.
+- Secure login.
+- Secure logout.
+- Session expiration.
+- Server-side authorization.
+- Protected admin operations.
+- Login rate limiting.
+- Audit logs.
+- Unauthorized access handling.
+
+Suggested roles:
+
+- Super Admin.
+- Administrator.
+- Admissions Manager.
+- Content Manager.
+
+Never trust the role or email address supplied by the frontend without independent verification.
+
+If the selected Apps Script deployment configuration cannot securely verify an administrator, stop and report the limitation rather than implementing fake authentication.
+
+---
+
+# 11. PHASE EIGHT — REPLACE LOCAL STORAGE CAREFULLY
+
+Existing file:
+
+src/data/store.ts
+
+The current StorageStore uses browser localStorage.
+
+Do not immediately delete the existing storage implementation.
+
+Create a centralized API service.
+
+Suggested structure:
+
+src/services/api.ts
+src/services/enrollmentService.ts
+src/services/contactService.ts
+src/services/quoteService.ts
+src/services/careerService.ts
+src/services/adminService.ts
+src/services/contentService.ts
+
+All React pages must use these service functions.
+
+Avoid making separate direct API requests from every component.
+
+The API service should:
+
+- Handle request construction.
+- Handle responses.
+- Handle errors.
+- Handle authentication.
+- Handle loading states.
+- Handle timeouts where appropriate.
+- Normalize API response structures.
+
+Use localStorage only for appropriate non-sensitive frontend preferences, if required.
+
+Never use it as the production source of truth.
+
+---
+
+# 12. PHASE NINE — DYNAMIC WEBSITE CONTENT
+
+The current companyData.ts file contains static content.
+
+Gradually connect appropriate dynamic content to Google Sheets.
+
+Dynamic content may include:
+
+- Programs.
+- Projects.
+- Events.
+
+Requirements:
+
+- Fetch published records.
+- Cache appropriate public responses.
+- Provide sensible loading states.
+- Provide fallback states.
+- Handle API errors.
+- Preserve current page layouts.
+- Preserve existing URLs and slugs where possible.
+
+Do not force every static page into a dynamic database.
+
+Only make content dynamic where it provides actual administrative value.
+
+The company information and official contact details must be verified before publication.
+
+Do not invent:
+
+- Student counts.
+- Training statistics.
+- Client achievements.
+- Testimonials.
+- Leadership experience.
+- Company addresses.
+- Contact numbers.
+
+---
+
+# 13. PHASE TEN — ROUTING FIXES
+
+Review:
+
+- src/App.tsx
+- src/context/RouterContext.tsx
+- src/pages/ProgramDetail.tsx
+- src/pages/ServiceDetail.tsx
+- src/pages/ProjectDetail.tsx
+
+Fix invalid slug handling.
+
+Currently, some detail pages fall back to the first available record when the requested slug does not exist.
+
+Replace that behavior with a proper not-found page.
+
+Test:
+
+- Direct URL access.
+- Browser refresh.
+- Back navigation.
+- Forward navigation.
+- Invalid slugs.
+- Trailing slashes.
+- Unknown routes.
+- Admin route protection.
+
+Preserve the existing routing system unless a replacement is technically necessary.
+
+---
+
+# 14. PHASE ELEVEN — UI/UX PRESERVATION
+
+Preserve the existing Aegis Academy visual identity.
+
+Do not redesign the entire website.
+
+Existing design characteristics:
+
+- Premium corporate technology appearance.
+- Navy blue.
+- Blue gradients.
+- White.
+- Champagne gold accents.
+- Glassmorphism.
+- Rounded cards.
+- Floating visual elements.
+- Smooth transitions.
+- Animated Aegis logo.
+- Floating glass navbar.
+- Custom cursor.
+- Dynamic backgrounds.
+
+Existing important components include:
+
+- AegisLogoOrb.
+- HeroSection.
+- FloatingGlassBadge.
+- FloatingInfoBar.
+- CustomCursor.
+- AntigravityField.
+- SignatureAegisMotion.
+- DynamicBackground.
+- AmbientLighting.
+- HeroLighting.
+
+Preserve their functionality.
+
+## Responsive testing
+
+Test:
+
+- 360px.
+- 390px.
+- 768px.
+- 1024px.
+- 1440px.
+- 1920px.
+
+Review every page.
+
+Pay attention to:
+
+- Navbar.
+- Hero.
+- Cards.
+- Forms.
+- Modals.
+- Admin tables.
+- Footer.
+- Floating badges.
+
+## Animation optimization
+
+Improve:
+
+- Pointer event handling.
+- Excessive React state updates.
+- Duplicate animation loops.
+- Mobile animation performance.
+- Reduced-motion accessibility.
+- Component cleanup.
+- Layout stability.
+
+Do not remove animations just to improve performance.
+
+Optimize them while preserving their visual quality.
+
+## Floating badge interaction
+
+Each badge must react independently.
+
+- AI Skills affects only AI Skills.
+- Build & Code affects only Build & Code.
+- Career Ready affects only Career Ready.
+- Other badges remain unaffected.
+- Floating information bars react independently.
+- No stretching.
+- No width expansion.
+- Scale between 1.04 and 1.08.
+- Subtle movement only.
+- Smooth reset.
+- Disable custom cursor on touch devices.
+
+---
+
+# 15. PHASE TWELVE — SECURITY AND DATA PROTECTION
+
+Implement appropriate protection for public and administrative operations.
+
+Requirements:
+
+- Server-side input validation.
+- Field length limits.
+- Input sanitization.
+- Rate limiting.
+- Spam protection.
+- Duplicate submission protection.
+- Secure authentication.
+- Role-based authorization.
+- Spreadsheet access restrictions.
+- Restricted Drive file access.
+- Safe error responses.
+- Audit logging.
+- Secret management.
+- LockService for concurrent writes.
+- Proper permission checks before updating or deleting records.
+
+Protect against:
+
+- Unauthorized record access.
+- Unauthorized record modification.
+- Duplicate IDs.
+- Malformed requests.
+- Excessive requests.
+- Untrusted file uploads.
+- Spreadsheet formula injection.
+- Accidental data deletion.
+
+Never expose the entire spreadsheet to public visitors.
+
+Public endpoints must return only the specific published content or confirmation information required.
+
+---
+
+# 16. PHASE THIRTEEN — PERFORMANCE AND APPS SCRIPT QUOTAS
+
+Google Apps Script has execution limits and daily quotas.
+
+Design the system accordingly.
+
+Requirements:
+
+- Avoid reading entire spreadsheets unnecessarily.
+- Read ranges in batches.
+- Minimize repeated SpreadsheetApp calls.
+- Use caching for appropriate public content.
+- Use LockService for critical writes.
+- Use pagination for large datasets.
+- Keep execution time low.
+- Handle quota failures gracefully.
+- Avoid sending unnecessary emails.
+- Avoid unnecessary repeated API calls.
+
+Do not assume unlimited spreadsheet or email capacity.
+
+Document the relevant Apps Script quotas and expected operational limitations.
+
+---
+
+# 17. PHASE FOURTEEN — SEO AND ACCESSIBILITY
+
+Improve:
+
+- Page titles.
+- Meta descriptions.
+- Open Graph tags.
+- Canonical URLs.
+- Sitemap.
+- Robots.txt.
+- Structured data.
+- Image alt text.
+- Heading hierarchy.
+- Semantic HTML.
+- Keyboard accessibility.
+- Focus states.
+- Form labels.
+- Accessible dialogs.
+
+Preserve the existing visual design.
+
+---
+
+# 18. PHASE FIFTEEN — TESTING
+
+Test every feature.
+
+Do not mark a test as successful unless it has actually been executed.
+
+## Public website tests
+
+- Homepage.
+- About.
+- Leadership.
+- Education.
+- Programs.
+- Services.
+- Technologies.
+- Projects.
+- Events.
+- Gallery.
+- Partnerships.
+- Contact.
+- Enrollment.
+- Request Quote.
+- Insights.
+- Careers.
+- Privacy Policy.
+- Terms and Conditions.
+- Not Found.
+
+## Backend tests
+
+- Google Apps Script deployment.
+- Spreadsheet connection.
+- Enrollment creation.
+- Contact creation.
+- Quote creation.
+- Career application.
+- Unique ID generation.
+- Email notifications.
+- File uploads.
+- Invalid request handling.
+- Concurrent submissions.
+- API error handling.
+
+## Admin tests
+
+- Authentication.
+- Logout.
+- Session expiry.
+- Unauthorized access.
+- Overview analytics.
+- Enrollment listing.
+- Enrollment updates.
+- Quote management.
+- Contact management.
+- Job application management.
+- Program CRUD.
+- Project CRUD.
+- Event CRUD.
+- Activity logs.
+
+## Frontend tests
+
+- Loading states.
+- Error states.
+- Success states.
+- Duplicate submissions.
+- Responsive forms.
+- Navigation.
+- Browser refresh.
+- Console errors.
+- Network failures.
+
+---
+
+# 19. PHASE SIXTEEN — VERCEL DEPLOYMENT
+
+Preserve the current GitHub and Vercel integration.
+
+Do not create an unnecessary replacement project.
+
+Deploy through preview deployments first.
+
+Verify:
+
+- Production build.
+- Environment configuration.
+- API connectivity.
+- Apps Script communication.
+- Admin authentication.
+- Form submission.
+- Database persistence.
+- Email delivery.
+- Mobile responsiveness.
+- Direct URL navigation.
+- Security headers.
+
+Never put sensitive values in frontend VITE_ variables.
+
+Never commit secrets to GitHub.
+
+Do not deploy untested changes to the official production domain.
+
+Maintain a rollback plan.
+
+---
+
+# 20. FUTURE DATABASE MIGRATION READINESS
+
+The current architecture uses Google Apps Script and Google Sheets.
+
+Do not tightly couple individual React components to Google Apps Script implementation details.
+
+Use a centralized API service.
+
+The intended architecture is:
+
+CURRENT:
+
+React Frontend
+      |
+      v
+Central API Service
+      |
+      v
+Google Apps Script
+      |
+      v
+Google Sheets
+
+FUTURE:
+
+React Frontend
+      |
+      v
+Same API Service
+      |
+      v
+Node.js Backend
+      |
+      v
+PostgreSQL
+
+When the company grows, the backend can be replaced without redesigning every React page.
+
+Keep business logic, frontend presentation, and data access appropriately separated.
+
+---
+
+# 21. FINAL ACCEPTANCE CRITERIA
+
+The project is complete only when:
+
+1. Existing website functionality is preserved.
+2. Existing pages work correctly.
+3. Existing animations remain functional.
+4. Public forms submit successfully.
+5. Enrollments appear in Google Sheets.
+6. Contact messages appear in Google Sheets.
+7. Quote requests appear in Google Sheets.
+8. Job applications appear in Google Sheets.
+9. Resume files are stored securely.
+10. Unique IDs are generated correctly.
+11. Email notifications work.
+12. Admin authentication is secure.
+13. Unauthorized users cannot access protected data.
+14. Admin Dashboard displays real records.
+15. Admin CRUD operations work.
+16. Dynamic content is synchronized appropriately.
+17. Invalid dynamic routes display a proper 404.
+18. No demonstration data is shown as real production information.
+19. Responsive layouts work.
+20. Animations are optimized.
+21. Security checks pass.
+22. SEO metadata is configured.
+23. Build and TypeScript checks pass.
+24. End-to-end tests pass.
+25. Vercel preview deployment is verified.
+
+---
+
+# 22. EXECUTION STRATEGY
+
+Implement the project in the following order:
+
+PHASE 1: Source code inspection and implementation plan.
+
+PHASE 2: Google Spreadsheet creation and database schema.
+
+PHASE 3: Google Apps Script backend development.
+
+PHASE 4: API communication and security architecture.
+
+PHASE 5: Public form integration.
+
+PHASE 6: Admin authentication.
+
+PHASE 7: Admin Dashboard integration.
+
+PHASE 8: Dynamic content integration.
+
+PHASE 9: Routing fixes.
+
+PHASE 10: UI/UX refinements.
+
+PHASE 11: Security, SEO, and performance.
+
+PHASE 12: Testing and Vercel deployment.
+
+For each phase:
+
+1. Inspect the relevant files.
+2. Explain the issue.
+3. Explain the proposed solution.
+4. Implement the changes.
+5. Run relevant tests.
+6. Review the modified files.
+7. Report what was completed.
+8. Identify any remaining issues.
+
+Do not skip phases silently.
+
+Do not make assumptions about external service configuration.
+
+If Google Apps Script deployment, Google account permissions, spreadsheet IDs, Drive folders, or Vercel environment variables require manual configuration, clearly identify the required action.
+
+Do not fabricate successful deployment or test results.
+
+---
+
+# FINAL GOAL
+
+Transform the existing Aegis Academy website into a complete, reliable, secure, and professional business platform using:
+
+- Existing React frontend.
+- Existing Aegis UI/UX.
+- Google Apps Script backend.
+- Google Sheets database.
+- Google Drive file storage.
+- Google Apps Script email notifications.
+- Vercel hosting.
+
+Preserve the existing website.
+
+Improve its functionality.
+
+Secure its administration.
+
+Make every form work.
+
+Make the Admin Dashboard genuinely useful.
+
+Prepare the architecture for future PostgreSQL migration.
+
+The goal is to UPGRADE THE EXISTING AEGIS ACADEMY WEBSITE, NOT REBUILD IT.

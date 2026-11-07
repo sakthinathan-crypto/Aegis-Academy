@@ -14,12 +14,17 @@ import {
   GraduationCap
 } from 'lucide-react';
 
+import { NotFoundPage } from './NotFoundPage';
+
 export const ProgramDetail: React.FC = () => {
   const { params, navigate } = useRouter();
-  const slug = params.programSlug || 'full-stack-web-development';
+  const slug = params.programSlug;
 
-  // Find program by slug or fallback to first
-  const program = PROGRAMS.find(p => p.slug === slug) || PROGRAMS[0];
+  // Find program by slug; if not found, render 404
+  const program = slug ? PROGRAMS.find(p => p.slug === slug) : undefined;
+  if (!program) {
+    return <NotFoundPage />;
+  }
 
   const relatedPrograms = PROGRAMS.filter(p => p.slug !== program.slug).slice(0, 3);
 

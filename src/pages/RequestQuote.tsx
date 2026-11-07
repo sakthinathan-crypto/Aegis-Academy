@@ -13,6 +13,8 @@ import {
   FileText
 } from 'lucide-react';
 
+import { quoteService } from '../services/quoteService';
+
 export const RequestQuote: React.FC = () => {
   const { navigate } = useRouter();
 
@@ -30,10 +32,13 @@ export const RequestQuote: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [quoteId, setQuoteId] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
     const result = validateQuoteRequest(formData);
     if (!result.isValid) {
       setErrors(result.errors);
@@ -41,24 +46,35 @@ export const RequestQuote: React.FC = () => {
     }
 
     setErrors({});
-    const newQuoteId = generateApplicationId('AEGIS-QTE');
-    StorageStore.saveQuoteRequest({
-      id: newQuoteId,
-      name: formData.name,
-      organization: formData.organization,
-      email: formData.email,
-      phone: formData.phone,
-      serviceRequired: formData.serviceRequired,
-      projectDescription: formData.projectDescription,
-      estimatedBudget: formData.estimatedBudget,
-      expectedTimeline: formData.expectedTimeline,
-      additionalRequirements: formData.additionalRequirements,
-      submittedAt: new Date().toISOString(),
-      status: 'New'
-    });
+    setIsSubmitting(true);
 
-    setQuoteId(newQuoteId);
-    setSubmitted(true);
+    try {
+      const res = await quoteService.submitQuote({
+        fullName: formData.name,
+        workEmail: formData.email,
+        phone: formData.phone,
+        companyName: formData.organization,
+        companyType: 'Enterprise / Institution',
+        serviceRequired: formData.serviceRequired,
+        budgetRange: formData.estimatedBudget,
+        targetTimeline: formData.expectedTimeline,
+        requirements: formData.additionalRequirements 
+          ? `${formData.projectDescription} | Infrastructure notes: ${formData.additionalRequirements}`
+          : formData.projectDescription
+      });
+
+      if (res.success && (res.quoteId || res.data?.quoteId)) {
+        const confirmedId = res.quoteId || res.data?.quoteId;
+        setQuoteId(confirmedId);
+        setSubmitted(true);
+      } else {
+        setApiError(res.error || 'Failed to submit quote request. Please try again.');
+      }
+    } catch (err: any) {
+      setApiError(err.message || 'Network error occurred while submitting quotation.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -311,13 +327,20 @@ export const RequestQuote: React.FC = () => {
                 />
               </div>
 
+              {apiError && (
+                <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+                  {apiError}
+                </div>
+              )}
+
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="btn-glossy-gold w-full py-3.5 px-4 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={isSubmitting}
+                  className="btn-glossy-gold w-full py-3.5 px-4 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Submit Technical Quotation Request</span>
+                  <Send className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+                  <span>{isSubmitting ? 'Submitting Technical Quote Request...' : 'Submit Technical Quotation Request'}</span>
                 </button>
               </div>
             </form>

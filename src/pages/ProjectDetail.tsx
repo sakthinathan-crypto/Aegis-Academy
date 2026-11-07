@@ -13,11 +13,16 @@ import {
   ChevronRight
 } from 'lucide-react';
 
+import { NotFoundPage } from './NotFoundPage';
+
 export const ProjectDetail: React.FC = () => {
   const { params, navigate } = useRouter();
-  const slug = params.projectSlug || 'smart-agriculture-platform';
+  const slug = params.projectSlug;
 
-  const project = PROJECTS.find(p => p.slug === slug) || PROJECTS[0];
+  const project = slug ? PROJECTS.find(p => p.slug === slug) : undefined;
+  if (!project) {
+    return <NotFoundPage />;
+  }
   const relatedProjects = PROJECTS.filter(p => p.slug !== project.slug).slice(0, 2);
 
   return (

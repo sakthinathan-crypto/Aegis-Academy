@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { PROGRAMS } from '../data/companyData';
 import { StorageStore } from '../data/store';
+import { enrollmentService } from '../services/enrollmentService';
 import { validateEnrollmentForm, generateApplicationId } from '../utils/validation';
 import {
   GraduationCap,
@@ -33,10 +34,13 @@ export const StudentEnrollment: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [applicationId, setApplicationId] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
     const result = validateEnrollmentForm(formData);
     if (!result.isValid) {
       setErrors(result.errors);
@@ -44,26 +48,36 @@ export const StudentEnrollment: React.FC = () => {
     }
 
     setErrors({});
-    const newAppId = generateApplicationId('AEGIS-STU');
-    StorageStore.saveEnrollment({
-      id: newAppId,
-      studentName: formData.studentName,
-      phone: formData.phone,
-      whatsapp: formData.whatsapp,
-      email: formData.email,
-      institutionName: formData.institutionName,
-      department: formData.department,
-      yearOfStudy: formData.yearOfStudy,
-      district: formData.district,
-      selectedProgram: formData.selectedProgram,
-      learningMode: formData.learningMode,
-      additionalInfo: formData.additionalInfo,
-      submittedAt: new Date().toISOString(),
-      status: 'Pending'
-    });
+    setIsSubmitting(true);
 
-    setApplicationId(newAppId);
-    setSubmitted(true);
+    try {
+      const selectedProg = PROGRAMS.find(p => p.slug === formData.selectedProgram);
+      const res = await enrollmentService.submitEnrollment({
+        fullName: formData.studentName,
+        email: formData.email,
+        phone: formData.phone,
+        guardianPhone: formData.whatsapp,
+        institution: `${formData.institutionName} (${formData.department}, ${formData.yearOfStudy})`,
+        programTitle: selectedProg ? selectedProg.title : formData.selectedProgram,
+        programCode: selectedProg ? selectedProg.id.toUpperCase() : 'AEG-PRG',
+        programDivision: selectedProg ? selectedProg.category : 'Higher Education',
+        deliveryMode: formData.learningMode,
+        preferredBatch: 'Upcoming Intake 2026',
+        comments: formData.additionalInfo ? `${formData.additionalInfo} | District: ${formData.district}` : `District: ${formData.district}`
+      });
+
+      if (res.success && (res.enrollmentId || res.data?.enrollmentId)) {
+        const confirmedId = res.enrollmentId || res.data?.enrollmentId;
+        setApplicationId(confirmedId);
+        setSubmitted(true);
+      } else {
+        setApiError(res.error || 'Failed to submit enrollment. Please check your connection and try again.');
+      }
+    } catch (err: any) {
+      setApiError(err.message || 'An unexpected network error occurred.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const selectedProgramObj = PROGRAMS.find(p => p.slug === formData.selectedProgram);
@@ -364,13 +378,21 @@ export const StudentEnrollment: React.FC = () => {
                 />
               </div>
 
+              {apiError && (
+                <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                  <Info className="w-4 h-4 shrink-0 text-rose-500" />
+                  <span>{apiError}</span>
+                </div>
+              )}
+
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="btn-glossy-gold w-full py-3.5 px-4 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={isSubmitting}
+                  className="btn-glossy-gold w-full py-3.5 px-4 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Submit Enrollment Application</span>
+                  <Send className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+                  <span>{isSubmitting ? 'Submitting to Admissions System...' : 'Submit Enrollment Application'}</span>
                 </button>
               </div>
             </form>

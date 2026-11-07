@@ -17,11 +17,16 @@ import {
   Send
 } from 'lucide-react';
 
+import { NotFoundPage } from './NotFoundPage';
+
 export const ServiceDetail: React.FC = () => {
   const { params, navigate } = useRouter();
-  const slug = params.serviceSlug || 'web-development';
+  const slug = params.serviceSlug;
 
-  const service = SERVICES.find(s => s.slug === slug) || SERVICES[0];
+  const service = slug ? SERVICES.find(s => s.slug === slug) : undefined;
+  if (!service) {
+    return <NotFoundPage />;
+  }
 
   const techIcons: Record<string, any> = {
     Code2,

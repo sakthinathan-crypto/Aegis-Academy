@@ -32,7 +32,7 @@ export const Home: React.FC = () => {
   const upcomingEvents = EVENTS.filter(e => e.status === 'Upcoming').slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#F7F8FC] text-[#0C1B30] selection:bg-[#D5AD63]/30 selection:text-[#0C1B30]">
+    <div className="min-h-screen bg-[#020617] text-[#0C1B30] selection:bg-[#D5AD63]/30 selection:text-[#0C1B30]">
       {/* =========================================================================
           SECTION 1: HERO SECTION (REFERENCE 1 COMPOSITION + REFERENCE 2 FLOATING GLASS)
           ========================================================================= */}
