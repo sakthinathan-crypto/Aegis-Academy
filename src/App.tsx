@@ -1,4 +1,5 @@
 import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { RouterProvider, useRouter } from './context/RouterContext';
 import { CustomCursor } from './components/common/CustomCursor';
 import { Navbar } from './components/common/Navbar';
@@ -88,8 +89,22 @@ const AppContent: React.FC = () => {
 
       {!isAdminRoute && <Navbar />}
 
-      <main className="flex-1">
-        {renderCurrentRoute()}
+      <main className="flex-1 w-full overflow-x-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPath}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{
+              duration: 0.36,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="w-full flex-1"
+          >
+            {renderCurrentRoute()}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {!isAdminRoute && <Footer />}

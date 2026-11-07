@@ -119,7 +119,7 @@ export const Home: React.FC = () => {
       {/* =========================================================================
           SECTION 4 & 5: DUAL CORE BUSINESS DIVISIONS (LIGHT SECTION: SOFT BLUE #EAF1FA)
           ========================================================================= */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#EAF1FA] border-b border-[#C9D9EC]/60 relative">
+      <section id="core-architecture" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#EAF1FA] border-b border-[#C9D9EC]/60 relative scroll-mt-20">
         <div className="tech-grid-light absolute inset-0 opacity-40 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">

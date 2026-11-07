@@ -17,7 +17,7 @@ export const FloatingInfoBar: React.FC<FloatingInfoBarProps> = ({
   icon: Icon,
   position,
   top,
-  accentColor = '#38BDF8',
+  accentColor = '#0077FE',
   delay = 0,
   duration = 6,
   className = ''
@@ -74,23 +74,23 @@ export const FloatingInfoBar: React.FC<FloatingInfoBarProps> = ({
   };
 
   const getBorderColor = () => {
-    if (isHovered) return accentColor;
-    if (proximityLevel === 2) return `${accentColor}70`;
-    if (proximityLevel === 1) return 'rgba(255, 255, 255, 0.35)';
-    return 'rgba(255, 255, 255, 0.18)';
+    if (isHovered) return '#00A3FF';
+    if (proximityLevel === 2) return `${accentColor}80`;
+    if (proximityLevel === 1) return 'rgba(0, 163, 255, 0.4)';
+    return 'rgba(0, 119, 254, 0.25)';
   };
 
   const getBoxShadow = () => {
     if (isHovered) {
-      return `0 8px 24px -2px rgba(0, 0, 0, 0.45), 0 0 16px ${accentColor}40, inset 0 1px 0 rgba(255, 255, 255, 0.4)`;
+      return `0 10px 28px -2px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 163, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4)`;
     }
     if (proximityLevel === 2) {
-      return `0 6px 18px -2px rgba(0, 0, 0, 0.35), 0 0 10px ${accentColor}25, inset 0 1px 0 rgba(255, 255, 255, 0.3)`;
+      return `0 6px 20px -2px rgba(0, 0, 0, 0.5), 0 0 12px ${accentColor}30, inset 0 1px 0 rgba(255, 255, 255, 0.3)`;
     }
     if (proximityLevel === 1) {
-      return `0 4px 14px rgba(0, 0, 0, 0.3), 0 0 6px ${accentColor}15, inset 0 1px 0 rgba(255, 255, 255, 0.22)`;
+      return `0 4px 16px rgba(0, 0, 0, 0.4), 0 0 8px ${accentColor}20, inset 0 1px 0 rgba(255, 255, 255, 0.22)`;
     }
-    return '0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18)';
+    return '0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.18)';
   };
 
   const uniqueAnim = `infoBarFloat_${label.replace(/\s+/g, '')}`;
@@ -115,13 +115,13 @@ export const FloatingInfoBar: React.FC<FloatingInfoBarProps> = ({
           setIsHovered(false);
           setMagnetShift({ x: 0, y: 0 });
         }}
-        className="w-max whitespace-nowrap inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full backdrop-blur-md cursor-pointer"
+        className="w-max whitespace-nowrap inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full backdrop-blur-xl cursor-pointer"
         style={{
           transform: `translate3d(${magnetShift.x}px, ${magnetShift.y}px, 0) scale(${getScale()})`,
           borderColor: getBorderColor(),
-          borderWidth: '1px',
+          borderWidth: '1.2px',
           borderStyle: 'solid',
-          backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.16)' : 'rgba(255, 255, 255, 0.08)',
+          backgroundColor: isHovered ? 'rgba(4, 18, 48, 0.85)' : 'rgba(3, 14, 36, 0.72)',
           boxShadow: getBoxShadow(),
           transition: 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease',
           willChange: 'transform, box-shadow'

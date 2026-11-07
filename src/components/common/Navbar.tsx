@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from '../../context/RouterContext';
 import { BrandLogo } from './BrandLogo';
-import { ChevronDown, Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import { ChevronDown, Menu, X, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { currentPath, navigate } = useRouter();
@@ -35,35 +36,46 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-2 sm:top-4 inset-x-0 z-50 flex justify-center px-3 sm:px-6 pointer-events-none select-none">
-      {/* Horizontal Floating Glass Pill Navbar (Reference 2) */}
+      {/* Horizontal Floating Liquid Glass Pill Navbar */}
       <div
-        className={`pointer-events-auto max-w-7xl w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 sm:py-3 transition-all duration-300 flex items-center justify-between gap-4 border shadow-2xl backdrop-blur-2xl ${
-          scrolled
-            ? 'bg-[#0C1B30]/92 border-white/25 shadow-black/70'
-            : 'bg-[#0C1B30]/80 border-white/20 shadow-black/50'
+        className={`pointer-events-auto max-w-7xl w-full rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 sm:py-3 transition-all duration-300 flex items-center justify-between gap-4 liquid-glass-nav ${
+          scrolled ? 'is-scrolled' : ''
         }`}
-        style={{
-          boxShadow: '0 16px 40px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
-        }}
       >
+        {/* Persistent Liquid Animation Layers (Hardware-accelerated, runs continuously across route transitions) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl sm:rounded-full z-0">
+          <div className="liquid-rim-shimmer" />
+          <div className="liquid-caustic-left" />
+          <div className="liquid-caustic-right" />
+          <div className="liquid-glass-sheen-beam" />
+        </div>
+
         {/* LEFT: Aegis Academy Brand Logo */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D5AD63] rounded-lg cursor-pointer shrink-0"
+          className="relative z-10 flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00A3FF] rounded-lg cursor-pointer shrink-0"
           aria-label="Aegis Academy Home"
         >
           <BrandLogo size="md" theme="dark" />
         </button>
 
-        {/* CENTRE: Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-7 text-sm font-medium text-slate-200">
+        {/* CENTRE: Navigation Links with Persistent Fluid Active Pill */}
+        <nav className="relative z-10 hidden lg:flex items-center gap-2 xl:gap-3 text-sm font-medium text-slate-200">
+          {/* Home */}
           <button
             onClick={() => navigate('/')}
-            className={`hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
-              currentPath === '/' ? 'text-[#D5AD63] font-semibold' : ''
+            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              currentPath === '/' ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
             }`}
           >
-            Home
+            {currentPath === '/' && (
+              <motion.span
+                layoutId="activeLiquidPill"
+                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span>Home</span>
           </button>
 
           {/* Education Dropdown */}
@@ -74,47 +86,54 @@ export const Navbar: React.FC = () => {
           >
             <button
               onClick={() => navigate('/education')}
-              className={`flex items-center gap-1 hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
+              className={`relative px-3 py-1.5 rounded-full flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 currentPath.startsWith('/education') || currentPath.startsWith('/programs')
-                  ? 'text-[#D5AD63] font-semibold'
-                  : ''
+                  ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]'
+                  : 'hover:text-white'
               }`}
             >
-              Education
+              {(currentPath.startsWith('/education') || currentPath.startsWith('/programs')) && (
+                <motion.span
+                  layoutId="activeLiquidPill"
+                  className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span>Education</span>
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
 
             {activeDropdown === 'education' && (
               <div className="absolute top-full left-0 w-64 pt-3 animate-in fade-in slide-in-from-top-1 duration-150">
-                <div className="glass-dark-card border border-white/25 bg-[#0C1B30]/95 backdrop-blur-2xl rounded-2xl p-2.5 shadow-2xl shadow-black/80">
+                <div className="border border-white/25 bg-[#061434]/95 backdrop-blur-2xl rounded-2xl p-2.5 shadow-2xl shadow-black/80">
                   <button
                     onClick={() => navigate('/education')}
-                    className="w-full text-left px-3 py-2 text-xs rounded-xl font-semibold text-white hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-2 text-xs rounded-xl font-semibold text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Education Division Overview
                   </button>
                   <div className="my-1 border-t border-white/10" />
                   <button
                     onClick={() => navigate('/education/schools')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     School Programs (Ages 10–15)
                   </button>
                   <button
                     onClick={() => navigate('/education/colleges')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     College Technical Bootcamps
                   </button>
                   <button
                     onClick={() => navigate('/education/professional')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Professional Upskilling
                   </button>
                   <button
                     onClick={() => navigate('/programs/full-stack-web-development')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-[#D5AD63] hover:bg-white/10 transition-colors font-medium flex items-center justify-between cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-[#00A3FF] hover:bg-white/10 transition-colors font-medium flex items-center justify-between cursor-pointer"
                   >
                     <span>Explore All Programs</span>
                     <ArrowRight className="w-3 h-3" />
@@ -132,59 +151,66 @@ export const Navbar: React.FC = () => {
           >
             <button
               onClick={() => navigate('/technologies')}
-              className={`flex items-center gap-1 hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
+              className={`relative px-3 py-1.5 rounded-full flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 currentPath.startsWith('/technologies') || currentPath.startsWith('/services')
-                  ? 'text-[#D5AD63] font-semibold'
-                  : ''
+                  ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]'
+                  : 'hover:text-white'
               }`}
             >
-              Technologies
+              {(currentPath.startsWith('/technologies') || currentPath.startsWith('/services')) && (
+                <motion.span
+                  layoutId="activeLiquidPill"
+                  className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span>Technologies</span>
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
 
             {activeDropdown === 'tech' && (
               <div className="absolute top-full left-0 w-64 pt-3 animate-in fade-in slide-in-from-top-1 duration-150">
-                <div className="glass-dark-card border border-white/25 bg-[#0C1B30]/95 backdrop-blur-2xl rounded-2xl p-2.5 shadow-2xl shadow-black/80">
+                <div className="border border-white/25 bg-[#061434]/95 backdrop-blur-2xl rounded-2xl p-2.5 shadow-2xl shadow-black/80">
                   <button
                     onClick={() => navigate('/technologies')}
-                    className="w-full text-left px-3 py-2 text-xs rounded-xl font-semibold text-white hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-2 text-xs rounded-xl font-semibold text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Technologies Division Overview
                   </button>
                   <button
                     onClick={() => navigate('/services')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg font-medium text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg font-medium text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     All Services Directory
                   </button>
                   <div className="my-1 border-t border-white/10" />
                   <button
                     onClick={() => navigate('/services/web-development')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Web Applications
                   </button>
                   <button
                     onClick={() => navigate('/services/app-development')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Mobile Apps
                   </button>
                   <button
                     onClick={() => navigate('/services/ai-solutions')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     AI & Machine Learning
                   </button>
                   <button
                     onClick={() => navigate('/services/cloud-solutions')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Cloud & DevOps
                   </button>
                   <button
                     onClick={() => navigate('/services/automation')}
-                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-1.5 text-xs rounded-lg text-slate-300 hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Business Automation
                   </button>
@@ -201,34 +227,41 @@ export const Navbar: React.FC = () => {
           >
             <button
               onClick={() => navigate('/about')}
-              className={`flex items-center gap-1 hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
+              className={`relative px-3 py-1.5 rounded-full flex items-center gap-1 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 currentPath.startsWith('/about') || currentPath === '/leadership' || currentPath === '/partnerships'
-                  ? 'text-[#D5AD63] font-semibold'
-                  : ''
+                  ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]'
+                  : 'hover:text-white'
               }`}
             >
-              About
+              {(currentPath.startsWith('/about') || currentPath === '/leadership' || currentPath === '/partnerships') && (
+                <motion.span
+                  layoutId="activeLiquidPill"
+                  className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span>About</span>
               <ChevronDown className="w-3.5 h-3.5" />
             </button>
 
             {activeDropdown === 'about' && (
               <div className="absolute top-full left-0 w-52 pt-3 animate-in fade-in slide-in-from-top-1 duration-150">
-                <div className="glass-dark-card border border-white/25 bg-[#0C1B30]/95 backdrop-blur-2xl rounded-2xl p-2.5 shadow-2xl shadow-black/80">
+                <div className="border border-white/25 bg-[#061434]/95 backdrop-blur-2xl rounded-2xl p-2.5 shadow-2xl shadow-black/80">
                   <button
                     onClick={() => navigate('/about')}
-                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     About Aegis Academy
                   </button>
                   <button
                     onClick={() => navigate('/leadership')}
-                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Leadership Team
                   </button>
                   <button
                     onClick={() => navigate('/partnerships')}
-                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#D5AD63] transition-colors cursor-pointer"
+                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Institutional Alliances
                   </button>
@@ -237,59 +270,97 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
+          {/* Projects */}
           <button
             onClick={() => navigate('/projects')}
-            className={`hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
-              isCurrent('/projects') ? 'text-[#D5AD63] font-semibold' : ''
+            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              isCurrent('/projects') ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
             }`}
           >
-            Projects
+            {isCurrent('/projects') && (
+              <motion.span
+                layoutId="activeLiquidPill"
+                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span>Projects</span>
           </button>
 
+          {/* Events */}
           <button
             onClick={() => navigate('/events')}
-            className={`hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
-              isCurrent('/events') ? 'text-[#D5AD63] font-semibold' : ''
+            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              isCurrent('/events') ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
             }`}
           >
-            Events
+            {isCurrent('/events') && (
+              <motion.span
+                layoutId="activeLiquidPill"
+                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span>Events</span>
           </button>
 
+          {/* Insights */}
           <button
             onClick={() => navigate('/insights')}
-            className={`hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
-              isCurrent('/insights') ? 'text-[#D5AD63] font-semibold' : ''
+            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              isCurrent('/insights') ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
             }`}
           >
-            Insights
+            {isCurrent('/insights') && (
+              <motion.span
+                layoutId="activeLiquidPill"
+                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span>Insights</span>
           </button>
 
+          {/* Contact */}
           <button
             onClick={() => navigate('/contact')}
-            className={`hover:text-[#D5AD63] transition-colors whitespace-nowrap shrink-0 py-1 cursor-pointer ${
-              isCurrent('/contact') ? 'text-[#D5AD63] font-semibold' : ''
+            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              isCurrent('/contact') ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
             }`}
           >
-            Contact
+            {isCurrent('/contact') && (
+              <motion.span
+                layoutId="activeLiquidPill"
+                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span>Contact</span>
           </button>
         </nav>
 
-        {/* RIGHT: Admin Portal & Get Started CTA */}
-        <div className="hidden lg:flex items-center gap-3 shrink-0">
+        {/* RIGHT: Partner & Enroll Now */}
+        <div className="relative z-10 hidden lg:flex items-center gap-3 shrink-0">
           <button
-            onClick={() => navigate('/admin')}
-            className="text-xs text-slate-300 hover:text-white transition-colors px-2 py-1 rounded cursor-pointer font-medium"
-            title="Aegis Admin Management Portal"
+            onClick={() => navigate('/partnerships')}
+            className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
-            Admin Portal
+            Partner
           </button>
 
           <button
             onClick={() => navigate('/enroll')}
-            className="btn-glossy-gold px-5 py-2 text-xs font-bold tracking-wide text-[#071426] rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer shadow-lg hover:shadow-xl transition-all"
+            className="px-5 py-1.5 text-xs font-bold tracking-wide text-[#020617] bg-white hover:bg-slate-100 rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer shadow-[0_4px_16px_rgba(255,255,255,0.3)] transition-all hover:scale-[1.02]"
           >
-            <span>Get Started</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Enroll Now</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/admin')}
+            className="text-[11px] text-slate-400 hover:text-slate-200 transition-colors px-1.5 py-1 rounded cursor-pointer"
+            title="Aegis Admin Management Portal"
+          >
+            Admin
           </button>
         </div>
 
