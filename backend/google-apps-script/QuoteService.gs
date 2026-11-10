@@ -2,68 +2,106 @@
  * ============================================================================
  * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
  * File: QuoteService.gs
- * Description: Enterprise technology service quote requests management
+ * Description: Enterprise software and institutional quote requests.
  * ============================================================================
  */
 
 var QuoteService = {
-  submit: function(data) {
-    if (!data.contact_name || !data.email || !data.service_required) {
-      throw new Error('Contact name, email, and service required are mandatory.');
-    }
+  HEADERS: [
+    'quoteId',
+    'fullName',
+    'companyName',
+    'workEmail',
+    'phone',
+    'serviceRequired',
+    'requirements',
+    'budgetRange',
+    'targetTimeline',
+    'status',
+    'submittedAt',
+    'updatedAt',
+    'adminNotes'
+  ],
 
-    var quoteId = generateSequentialId(CONFIG.SHEETS.QUOTE_REQUESTS, CONFIG.ID_PREFIXES.QUOTE);
-    var now = new Date().toISOString();
+  /**
+   * Submit enterprise quotation request
+   */
+  submitQuote: function(data) {
+    Validation.validateQuote(data);
+
+    var quoteId = Database.generateSequentialId(Config.SHEETS.QUOTE_REQUESTS, Config.ID_PREFIXES.QUOTE);
+    var nowIso = new Date().toISOString();
 
     var record = {
-      quote_id: quoteId,
-      created_at: now,
-      updated_at: now,
-      contact_name: String(data.contact_name || data.name || '').trim(),
-      company_name: String(data.company_name || data.organization || '').trim(),
-      email: String(data.email).trim().toLowerCase(),
+      quoteId: quoteId,
+      fullName: String(data.fullName).trim(),
+      companyName: String(data.companyName).trim(),
+      workEmail: String(data.workEmail).trim().toLowerCase(),
       phone: String(data.phone || '').trim(),
-      service_required: String(data.service_required || data.serviceRequired || '').trim(),
-      budget: String(data.budget || data.estimatedBudget || '').trim(),
-      project_description: String(data.project_description || data.projectDescription || '').trim(),
-      timeline: String(data.timeline || data.expectedTimeline || '').trim(),
-      status: 'New',
-      assigned_to: '',
-      admin_notes: ''
+      serviceRequired: String(data.serviceRequired).trim(),
+      requirements: String(data.requirements || '').trim(),
+      budgetRange: String(data.budgetRange || '').trim(),
+      targetTimeline: String(data.targetTimeline || '').trim(),
+      status: 'Submitted',
+      submittedAt: nowIso,
+      updatedAt: nowIso,
+      adminNotes: ''
     };
 
-    appendRowRecord(CONFIG.SHEETS.QUOTE_REQUESTS, record);
+    Database.appendRecord(Config.SHEETS.QUOTE_REQUESTS, this.HEADERS, record);
+
+    Database.logActivity('QUOTE_REQUEST_SUBMITTED', 'Quote for ' + record.companyName, {
+      quoteId: quoteId,
+      company: record.companyName,
+      service: record.serviceRequired
+    });
 
     try {
-      EmailService.sendQuoteConfirmation(record);
-      EmailService.sendAdminQuoteAlert(record);
+      EmailService.sendQuoteAcknowledgment(record);
+      EmailService.sendTeamAlertEmail('New Quote Request: ' + record.companyName, record);
     } catch (e) {
-      console.warn('Quote email error:', e);
+      Logger.log('Quote email note: ' + e.toString());
     }
 
     return {
-      quote_id: quoteId,
-      contact_name: record.contact_name,
-      service_required: record.service_required,
-      created_at: record.created_at
+      quoteId: quoteId,
+      companyName: record.companyName,
+      status: record.status,
+      submittedAt: record.submittedAt
     };
   },
 
-  getAll: function() {
-    return readAllRows(CONFIG.SHEETS.QUOTE_REQUESTS);
+  /**
+   * List quote requests
+   */
+  listQuotes: function() {
+    return Database.getAllRecords(Config.SHEETS.QUOTE_REQUESTS, this.HEADERS);
   },
 
-  update: function(quoteId, updates, adminEmail) {
-    if (!quoteId) throw new Error('Quote ID required.');
-    updateRowRecord(CONFIG.SHEETS.QUOTE_REQUESTS, 'quote_id', quoteId, updates);
-    logActivity(adminEmail, 'UPDATE_QUOTE', 'Quote_Requests', quoteId, 'Quote updated to ' + (updates.status || 'modified'));
-    return { success: true, quote_id: quoteId };
-  },
+  /**
+   * Update quote status
+   */
+  updateQuoteStatus: function(quoteId, newStatus, adminNotes, userEmail) {
+    var record = Database.getRecordById(Config.SHEETS.QUOTE_REQUESTS, this.HEADERS, 'quoteId', quoteId);
+    if (!record) {
+      throw new Error('Quote request not found: ' + quoteId);
+    }
 
-  delete: function(quoteId, adminEmail) {
-    if (!quoteId) throw new Error('Quote ID required.');
-    var res = deleteRowRecord(CONFIG.SHEETS.QUOTE_REQUESTS, 'quote_id', quoteId);
-    logActivity(adminEmail, 'DELETE_QUOTE', 'Quote_Requests', quoteId, 'Quote deleted');
-    return { success: res, quote_id: quoteId };
+    var updates = {
+      status: newStatus,
+      updatedAt: new Date().toISOString()
+    };
+    if (adminNotes !== undefined) {
+      updates.adminNotes = adminNotes;
+    }
+
+    Database.updateRecord(Config.SHEETS.QUOTE_REQUESTS, this.HEADERS, 'quoteId', quoteId, updates);
+
+    Database.logActivity('QUOTE_STATUS_UPDATED', 'Status changed to ' + newStatus + ' for ' + quoteId, {
+      quoteId: quoteId,
+      newStatus: newStatus
+    }, userEmail);
+
+    return { quoteId: quoteId, status: newStatus };
   }
 };

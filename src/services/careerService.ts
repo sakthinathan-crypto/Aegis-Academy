@@ -8,9 +8,12 @@ export interface CareerSubmission {
   fullName: string;
   email: string;
   phone: string;
+  qualification?: string;
+  collegeOrOrg?: string;
+  academicYear?: string;
   roleApplied: string;
   department: string;
-  experienceYears: string;
+  experienceYears?: string;
   portfolioUrl?: string;
   linkedinUrl?: string;
   coverNote?: string;
@@ -79,5 +82,9 @@ export const careerService = {
 
   async updateStatus(applicationId: string, status: string, adminNotes?: string, token?: string): Promise<ApiResponse> {
     return apiClient.post('updateApplicationStatus', { applicationId, status, adminNotes, token });
+  },
+
+  async getResumeDownloadUrl(applicationId: string, token: string): Promise<ApiResponse<{ downloadUrl: string; fileName: string; mimeType: string }>> {
+    return apiClient.get<{ downloadUrl: string; fileName: string; mimeType: string }>('getResumeDownloadUrl', { applicationId, token });
   }
 };

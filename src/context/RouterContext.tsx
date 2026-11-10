@@ -17,7 +17,7 @@ export const useRouter = () => useContext(RouterContext);
 export const RouterProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      return window.location.pathname || '/';
+      return (window.location.pathname || '/') + (window.location.hash || '');
     }
     return '/';
   });
@@ -26,7 +26,7 @@ export const RouterProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      setCurrentPath((window.location.pathname || '/') + (window.location.hash || ''));
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -35,9 +35,20 @@ export const RouterProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const navigate = (path: string) => {
     if (typeof window !== 'undefined') {
-      if (path !== currentPath) {
-        window.history.pushState({}, '', path);
-        setCurrentPath(path);
+      const hasHash = path.includes('#');
+      const hash = hasHash ? path.split('#')[1] : '';
+
+      window.history.pushState({}, '', path);
+      setCurrentPath(path);
+
+      if (hash) {
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }

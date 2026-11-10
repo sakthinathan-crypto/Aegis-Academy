@@ -17,9 +17,11 @@ const USER_KEY = 'aegis_admin_user';
 
 export const authService = {
   async login(email: string, password: string): Promise<ApiResponse<{ token: string; user: AdminUser }>> {
-    const res = await apiClient.post('login', { email, password });
-    if (res.success && res.token && res.user) {
-      this.setSession(res.token, res.user);
+    const res = await apiClient.post<{ token: string; user: AdminUser }>('login', { email, password });
+    const token = res.data?.token || (res as any).token;
+    const user = res.data?.user || (res as any).user;
+    if (res.success && token && user) {
+      this.setSession(token, user);
     }
     return res;
   },

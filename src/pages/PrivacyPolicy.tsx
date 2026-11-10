@@ -17,15 +17,6 @@ export const PrivacyPolicy: React.FC = () => {
           <span>Return Home</span>
         </button>
 
-        {/* Disclaimer Banner */}
-        <div className="p-4 rounded-xl bg-[#0C1E36] border border-[#D5AD63]/30 text-xs text-slate-300 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-[#D5AD63] shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-white block mb-0.5">Editable Draft Policy Notice:</strong>
-            This is a demonstration corporate privacy policy draft for Aegis Academy Pvt. Ltd. It is intended for software development and structural review. Formal legal counsel should be retained prior to production legal deployment.
-          </div>
-        </div>
-
         <header className="space-y-2 border-b border-slate-800 pb-6">
           <span className="text-xs uppercase tracking-widest text-[#D5AD63] font-semibold">
             Corporate Governance
@@ -34,7 +25,7 @@ export const PrivacyPolicy: React.FC = () => {
             Privacy Policy
           </h1>
           <p className="text-xs text-slate-400">
-            Last Updated: November 2026 · Version 1.0 (Draft)
+            Last Updated: 2026 · AEGIS ACADEMY
           </p>
         </header>
 
@@ -42,7 +33,7 @@ export const PrivacyPolicy: React.FC = () => {
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-white">1. Introduction</h2>
             <p>
-              Aegis Academy Pvt. Ltd. ("Aegis", "we", "our", or "us") respects your personal privacy and is committed to protecting the confidential information you share with us through our web platform, student portals, and enterprise consultation channels.
+              AEGIS ACADEMY ("AEGIS", "we", "our", or "us") respects your personal privacy and is committed to protecting the confidential information you share with us through our web platform, student portals, and institutional consultation channels.
             </p>
           </section>
 
@@ -71,7 +62,7 @@ export const PrivacyPolicy: React.FC = () => {
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-white">4. Data Retention & Zero Public Training Policy</h2>
             <p>
-              Aegis Academy enforces strict zero-data-sharing policies. Client proprietary source code, student submissions, and private organizational documentation are never shared with third-party advertisers nor used to train public commercial AI foundation models.
+              AEGIS ACADEMY enforces strict zero-data-sharing policies. Client proprietary source code, student submissions, and private organizational documentation are never shared with third-party advertisers nor used to train public commercial AI foundation models.
             </p>
           </section>
 

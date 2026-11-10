@@ -67,9 +67,15 @@ export const AdminDashboard: React.FC = () => {
   const [viewMessage, setViewMessage] = useState<ContactMessage | null>(null);
   const [viewApplication, setViewApplication] = useState<CareerRecord | null>(null);
 
-  // Load from backend API with local cache resilience
+  // Status & error states
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+  const [isLoadingResume, setIsLoadingResume] = useState(false);
+
+  // Load from backend API with fail-fast notification (No silent localStorage fallback)
   const refreshData = async () => {
     setIsLoadingData(true);
+    setFetchError(null);
     const token = authService.getToken() || '';
 
     try {
@@ -93,7 +99,11 @@ export const AdminDashboard: React.FC = () => {
           status: r.status
         })));
       } else {
-        setEnrollments(StorageStore.getEnrollments());
+        setEnrollments([]);
+        if (!enrRes.success && enrRes.error) {
+          const errText = typeof enrRes.error === 'object' && enrRes.error ? enrRes.error.message : String(enrRes.error);
+          setFetchError(errText || 'Unable to load enrollments from backend');
+        }
       }
 
       // 2. Quotes
@@ -114,7 +124,7 @@ export const AdminDashboard: React.FC = () => {
           status: r.status
         })));
       } else {
-        setQuotes(StorageStore.getQuoteRequests());
+        setQuotes([]);
       }
 
       // 3. Contact Messages
@@ -132,22 +142,27 @@ export const AdminDashboard: React.FC = () => {
           status: r.status
         })));
       } else {
-        setMessages(StorageStore.getContactMessages());
+        setMessages([]);
       }
 
       // 4. Job Applications
       const appRes = await careerService.listApplications(token);
       if (appRes.success && Array.isArray(appRes.data)) {
         setApplications(appRes.data);
+      } else {
+        setApplications([]);
       }
 
       // 5. Activity Logs
       const logRes = await adminService.getActivityLogs();
       if (logRes.success && Array.isArray(logRes.data)) {
         setActivityLogs(logRes.data);
+      } else {
+        setActivityLogs([]);
       }
-    } catch (err) {
-      console.warn('[AdminDashboard] Fetch error, using cached records:', err);
+    } catch (err: any) {
+      console.warn('[AdminDashboard] Fetch error:', err);
+      setFetchError(err.message || 'Backend connection error. Please verify Google Apps Script deployment URL.');
     } finally {
       setIsLoadingData(false);
     }
@@ -162,7 +177,6 @@ export const AdminDashboard: React.FC = () => {
   // Update status handlers
   const handleUpdateEnrollmentStatus = async (id: string, status: any) => {
     setEnrollments(prev => prev.map(e => e.id === id ? { ...e, status } : e));
-    StorageStore.updateEnrollmentStatus(id, status);
     if (viewEnrollment && viewEnrollment.id === id) {
       setViewEnrollment(prev => prev ? { ...prev, status } : null);
     }
@@ -171,7 +185,6 @@ export const AdminDashboard: React.FC = () => {
 
   const handleUpdateQuoteStatus = async (id: string, status: any) => {
     setQuotes(prev => prev.map(q => q.id === id ? { ...q, status } : q));
-    StorageStore.updateQuoteStatus(id, status);
     if (viewQuote && viewQuote.id === id) {
       setViewQuote(prev => prev ? { ...prev, status } : null);
     }
@@ -180,7 +193,6 @@ export const AdminDashboard: React.FC = () => {
 
   const handleUpdateMessageStatus = async (id: string, status: any) => {
     setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m));
-    StorageStore.updateMessageStatus(id, status);
     if (viewMessage && viewMessage.id === id) {
       setViewMessage(prev => prev ? { ...prev, status } : null);
     }
@@ -193,6 +205,25 @@ export const AdminDashboard: React.FC = () => {
       setViewApplication(prev => prev ? { ...prev, status } : null);
     }
     await careerService.updateStatus(id, status, '', authService.getToken() || '');
+  };
+
+  const handleViewResume = async (applicationId: string) => {
+    setIsLoadingResume(true);
+    setResumeError(null);
+    const token = authService.getToken() || '';
+    try {
+      const res = await careerService.getResumeDownloadUrl(applicationId, token);
+      if (res.success && res.data?.downloadUrl) {
+        window.open(res.data.downloadUrl, '_blank', 'noopener,noreferrer');
+      } else {
+        const errText = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to retrieve private resume URL from Google Drive.');
+        setResumeError(errText);
+      }
+    } catch (err: any) {
+      setResumeError(err.message || 'Error communicating with Google Apps Script backend.');
+    } finally {
+      setIsLoadingResume(false);
+    }
   };
 
   const handleLogout = () => {
@@ -220,8 +251,8 @@ export const AdminDashboard: React.FC = () => {
           <ShieldAlert className="w-4 h-4 text-[#D5AD63] shrink-0" />
           <span>
             <strong className="text-white">Admin Management Console</strong> ·{' '}
-            <span className={apiClient.isConnected() ? 'text-emerald-400 font-semibold' : 'text-[#38BDF8]'}>
-              {apiClient.isConnected() ? 'Connected to Google Sheets & Apps Script' : 'Operating in High-Resilience Local Mode'}
+            <span className={apiClient.isConnected() ? 'text-emerald-400 font-semibold' : 'text-amber-300 font-medium'}>
+              {apiClient.isConnected() ? 'Connected to Google Sheets & Apps Script' : 'Backend Unconfigured / Standby (Set VITE_APPS_SCRIPT_URL)'}
             </span>
           </span>
         </div>
@@ -256,6 +287,26 @@ export const AdminDashboard: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Prominent Fail-Fast Alert Banner (Displayed whenever backend fails or is unreachable) */}
+      {fetchError && (
+        <div className="bg-rose-950/80 border-b border-rose-500/40 px-4 sm:px-6 py-3 flex items-center justify-between text-xs text-rose-200 gap-4">
+          <div className="flex items-center gap-2.5">
+            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+            <span>
+              <strong className="text-white font-semibold">Backend Communication Notice:</strong> {fetchError}. Real submissions from your Google Sheets will appear here once connected.
+            </span>
+          </div>
+          <button
+            onClick={() => refreshData()}
+            disabled={isLoadingData}
+            className="px-3 py-1 rounded-lg bg-rose-800 hover:bg-rose-700 text-white font-semibold text-xs transition-colors shrink-0 cursor-pointer flex items-center gap-1.5"
+          >
+            <RefreshCw className={`w-3 h-3 ${isLoadingData ? 'animate-spin' : ''}`} />
+            <span>Retry Connection</span>
+          </button>
+        </div>
+      )}
 
       <div className="flex-1 flex flex-col md:flex-row">
         {/* SIDEBAR NAVIGATION */}
@@ -840,16 +891,16 @@ export const AdminDashboard: React.FC = () => {
                           </td>
                           <td className="py-3 px-4 text-slate-300">{app.experienceYears} Years</td>
                           <td className="py-3 px-4">
-                            {app.resumeDriveUrl ? (
-                              <a
-                                href={app.resumeDriveUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-[11px] text-[#38BDF8] hover:underline font-mono"
+                            {app.resumeDriveFileId || app.resumeDriveUrl || app.resumeFileName ? (
+                              <button
+                                onClick={() => handleViewResume(app.applicationId)}
+                                disabled={isLoadingResume}
+                                className="inline-flex items-center gap-1 text-[11px] text-[#38BDF8] hover:text-[#00A3FF] hover:underline font-mono cursor-pointer"
+                                title="Authenticate and open private resume stored in Google Drive"
                               >
-                                <span>Google Drive</span>
+                                <span>{app.resumeFileName || 'View Resume'}</span>
                                 <ExternalLink className="w-3 h-3" />
-                              </a>
+                              </button>
                             ) : (
                               <span className="text-[11px] text-slate-500">None attached</span>
                             )}
@@ -1283,22 +1334,28 @@ export const AdminDashboard: React.FC = () => {
               )}
             </div>
 
-            {/* Resume Drive Button */}
-            {viewApplication.resumeDriveUrl && (
-              <div className="p-3 rounded-xl bg-[#09182E] border border-blue-500/30 flex items-center justify-between">
+            {/* Authenticated Resume Drive Action */}
+            {(viewApplication.resumeDriveFileId || viewApplication.resumeDriveUrl || viewApplication.resumeFileName) && (
+              <div className="p-3.5 rounded-xl bg-[#09182E] border border-blue-500/30 flex items-center justify-between">
                 <div>
-                  <div className="text-xs font-semibold text-white">Candidate Resume</div>
-                  <div className="text-[11px] text-slate-400">{viewApplication.resumeFileName || 'Resume Document'}</div>
+                  <div className="text-xs font-semibold text-white">Candidate Resume (Private Google Drive)</div>
+                  <div className="text-[11px] text-slate-400">{viewApplication.resumeFileName || 'Stored securely in private Drive folder'}</div>
                 </div>
-                <a
-                  href={viewApplication.resumeDriveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-3 py-1.5 rounded-lg bg-[#0052CC] hover:bg-[#0077FE] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                <button
+                  onClick={() => handleViewResume(viewApplication.applicationId)}
+                  disabled={isLoadingResume}
+                  className="px-3.5 py-1.5 rounded-lg bg-[#0052CC] hover:bg-[#0077FE] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  <span>View in Drive</span>
+                  <span>{isLoadingResume ? 'Generating Access...' : 'Access Private Resume'}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                </button>
+              </div>
+            )}
+
+            {resumeError && (
+              <div className="p-2.5 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                <span>{resumeError}</span>
               </div>
             )}
 

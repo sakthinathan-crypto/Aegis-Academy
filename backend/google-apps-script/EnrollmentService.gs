@@ -2,85 +2,118 @@
  * ============================================================================
  * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
  * File: EnrollmentService.gs
- * Description: Student enrollment registration, listing, status updates
+ * Description: Student cohort registration, validation, listing, and status workflows.
  * ============================================================================
  */
 
 var EnrollmentService = {
-  /**
-   * Public: submit enrollment
-   */
-  submit: function(data) {
-    if (!data.student_name || !data.email || !data.phone) {
-      throw new Error('Student name, email, and phone number are required.');
-    }
+  HEADERS: [
+    'enrollmentId',
+    'fullName',
+    'email',
+    'phone',
+    'guardianPhone',
+    'institution',
+    'department',
+    'yearOfStudy',
+    'district',
+    'programTitle',
+    'programCode',
+    'programDivision',
+    'deliveryMode',
+    'comments',
+    'status',
+    'submittedAt',
+    'updatedAt',
+    'adminNotes'
+  ],
 
-    // Generate concurrency-safe sequential ID
-    var enrollmentId = generateSequentialId(CONFIG.SHEETS.ENROLLMENTS, CONFIG.ID_PREFIXES.ENROLLMENT);
-    var now = new Date().toISOString();
+  /**
+   * Submit student enrollment
+   */
+  submitEnrollment: function(data) {
+    Validation.validateEnrollment(data);
+
+    var enrollmentId = Database.generateSequentialId(Config.SHEETS.ENROLLMENTS, Config.ID_PREFIXES.ENROLLMENT);
+    var nowIso = new Date().toISOString();
 
     var record = {
-      enrollment_id: enrollmentId,
-      created_at: now,
-      updated_at: now,
-      student_name: String(data.student_name).trim(),
-      phone: String(data.phone).trim(),
-      whatsapp: String(data.whatsapp || data.phone).trim(),
+      enrollmentId: enrollmentId,
+      fullName: String(data.fullName).trim(),
       email: String(data.email).trim().toLowerCase(),
-      institution: String(data.institution || data.institutionName || '').trim(),
+      phone: String(data.phone || '').trim(),
+      guardianPhone: String(data.guardianPhone || '').trim(),
+      institution: String(data.institution || '').trim(),
       department: String(data.department || '').trim(),
-      year: String(data.year || data.yearOfStudy || '').trim(),
+      yearOfStudy: String(data.yearOfStudy || '').trim(),
       district: String(data.district || '').trim(),
-      program: String(data.program || data.selectedProgram || '').trim(),
-      learning_mode: String(data.learning_mode || data.learningMode || 'Hybrid').trim(),
-      additional_information: String(data.additional_information || data.additionalInfo || '').trim(),
-      status: 'New',
-      assigned_to: '',
-      admin_notes: ''
+      programTitle: String(data.programTitle).trim(),
+      programCode: String(data.programCode || 'AEG-PRG').trim(),
+      programDivision: String(data.programDivision || 'Higher Education').trim(),
+      deliveryMode: String(data.deliveryMode || 'Hybrid').trim(),
+      comments: String(data.comments || '').trim(),
+      status: 'Submitted',
+      submittedAt: nowIso,
+      updatedAt: nowIso,
+      adminNotes: ''
     };
 
-    appendRowRecord(CONFIG.SHEETS.ENROLLMENTS, record);
+    Database.appendRecord(Config.SHEETS.ENROLLMENTS, this.HEADERS, record);
 
-    // Send asynchronous confirmation & admin notification (failure does not rollback record)
+    Database.logActivity('ENROLLMENT_SUBMITTED', 'Enrollment for ' + record.programTitle, {
+      enrollmentId: enrollmentId,
+      fullName: record.fullName,
+      program: record.programTitle
+    });
+
+    // Send email notification (failures do not rollback the database write)
     try {
       EmailService.sendEnrollmentConfirmation(record);
-      EmailService.sendAdminEnrollmentAlert(record);
+      EmailService.sendTeamAlertEmail('New Student Enrollment: ' + record.programTitle, record);
     } catch (e) {
-      console.warn('Enrollment email failed:', e);
+      Logger.log('Enrollment email note: ' + e.toString());
     }
 
     return {
-      enrollment_id: enrollmentId,
-      student_name: record.student_name,
-      program: record.program,
-      created_at: record.created_at
+      enrollmentId: enrollmentId,
+      fullName: record.fullName,
+      programTitle: record.programTitle,
+      status: record.status,
+      submittedAt: record.submittedAt
     };
   },
 
   /**
-   * Admin: List all enrollments
+   * List all enrollments (Protected admin view)
    */
-  getAll: function() {
-    return readAllRows(CONFIG.SHEETS.ENROLLMENTS);
+  listEnrollments: function() {
+    return Database.getAllRecords(Config.SHEETS.ENROLLMENTS, this.HEADERS);
   },
 
   /**
-   * Admin: Update status / notes
+   * Update enrollment status and admin notes
    */
-  update: function(enrollmentId, updates, adminEmail) {
-    if (!enrollmentId) throw new Error('Enrollment ID required.');
-    updateRowRecord(CONFIG.SHEETS.ENROLLMENTS, 'enrollment_id', enrollmentId, updates);
-    logActivity(adminEmail, 'UPDATE_ENROLLMENT', 'Enrollments', enrollmentId, 'Status updated to ' + (updates.status || 'modified'));
-    return { success: true, enrollment_id: enrollmentId };
-  },
+  updateEnrollmentStatus: function(enrollmentId, newStatus, adminNotes, userEmail) {
+    var record = Database.getRecordById(Config.SHEETS.ENROLLMENTS, this.HEADERS, 'enrollmentId', enrollmentId);
+    if (!record) {
+      throw new Error('Enrollment record not found: ' + enrollmentId);
+    }
 
-  /**
-   * Admin: Delete enrollment
-   */
-  delete: function(enrollmentId, adminEmail) {
-    if (!enrollmentId) throw new Error('Enrollment ID required.');
-    var res = deleteRowRecord(CONFIG.SHEETS.ENROLLMENTS, 'enrollment_id', enrollmentId);
-    logActivity(adminEmail, 'DELETE_ENROLLMENT', 'Enrollments', enrollmentId, 'Record deleted');
-    return { success: res, enrollment_id: enrollmentId };
+    var updates = {
+      status: newStatus,
+      updatedAt: new Date().toISOString()
+    };
+    if (adminNotes !== undefined) {
+      updates.adminNotes = adminNotes;
+    }
+
+    Database.updateRecord(Config.SHEETS.ENROLLMENTS, this.HEADERS, 'enrollmentId', enrollmentId, updates);
+
+    Database.logActivity('ENROLLMENT_STATUS_UPDATED', 'Status changed to ' + newStatus + ' for ' + enrollmentId, {
+      enrollmentId: enrollmentId,
+      newStatus: newStatus
+    }, userEmail);
+
+    return { enrollmentId: enrollmentId, status: newStatus };
   }
 };

@@ -58,9 +58,11 @@ export const ProjectDetail: React.FC = () => {
             <div>
               Duration: <strong className="text-white">{project.duration}</strong>
             </div>
-            <div>
-              Classification: <strong className="text-[#D5AD63]">Demonstration Prototype</strong>
-            </div>
+            {project.status && (
+              <div>
+                Status: <strong className="text-[#D5AD63]">{project.status}</strong>
+              </div>
+            )}
           </div>
         </div>
       </section>

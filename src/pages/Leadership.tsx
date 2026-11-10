@@ -20,15 +20,6 @@ export const Leadership: React.FC = () => {
           <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Guiding strategic expansion, academic innovation, and technology engineering with a deep commitment to excellence.
           </p>
-
-          {/* Sample Content Disclaimer Banner as strictly requested */}
-          <div className="mt-6 p-4 rounded-xl glass-light-card border-[#C9D9EC] text-xs text-slate-600 flex items-start gap-3 text-left max-w-2xl mx-auto shadow-sm">
-            <Info className="w-5 h-5 text-[#B88E3E] shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-[#0C1B30] block mb-0.5">Demonstration Content Notice:</strong>
-              The executive profiles displayed below are realistic, editable sample placeholders prepared for portal architecture and review. They do not represent verified actual employees of Aegis Academy Pvt. Ltd. and can be easily updated via the central content configuration.
-            </div>
-          </div>
         </div>
       </section>
 
@@ -49,9 +40,6 @@ export const Leadership: React.FC = () => {
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/70 via-transparent to-transparent" />
-                  <div className="absolute top-3 right-3 text-[10px] uppercase font-mono font-bold tracking-wider bg-white/90 text-[#285B91] px-2 py-0.5 rounded border border-[#C9D9EC]">
-                    Sample Profile
-                  </div>
                 </div>
 
                 <div className="p-6">
@@ -81,7 +69,7 @@ export const Leadership: React.FC = () => {
                   <Linkedin className="w-3.5 h-3.5" />
                   <span>LinkedIn Profile</span>
                 </a>
-                <span className="text-[10px] text-slate-400 font-medium">Aegis Academy</span>
+                <span className="text-[10px] text-slate-400 font-medium">AEGIS ACADEMY</span>
               </div>
             </div>
           ))}

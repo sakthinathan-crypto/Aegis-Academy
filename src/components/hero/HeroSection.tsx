@@ -17,15 +17,15 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen min-h-[100dvh] w-full flex items-center justify-center pt-32 sm:pt-36 pb-24 sm:pb-28 px-4 sm:px-6 lg:px-12 overflow-hidden bg-[#020617]">
+    <section className="relative min-h-screen min-h-[100dvh] lg:h-[100dvh] w-full flex items-center justify-center pt-24 sm:pt-28 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-12 overflow-hidden bg-[#020617]">
       {/* 1. Dynamic Hero Background (Two White Glossy Circles + Electric Blue Auroras + Particle Field) */}
       <DynamicHeroBackground className="absolute inset-0 z-0 pointer-events-none" />
 
       {/* Bottom seamless dark grounding so no light section peeks into viewport before user deliberately scrolls */}
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#020617] via-[#020617]/90 to-transparent pointer-events-none z-10" />
 
       {/* 2. Main Two-Column Container (Exact Composition from Reference Image 2) */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center my-auto">
+      <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center my-auto">
         {/* LEFT COLUMN: Eyebrow, Main Headline, Description & CTAs */}
         <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 pt-2 lg:pt-0">
           {/* Eyebrow text */}
@@ -65,7 +65,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Secondary Button: Partner with us */}
             <button
-              onClick={() => navigate('/partnerships')}
+              onClick={() => navigate('/partnerships#partner-discussion')}
               className="px-7 py-3.5 rounded-xl text-slate-200 hover:text-white font-semibold text-sm tracking-wide transition-all duration-200 flex items-center gap-2 cursor-pointer backdrop-blur-md hover:scale-[1.02]"
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.06)',

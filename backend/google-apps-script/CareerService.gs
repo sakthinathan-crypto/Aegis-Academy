@@ -1,154 +1,148 @@
 /**
- * AEGIS ACADEMY - CAREER SERVICE (Google Apps Script)
- * Manages job applications, applicant resume uploads to Google Drive,
- * record creation in the Job_Applications sheet, and notification triggers.
+ * ============================================================================
+ * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
+ * File: CareerService.gs
+ * Description: Job applications, private Google Drive resume uploads,
+ * candidate record storage, and authenticated resume access.
+ * ============================================================================
  */
 
-var CareerService = (function() {
-  var HEADERS = [
+var CareerService = {
+  HEADERS: [
     'applicationId',
     'fullName',
     'email',
     'phone',
-    'roleApplied',
+    'position',
     'department',
-    'experienceYears',
+    'experience',
     'portfolioUrl',
     'linkedinUrl',
-    'resumeDriveFileId',
-    'resumeDriveUrl',
+    'resumeFileId',
     'resumeFileName',
     'coverNote',
     'status',
     'submittedAt',
     'updatedAt',
     'adminNotes'
-  ];
+  ],
 
   /**
-   * Upload resume binary base64 to Google Drive folder
-   * @param {Object} fileData { name, type, base64 }
-   * @param {string} applicantName
-   * @param {string} applicationId
-   * @return {Object} { fileId, fileUrl, fileName }
+   * Private Google Drive upload (No public access; strictly restricted to Drive owner / authorized admins)
    */
-  function uploadResumeToDrive(fileData, applicantName, applicationId) {
+  uploadResumePrivately: function(fileData, applicantName, applicationId) {
     if (!fileData || !fileData.base64) {
-      return { fileId: '', fileUrl: '', fileName: '' };
+      return { fileId: '', fileName: '' };
     }
 
-    try {
-      var folderId = Config.getDriveResumesFolderId();
-      var folder;
-      if (folderId) {
-        folder = DriveApp.getFolderById(folderId);
-      } else {
-        // Fallback: create or retrieve folder named "Aegis_Academy_Resumes" in root
-        var folders = DriveApp.getFoldersByName('Aegis_Academy_Resumes');
-        if (folders.hasNext()) {
-          folder = folders.next();
-        } else {
-          folder = DriveApp.createFolder('Aegis_Academy_Resumes');
-        }
-      }
-
-      var decoded = Utilities.base64Decode(fileData.base64);
-      var safeName = (fileData.name || 'Resume.pdf').replace(/[^a-zA-Z0-9._-]/g, '_');
-      var standardizedName = applicationId + '_' + applicantName.replace(/[^a-zA-Z0-9]/g, '_') + '_' + safeName;
-      var contentType = fileData.type || 'application/pdf';
-
-      var blob = Utilities.newBlob(decoded, contentType, standardizedName);
-      var driveFile = folder.createFile(blob);
-      
-      // Make viewable via link for admin review
-      driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-
-      return {
-        fileId: driveFile.getId(),
-        fileUrl: driveFile.getUrl(),
-        fileName: standardizedName
-      };
-    } catch (err) {
-      Logger.log('Error uploading resume to Drive: ' + err.toString());
-      return {
-        fileId: '',
-        fileUrl: '',
-        fileName: fileData.name || 'Upload_Failed',
-        error: err.toString()
-      };
+    // Size limit: 5MB
+    var MAX_BYTES = 5 * 1024 * 1024;
+    var decoded = Utilities.base64Decode(fileData.base64);
+    if (decoded.length > MAX_BYTES) {
+      var sizeErr = new Error('Resume file exceeds 5MB limit.');
+      sizeErr.code = 'FILE_TOO_LARGE';
+      throw sizeErr;
     }
-  }
+
+    // MIME type allowlist
+    var allowedMimes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    var mimeType = fileData.type || 'application/pdf';
+    var safeExt = '.pdf';
+    if (mimeType.indexOf('wordprocessingml') !== -1 || (fileData.name && fileData.name.endsWith('.docx'))) {
+      mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+      safeExt = '.docx';
+    } else if (mimeType.indexOf('msword') !== -1 || (fileData.name && fileData.name.endsWith('.doc'))) {
+      mimeType = 'application/msword';
+      safeExt = '.doc';
+    }
+
+    var folderId = Config.getResumesFolderId();
+    var folder;
+    if (folderId) {
+      folder = DriveApp.getFolderById(folderId);
+    } else {
+      var folders = DriveApp.getFoldersByName('Aegis_Academy_Resumes_Private');
+      folder = folders.hasNext() ? folders.next() : DriveApp.createFolder('Aegis_Academy_Resumes_Private');
+    }
+
+    // Standardized safe filename: AEG-JOB-2026-0001_ApplicantName_Resume.pdf
+    var safeApplicant = applicantName.replace(/[^a-zA-Z0-9]/g, '_');
+    var finalFilename = applicationId + '_' + safeApplicant + '_Resume' + safeExt;
+
+    var blob = Utilities.newBlob(decoded, mimeType, finalFilename);
+    var driveFile = folder.createFile(blob);
+
+    // CRITICAL: File is NOT shared publicly. Remains strictly private.
+    return {
+      fileId: driveFile.getId(),
+      fileName: finalFilename
+    };
+  },
 
   /**
-   * Submit new career application
-   * @param {Object} payload
-   * @return {Object} { success, applicationId, data }
+   * Submit job application
    */
-  function submitApplication(payload) {
-    if (!payload.fullName || !payload.email || !payload.roleApplied) {
-      throw new Error('Full name, email, and role applied are required fields.');
-    }
+  submitApplication: function(data) {
+    Validation.validateJobApplication(data);
 
-    // Generate unique ID
-    var applicationId = Database.generateUniqueId(Config.SHEETS.JOB_APPLICATIONS, Config.ID_PREFIXES.JOB_APP);
+    var applicationId = Database.generateSequentialId(Config.SHEETS.JOB_APPLICATIONS, Config.ID_PREFIXES.JOB_APP);
     var nowIso = new Date().toISOString();
 
-    // Handle resume upload
-    var resumeInfo = { fileId: '', fileUrl: '', fileName: '' };
-    if (payload.resumeFile) {
-      resumeInfo = uploadResumeToDrive(payload.resumeFile, payload.fullName, applicationId);
+    var resumeInfo = { fileId: '', fileName: '' };
+    if (data.resumeFile && data.resumeFile.base64) {
+      resumeInfo = this.uploadResumePrivately(data.resumeFile, data.fullName, applicationId);
     }
 
     var record = {
       applicationId: applicationId,
-      fullName: String(payload.fullName).trim(),
-      email: String(payload.email).trim().toLowerCase(),
-      phone: String(payload.phone || '').trim(),
-      roleApplied: String(payload.roleApplied).trim(),
-      department: String(payload.department || 'Engineering').trim(),
-      experienceYears: String(payload.experienceYears || '0'),
-      portfolioUrl: String(payload.portfolioUrl || '').trim(),
-      linkedinUrl: String(payload.linkedinUrl || '').trim(),
-      resumeDriveFileId: resumeInfo.fileId,
-      resumeDriveUrl: resumeInfo.fileUrl,
+      fullName: String(data.fullName).trim(),
+      email: String(data.email).trim().toLowerCase(),
+      phone: String(data.phone || '').trim(),
+      position: String(data.roleApplied || data.position || '').trim(),
+      department: String(data.department || 'Engineering').trim(),
+      experience: String(data.experienceYears || data.experience || '0').trim(),
+      portfolioUrl: String(data.portfolioUrl || '').trim(),
+      linkedinUrl: String(data.linkedinUrl || '').trim(),
+      resumeFileId: resumeInfo.fileId,
       resumeFileName: resumeInfo.fileName,
-      coverNote: String(payload.coverNote || '').trim(),
-      status: Config.APPLICATION_STATUS.SUBMITTED,
+      coverNote: String(data.coverNote || '').trim(),
+      status: 'Submitted',
       submittedAt: nowIso,
       updatedAt: nowIso,
       adminNotes: ''
     };
 
-    Database.appendRecord(Config.SHEETS.JOB_APPLICATIONS, HEADERS, record);
+    Database.appendRecord(Config.SHEETS.JOB_APPLICATIONS, this.HEADERS, record);
 
-    // Record activity log
-    Database.logActivity('CAREER_APPLICATION_SUBMITTED', 'Job application submitted for ' + record.roleApplied, {
+    Database.logActivity('CAREER_APPLICATION_SUBMITTED', 'Candidate applied for ' + record.position, {
       applicationId: applicationId,
-      fullName: record.fullName,
-      email: record.email,
-      roleApplied: record.roleApplied
+      position: record.position
     });
 
-    // Send email notifications
     try {
       EmailService.sendApplicationReceiptEmail(record);
-      EmailService.sendTeamAlertEmail('New Job Application: ' + record.roleApplied, record);
+      EmailService.sendTeamAlertEmail('New Job Application: ' + record.position, record);
     } catch (e) {
-      Logger.log('Email delivery note: ' + e.toString());
+      Logger.log('Career email note: ' + e.toString());
     }
 
     return {
-      success: true,
       applicationId: applicationId,
-      data: record
+      position: record.position,
+      status: record.status,
+      submittedAt: record.submittedAt
     };
-  }
+  },
 
   /**
    * Update status of an application
    */
-  function updateApplicationStatus(applicationId, newStatus, adminNotes) {
-    var record = Database.getRecordById(Config.SHEETS.JOB_APPLICATIONS, HEADERS, 'applicationId', applicationId);
+  updateApplicationStatus: function(applicationId, newStatus, adminNotes, userEmail) {
+    var record = Database.getRecordById(Config.SHEETS.JOB_APPLICATIONS, this.HEADERS, 'applicationId', applicationId);
     if (!record) {
       throw new Error('Application record not found: ' + applicationId);
     }
@@ -161,27 +155,38 @@ var CareerService = (function() {
       updates.adminNotes = adminNotes;
     }
 
-    Database.updateRecord(Config.SHEETS.JOB_APPLICATIONS, HEADERS, 'applicationId', applicationId, updates);
+    Database.updateRecord(Config.SHEETS.JOB_APPLICATIONS, this.HEADERS, 'applicationId', applicationId, updates);
 
     Database.logActivity('CAREER_APPLICATION_UPDATED', 'Status updated to ' + newStatus + ' for ' + applicationId, {
       applicationId: applicationId,
       newStatus: newStatus
-    });
+    }, userEmail);
 
-    return { success: true, applicationId: applicationId, status: newStatus };
-  }
+    return { applicationId: applicationId, status: newStatus };
+  },
 
   /**
    * List all job applications
    */
-  function listApplications(filters) {
-    return Database.getAllRecords(Config.SHEETS.JOB_APPLICATIONS, HEADERS, filters);
-  }
+  listApplications: function() {
+    return Database.getAllRecords(Config.SHEETS.JOB_APPLICATIONS, this.HEADERS);
+  },
 
-  return {
-    HEADERS: HEADERS,
-    submitApplication: submitApplication,
-    updateApplicationStatus: updateApplicationStatus,
-    listApplications: listApplications
-  };
-})();
+  /**
+   * Secure, authenticated resume download URL generation for admins
+   */
+  getResumeDownloadUrl: function(applicationId) {
+    var record = Database.getRecordById(Config.SHEETS.JOB_APPLICATIONS, this.HEADERS, 'applicationId', applicationId);
+    if (!record || !record.resumeFileId) {
+      throw new Error('Resume file not found for application ' + applicationId);
+    }
+
+    var file = DriveApp.getFileById(record.resumeFileId);
+    return {
+      applicationId: applicationId,
+      fileName: file.getName(),
+      mimeType: file.getMimeType(),
+      downloadUrl: file.getDownloadUrl()
+    };
+  }
+};

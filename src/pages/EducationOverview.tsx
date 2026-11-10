@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from '../context/RouterContext';
-import { PROGRAMS } from '../data/companyData';
+import { PROGRAMS, EDUCATION_INITIATIVES, PROGRAM_DURATIONS, INTERNSHIP_POLICY } from '../data/companyData';
 import {
   GraduationCap,
   BookOpen,
@@ -12,7 +12,10 @@ import {
   Award,
   Terminal,
   Brain,
-  Sparkles
+  Sparkles,
+  Clock,
+  Briefcase,
+  Users
 } from 'lucide-react';
 import { GlassCard } from '../components/common/GlassCard';
 
@@ -246,6 +249,130 @@ export const EducationOverview: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* SPECIAL EDUCATION INITIATIVE: THIRAN THEDAL THITTAM */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#EAF1FA] border-t border-b border-[#C9D9EC]/70">
+        <div className="max-w-7xl mx-auto">
+          {EDUCATION_INITIATIVES.map(init => (
+            <GlassCard key={init.id} variant="light" tiltEnabled={false} className="p-8 sm:p-12 border-[#285B91]/30 shadow-md">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="lg:col-span-7 space-y-4">
+                  <div className="inline-flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#D5AD63]" />
+                    <span className="text-xs uppercase tracking-widest text-[#285B91] font-bold">
+                      Flagship Education Initiative
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0C1B30]">
+                    {init.title}
+                  </h3>
+                  <div className="text-xs font-semibold text-[#B88E3E] uppercase tracking-wider">
+                    {init.subtitle}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {init.description}
+                  </p>
+                  <div className="pt-2">
+                    <div className="text-xs font-bold text-[#0C1B30] mb-2">Key Focus Areas:</div>
+                    <div className="flex flex-wrap gap-2">
+                      {init.focusAreas.map(area => (
+                        <span key={area} className="glass-light-pill text-xs text-[#285B91] font-semibold px-3 py-1 rounded-full border border-[#C9D9EC]">
+                          {area}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-[#C9D9EC] space-y-4 shadow-sm">
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#0C1B30]">
+                    <Users className="w-4 h-4 text-[#285B91]" />
+                    <span>Peer-to-Peer Mentoring Model</span>
+                  </div>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    Empowering students through accessible mentoring networks that provide candid guidance on collegiate streams, career choices, and technological skill development.
+                  </p>
+                  <div className="text-[11px] text-slate-500 font-mono pt-2 border-t border-[#C9D9EC]">
+                    Delivery: {init.delivery}
+                  </div>
+                </div>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      </section>
+
+      {/* PROGRAM DURATION MATRIX */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-10">
+          <span className="glass-light-pill inline-block px-3 py-1 rounded text-xs uppercase tracking-widest text-[#285B91] font-bold">
+            Flexible Pathways
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0C1B30] tracking-tight mt-2">
+            Program Durations
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
+            Modular program formats designed to accommodate school terms, college schedules, and institutional calendars.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {PROGRAM_DURATIONS.map((dur, idx) => (
+            <GlassCard key={idx} variant="light" tiltEnabled={true} className="p-5 space-y-2 shadow-sm">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-[#0C1B30]">{dur.program}</span>
+                <span className="font-mono text-[#285B91] font-bold bg-[#EAF1FA] px-2 py-0.5 rounded border border-[#C9D9EC]">
+                  {dur.duration}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-600 leading-relaxed">{dur.description}</p>
+            </GlassCard>
+          ))}
+        </div>
+
+        {/* INTERNSHIP OPPORTUNITIES & MANDATORY UNPAID POLICY NOTICE */}
+        <div className="glass-light-card p-6 sm:p-8 rounded-2xl border-[#D5AD63]/40 bg-gradient-to-r from-white to-[#FAF6EE] shadow-md">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-[#D5AD63]/30">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#D5AD63]/20 text-[#B88E3E] flex items-center justify-center shrink-0">
+                <Briefcase className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-[#0C1B30]">Student Internship Opportunities</h3>
+                <span className="text-xs text-slate-500 font-medium">{INTERNSHIP_POLICY.eligibility}</span>
+              </div>
+            </div>
+            <span className="text-[11px] font-bold uppercase tracking-wider bg-[#0C1B30] text-[#D5AD63] px-3 py-1 rounded-full">
+              Year-Round Applications
+            </span>
+          </div>
+
+          <div className="pt-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <div className="md:col-span-8 space-y-3">
+              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 leading-relaxed font-medium">
+                <strong>Important Policy Notice:</strong> {INTERNSHIP_POLICY.notice}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
+                {INTERNSHIP_POLICY.benefits.map((b, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#285B91] shrink-0" />
+                    <span>{b}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="md:col-span-4 text-center md:text-right">
+              <button
+                onClick={() => navigate('/careers')}
+                className="btn-glossy-gold px-6 py-3 text-xs font-bold text-[#071426] rounded-xl transition-all shadow-md cursor-pointer inline-flex items-center gap-2"
+              >
+                <span>View Internship Application</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 

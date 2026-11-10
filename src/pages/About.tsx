@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRouter } from '../context/RouterContext';
-import { COMPANY_INFO, LEADERSHIP_TEAM } from '../data/companyData';
-import { ArrowRight, Target, Compass, Sparkles, CheckCircle2, Users, Shield } from 'lucide-react';
+import { COMPANY_INFO, LEADERSHIP_TEAM, ACHIEVEMENTS, INSTITUTIONAL_COLLABORATIONS, EDUCATION_INITIATIVES } from '../data/companyData';
+import { ArrowRight, Target, Compass, Sparkles, CheckCircle2, Users, Shield, Award, FileCheck, Building2, BookOpen } from 'lucide-react';
 import { GlassCard } from '../components/common/GlassCard';
-import { SignatureAegisMotion } from '../components/effects/SignatureAegisMotion';
+import { AegisLogoOrb } from '../components/hero/AegisLogoOrb';
 
 export const About: React.FC = () => {
   const { navigate } = useRouter();
@@ -27,8 +27,8 @@ export const About: React.FC = () => {
 
       {/* 2 & 3: WHAT DOES AEGIS MEAN? */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          <div className="lg:col-span-6">
             <GlassCard variant="light" tiltEnabled={false} className="p-8 sm:p-12 shadow-md">
               <span className="glass-light-pill inline-block px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider text-[#285B91] mb-3">
                 The Core Acronym
@@ -44,8 +44,16 @@ export const About: React.FC = () => {
               </p>
             </GlassCard>
           </div>
-          <div className="lg:col-span-4 flex justify-center">
-            <SignatureAegisMotion size="sm" interactive={true} />
+          <div className="lg:col-span-6 flex justify-center items-center relative py-4">
+            {/* Cinematic High-Gloss Deep Midnight Card Frame for the Homepage Animation */}
+            <div className="relative w-full max-w-[500px] aspect-square rounded-3xl bg-[#020617] border border-[#00A3FF]/25 shadow-2xl shadow-blue-950/40 flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-[#020617] via-[#040E26] to-[#071738]" />
+              <div className="absolute -top-16 -right-16 w-52 h-52 bg-[#00A3FF]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-16 -left-16 w-52 h-52 bg-[#0052CC]/25 rounded-full blur-3xl pointer-events-none" />
+              <div className="tech-grid-pattern absolute inset-0 opacity-20 pointer-events-none" />
+              {/* Homepage 3D Monument Glass Orb & Floating Badges */}
+              <AegisLogoOrb className="scale-[0.82] sm:scale-[0.92] w-full h-full relative z-10" />
+            </div>
           </div>
         </div>
       </section>
@@ -111,8 +119,8 @@ export const About: React.FC = () => {
           <h2 className="text-3xl font-extrabold text-[#0C1B30] tracking-tight mt-1">
             Our Journey
           </h2>
-          <p className="text-xs text-slate-500 mt-2 font-mono">
-            (Representative demonstration phases highlighting organizational trajectory)
+          <p className="text-xs text-slate-500 mt-2 font-medium">
+            Strategic trajectory in education innovation and technology solutions
           </p>
         </div>
 
@@ -191,6 +199,102 @@ export const About: React.FC = () => {
                 </button>
               </GlassCard>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 11. ACHIEVEMENTS & RECOGNITIONS */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="glass-light-pill inline-block px-3.5 py-1.5 rounded-full text-xs uppercase tracking-widest text-[#285B91] font-bold border border-[#C9D9EC]">
+            Milestones & Intellectual Property
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0C1B30] tracking-tight mt-2">
+            Achievements & Recognitions
+          </h2>
+          <p className="text-sm text-slate-600 mt-2">
+            Verified international design registrations and academic institutional collaborations.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+          {/* UK Registered Design Card */}
+          {ACHIEVEMENTS.map(ach => (
+            <div key={ach.id} className="lg:col-span-12">
+              <GlassCard variant="light" tiltEnabled={false} className="p-8 sm:p-10 border-[#285B91]/30 shadow-md">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#C9D9EC]/70">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-[#285B91]/15 text-[#285B91] flex items-center justify-center shrink-0">
+                      <FileCheck className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-[#B88E3E] bg-[#D5AD63]/15 px-2.5 py-0.5 rounded border border-[#D5AD63]/30">
+                        {ach.type}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-[#0C1B30] mt-1">
+                        {ach.title}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
+                    <div className="bg-white px-3 py-1.5 rounded-lg border border-[#C9D9EC]">
+                      <span className="text-slate-500">Reg No:</span>{' '}
+                      <strong className="text-[#0C1B30]">{ach.registrationNumber}</strong>
+                    </div>
+                    <div className="bg-white px-3 py-1.5 rounded-lg border border-[#C9D9EC]">
+                      <span className="text-slate-500">Registered:</span>{' '}
+                      <strong className="text-[#0C1B30]">{ach.registrationDate}</strong>
+                    </div>
+                    <div className="bg-white px-3 py-1.5 rounded-lg border border-[#C9D9EC]">
+                      <span className="text-slate-500">Granted:</span>{' '}
+                      <strong className="text-[#0C1B30]">{ach.grantDate}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  <div className="md:col-span-8">
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      {ach.description}
+                    </p>
+                  </div>
+                  <div className="md:col-span-4 bg-[#EAF1FA] p-4 rounded-xl border border-[#C9D9EC] text-xs text-slate-600">
+                    <div className="font-bold text-[#0C1B30] mb-1">Official Intellectual Property:</div>
+                    <div>{ach.legalClassification} (United Kingdom Intellectual Property Office).</div>
+                  </div>
+                </div>
+              </GlassCard>
+            </div>
+          ))}
+        </div>
+
+        {/* Institutional Collaborations */}
+        <div className="space-y-6">
+          <div className="max-w-2xl">
+            <span className="text-xs uppercase tracking-widest text-[#285B91] font-bold">
+              Collaborative Network
+            </span>
+            <h3 className="text-2xl font-bold text-[#0C1B30] mt-1">
+              Institutional Collaborations
+            </h3>
+            <p className="text-xs text-slate-600 mt-1">
+              Academic engagement through workshops, student hackathons, and technical training initiatives.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {INSTITUTIONAL_COLLABORATIONS.map((collab, idx) => (
+              <GlassCard key={collab.id} variant="light" tiltEnabled={true} className="p-6 space-y-3 shadow-sm hover:shadow-md">
+                <div className="w-10 h-10 rounded-lg bg-[#285B91]/15 text-[#285B91] flex items-center justify-center text-xs font-mono font-bold">
+                  0{idx + 1}
+                </div>
+                <h4 className="text-sm font-bold text-[#0C1B30] leading-snug">{collab.name}</h4>
+                {collab.departmentOrUnit && (
+                  <p className="text-[11px] text-[#B88E3E] font-medium">{collab.departmentOrUnit}</p>
+                )}
+                <p className="text-xs text-slate-600 pt-2 border-t border-[#C9D9EC]/60">{collab.scope}</p>
+              </GlassCard>
+            ))}
           </div>
         </div>
       </section>

@@ -30,8 +30,21 @@ export const Navbar: React.FC = () => {
   };
 
   const isCurrent = (path: string) => {
-    if (path === '/') return currentPath === '/';
-    return currentPath.startsWith(path);
+    const base = currentPath.split('#')[0];
+    if (path === '/') return base === '/';
+    return base.startsWith(path);
+  };
+
+  const handlePartnerNavigate = () => {
+    const isAlreadyOnPartnerships = currentPath.split('#')[0] === '/partnerships';
+    if (isAlreadyOnPartnerships) {
+      const el = document.getElementById('partner-discussion');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    navigate('/partnerships#partner-discussion');
   };
 
   return (
@@ -260,7 +273,7 @@ export const Navbar: React.FC = () => {
                     Leadership Team
                   </button>
                   <button
-                    onClick={() => navigate('/partnerships')}
+                    onClick={handlePartnerNavigate}
                     className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
                     Institutional Alliances
@@ -342,7 +355,7 @@ export const Navbar: React.FC = () => {
         {/* RIGHT: Partner & Enroll Now */}
         <div className="relative z-10 hidden lg:flex items-center gap-3 shrink-0">
           <button
-            onClick={() => navigate('/partnerships')}
+            onClick={handlePartnerNavigate}
             className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
             Partner
@@ -447,7 +460,7 @@ export const Navbar: React.FC = () => {
                 <div className="pl-6 py-1 flex flex-col gap-1 border-l border-[#D5AD63]/30 ml-3 mt-1">
                   <button onClick={() => navigate('/about')} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">About Us</button>
                   <button onClick={() => navigate('/leadership')} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">Leadership</button>
-                  <button onClick={() => navigate('/partnerships')} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">Partnerships</button>
+                  <button onClick={handlePartnerNavigate} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">Partnerships</button>
                 </div>
               )}
             </div>

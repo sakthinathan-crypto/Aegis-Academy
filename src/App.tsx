@@ -35,53 +35,56 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 const AppContent: React.FC = () => {
   const { currentPath } = useRouter();
 
+  // Normalize path by stripping hash and query params for route matching
+  const basePath = currentPath.split('#')[0].split('?')[0];
+
   // Determine current view
   const renderCurrentRoute = () => {
     // Admin route
-    if (currentPath === '/admin' || currentPath.startsWith('/admin/')) {
+    if (basePath === '/admin' || basePath.startsWith('/admin/')) {
       return <AdminDashboard />;
     }
 
     // Public pages
-    if (currentPath === '/') return <Home />;
-    if (currentPath === '/about') return <About />;
-    if (currentPath === '/leadership') return <Leadership />;
-    if (currentPath === '/contact') return <Contact />;
+    if (basePath === '/') return <Home />;
+    if (basePath === '/about') return <About />;
+    if (basePath === '/leadership') return <Leadership />;
+    if (basePath === '/contact') return <Contact />;
 
     // Education division
-    if (currentPath === '/education') return <EducationOverview />;
-    if (currentPath === '/education/schools') return <SchoolPrograms />;
-    if (currentPath === '/education/colleges') return <CollegePrograms />;
-    if (currentPath === '/education/professional') return <ProfessionalDev />;
-    if (currentPath.startsWith('/programs/')) return <ProgramDetail />;
+    if (basePath === '/education') return <EducationOverview />;
+    if (basePath === '/education/schools') return <SchoolPrograms />;
+    if (basePath === '/education/colleges') return <CollegePrograms />;
+    if (basePath === '/education/professional') return <ProfessionalDev />;
+    if (basePath.startsWith('/programs/')) return <ProgramDetail />;
 
     // Technologies division
-    if (currentPath === '/technologies') return <TechnologiesOverview />;
-    if (currentPath === '/services') return <ServicesOverview />;
-    if (currentPath.startsWith('/services/')) return <ServiceDetail />;
-    if (currentPath === '/projects') return <ProjectsPortfolio />;
-    if (currentPath.startsWith('/projects/')) return <ProjectDetail />;
+    if (basePath === '/technologies') return <TechnologiesOverview />;
+    if (basePath === '/services') return <ServicesOverview />;
+    if (basePath.startsWith('/services/')) return <ServiceDetail />;
+    if (basePath === '/projects') return <ProjectsPortfolio />;
+    if (basePath.startsWith('/projects/')) return <ProjectDetail />;
 
     // Community & Conversion
-    if (currentPath === '/events') return <EventsPage />;
-    if (currentPath === '/gallery') return <GalleryPage />;
-    if (currentPath === '/partnerships') return <PartnershipsPage />;
-    if (currentPath === '/enroll') return <StudentEnrollment />;
-    if (currentPath === '/request-quote') return <RequestQuote />;
+    if (basePath === '/events') return <EventsPage />;
+    if (basePath === '/gallery') return <GalleryPage />;
+    if (basePath === '/partnerships') return <PartnershipsPage />;
+    if (basePath === '/enroll') return <StudentEnrollment />;
+    if (basePath === '/request-quote') return <RequestQuote />;
 
     // Insights & Careers
-    if (currentPath === '/insights' || currentPath.startsWith('/insights/')) return <InsightsBlog />;
-    if (currentPath === '/careers') return <CareersPage />;
+    if (basePath === '/insights' || basePath.startsWith('/insights/')) return <InsightsBlog />;
+    if (basePath === '/careers') return <CareersPage />;
 
     // Legal
-    if (currentPath === '/privacy-policy') return <PrivacyPolicy />;
-    if (currentPath === '/terms') return <TermsConditions />;
+    if (basePath === '/privacy-policy') return <PrivacyPolicy />;
+    if (basePath === '/terms') return <TermsConditions />;
 
     // 404
     return <NotFoundPage />;
   };
 
-  const isAdminRoute = currentPath === '/admin' || currentPath.startsWith('/admin/');
+  const isAdminRoute = basePath === '/admin' || basePath.startsWith('/admin/');
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-900 flex flex-col font-sans selection:bg-[#D5AD63]/30 selection:text-slate-900">
@@ -92,7 +95,7 @@ const AppContent: React.FC = () => {
       <main className="flex-1 w-full overflow-x-hidden">
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentPath}
+            key={basePath}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

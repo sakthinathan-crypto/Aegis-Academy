@@ -102,7 +102,7 @@ export const FloatingGlassBadge: React.FC<FloatingGlassBadgeProps> = ({
 
   return (
     <div
-      className={`absolute select-none pointer-events-auto ${className}`}
+      className={`absolute select-none pointer-events-auto z-20 hover:z-30 ${className}`}
       style={{
         ...style,
         animation: `${uniqueAnimName} ${floatDuration}s ease-in-out infinite`,

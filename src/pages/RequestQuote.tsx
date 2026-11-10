@@ -63,12 +63,13 @@ export const RequestQuote: React.FC = () => {
           : formData.projectDescription
       });
 
-      if (res.success && (res.quoteId || res.data?.quoteId)) {
-        const confirmedId = res.quoteId || res.data?.quoteId;
+      const confirmedId = res.data?.quoteId || (res as any).quoteId;
+      if (res.success && confirmedId) {
         setQuoteId(confirmedId);
         setSubmitted(true);
       } else {
-        setApiError(res.error || 'Failed to submit quote request. Please try again.');
+        const errMsg = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to submit quote request. Please try again.');
+        setApiError(errMsg);
       }
     } catch (err: any) {
       setApiError(err.message || 'Network error occurred while submitting quotation.');

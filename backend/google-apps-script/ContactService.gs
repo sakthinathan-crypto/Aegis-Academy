@@ -2,63 +2,103 @@
  * ============================================================================
  * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
  * File: ContactService.gs
- * Description: Visitor contact messages & inquiries management
+ * Description: Visitor contact messages & inquiries management.
  * ============================================================================
  */
 
 var ContactService = {
-  submit: function(data) {
-    if (!data.name || !data.email || !data.message) {
-      throw new Error('Name, email, and message are required.');
-    }
+  HEADERS: [
+    'messageId',
+    'fullName',
+    'email',
+    'phone',
+    'organization',
+    'inquiryType',
+    'subject',
+    'message',
+    'status',
+    'submittedAt',
+    'updatedAt',
+    'adminNotes'
+  ],
 
-    var messageId = generateSequentialId(CONFIG.SHEETS.CONTACT_MESSAGES, CONFIG.ID_PREFIXES.CONTACT);
-    var now = new Date().toISOString();
+  /**
+   * Submit visitor contact message
+   */
+  submitMessage: function(data) {
+    Validation.validateContact(data);
+
+    var messageId = Database.generateSequentialId(Config.SHEETS.CONTACT_MESSAGES, Config.ID_PREFIXES.CONTACT);
+    var nowIso = new Date().toISOString();
 
     var record = {
-      message_id: messageId,
-      created_at: now,
-      updated_at: now,
-      name: String(data.name).trim(),
+      messageId: messageId,
+      fullName: String(data.fullName).trim(),
       email: String(data.email).trim().toLowerCase(),
       phone: String(data.phone || '').trim(),
-      subject: String(data.subject || 'General Inquiry').trim(),
+      organization: String(data.organization || '').trim(),
+      inquiryType: String(data.inquiryType || 'General Inquiry').trim(),
+      subject: String(data.subject || 'Website Inquiry').trim(),
       message: String(data.message).trim(),
-      status: 'Unread',
-      admin_notes: ''
+      status: 'New',
+      submittedAt: nowIso,
+      updatedAt: nowIso,
+      adminNotes: ''
     };
 
-    appendRowRecord(CONFIG.SHEETS.CONTACT_MESSAGES, record);
+    Database.appendRecord(Config.SHEETS.CONTACT_MESSAGES, this.HEADERS, record);
+
+    Database.logActivity('CONTACT_MESSAGE_SUBMITTED', 'Inquiry from ' + record.fullName, {
+      messageId: messageId,
+      subject: record.subject
+    });
 
     try {
-      EmailService.sendContactConfirmation(record);
-      EmailService.sendAdminContactAlert(record);
+      EmailService.sendContactAcknowledgment(record);
+      EmailService.sendTeamAlertEmail('New Contact Message: ' + record.subject, record);
     } catch (e) {
-      console.warn('Contact email error:', e);
+      Logger.log('Contact email note: ' + e.toString());
     }
 
     return {
-      message_id: messageId,
-      name: record.name,
-      created_at: record.created_at
+      messageId: messageId,
+      fullName: record.fullName,
+      status: record.status,
+      submittedAt: record.submittedAt
     };
   },
 
-  getAll: function() {
-    return readAllRows(CONFIG.SHEETS.CONTACT_MESSAGES);
+  /**
+   * List contact messages
+   */
+  listMessages: function() {
+    return Database.getAllRecords(Config.SHEETS.CONTACT_MESSAGES, this.HEADERS);
   },
 
-  update: function(messageId, updates, adminEmail) {
-    if (!messageId) throw new Error('Message ID required.');
-    updateRowRecord(CONFIG.SHEETS.CONTACT_MESSAGES, 'message_id', messageId, updates);
-    logActivity(adminEmail, 'UPDATE_MESSAGE', 'Contact_Messages', messageId, 'Status updated to ' + (updates.status || 'modified'));
-    return { success: true, message_id: messageId };
-  },
+  /**
+   * Update message status
+   */
+  updateMessageStatus: function(messageId, newStatus, adminNotes, userEmail) {
+    var record = Database.getRecordById(Config.SHEETS.CONTACT_MESSAGES, this.HEADERS, 'messageId', messageId);
+    if (!record) {
+      throw new Error('Message not found: ' + messageId);
+    }
 
-  delete: function(messageId, adminEmail) {
-    if (!messageId) throw new Error('Message ID required.');
-    var res = deleteRowRecord(CONFIG.SHEETS.CONTACT_MESSAGES, 'message_id', messageId);
-    logActivity(adminEmail, 'DELETE_MESSAGE', 'Contact_Messages', messageId, 'Message deleted');
-    return { success: res, message_id: messageId };
+    var updates = {
+      status: newStatus,
+      updatedAt: new Date().toISOString()
+    };
+    if (adminNotes !== undefined) {
+      updates.adminNotes = adminNotes;
+    }
+
+    Database.updateRecord(Config.SHEETS.CONTACT_MESSAGES, this.HEADERS, 'messageId', messageId, updates);
+
+    Database.logActivity('CONTACT_STATUS_UPDATED', 'Status changed to ' + newStatus + ' for ' + messageId, {
+      messageId: messageId,
+      newStatus: newStatus
+    }, userEmail);
+
+    return { messageId: messageId, status: newStatus };
   }
 };

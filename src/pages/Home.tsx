@@ -649,49 +649,51 @@ export const Home: React.FC = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 13: TESTIMONIALS (LIGHT SECTION: PURE WHITE #FFFFFF)
+          SECTION 13: TESTIMONIALS (READY FOR GENUINE VERIFIED FEEDBACK)
           ========================================================================= */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#C9D9EC]/50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#285B91] font-bold mb-2">
-              <span className="w-2 h-2 rounded-full bg-[#D5AD63]" />
-              <span>Verified Feedback</span>
+      {TESTIMONIALS.length > 0 && (
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FFFFFF] border-b border-[#C9D9EC]/50">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#285B91] font-bold mb-2">
+                <span className="w-2 h-2 rounded-full bg-[#D5AD63]" />
+                <span>Verified Feedback</span>
+              </div>
+              <h2 className="text-3xl font-extrabold text-[#0C1B30] tracking-tight">
+                What Our Community Says
+              </h2>
             </div>
-            <h2 className="text-3xl font-extrabold text-[#0C1B30] tracking-tight">
-              What Our Community Says
-            </h2>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.slice(0, 3).map(test => (
-              <GlassCard
-                key={test.id}
-                variant="light"
-                tiltEnabled={true}
-                className="p-7 flex flex-col justify-between shadow-sm hover:shadow-xl"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center gap-1 text-[#D5AD63]">
-                    {Array.from({ length: test.rating }).map((_, i) => (
-                      <span key={i}>★</span>
-                    ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {TESTIMONIALS.slice(0, 3).map(test => (
+                <GlassCard
+                  key={test.id}
+                  variant="light"
+                  tiltEnabled={true}
+                  className="p-7 flex flex-col justify-between shadow-sm hover:shadow-xl"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-1 text-[#D5AD63]">
+                      {Array.from({ length: test.rating }).map((_, i) => (
+                        <span key={i}>★</span>
+                      ))}
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+                      "{test.quote}"
+                    </p>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-                    "{test.quote}"
-                  </p>
-                </div>
 
-                <div className="pt-6 mt-6 border-t border-[#C9D9EC]/60">
-                  <div className="text-sm font-bold text-[#0C1B30]">{test.name}</div>
-                  <div className="text-[11px] text-[#285B91] font-semibold">{test.role}</div>
-                  <div className="text-[11px] text-slate-500">{test.organization}</div>
-                </div>
-              </GlassCard>
-            ))}
+                  <div className="pt-6 mt-6 border-t border-[#C9D9EC]/60">
+                    <div className="text-sm font-bold text-[#0C1B30]">{test.name}</div>
+                    <div className="text-[11px] text-[#285B91] font-semibold">{test.role}</div>
+                    <div className="text-[11px] text-slate-500">{test.organization}</div>
+                  </div>
+                </GlassCard>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* =========================================================================
           SECTION 14 & 15: INSTITUTIONAL ALLIANCES & PARTNERSHIP CTA (DARK CINEMATIC SECTION)

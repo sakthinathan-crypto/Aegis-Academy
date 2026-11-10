@@ -17,15 +17,6 @@ export const TermsConditions: React.FC = () => {
           <span>Return Home</span>
         </button>
 
-        {/* Disclaimer Banner */}
-        <div className="p-4 rounded-xl bg-[#0C1E36] border border-[#D5AD63]/30 text-xs text-slate-300 flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-[#D5AD63] shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-white block mb-0.5">Editable Draft Terms Notice:</strong>
-            These terms and conditions are draft template terms provided for web portal architecture and layout demonstration. They must be reviewed and customized by legal counsel prior to formal execution.
-          </div>
-        </div>
-
         <header className="space-y-2 border-b border-slate-800 pb-6">
           <span className="text-xs uppercase tracking-widest text-[#D5AD63] font-semibold">
             Legal Terms & Conditions
@@ -34,7 +25,7 @@ export const TermsConditions: React.FC = () => {
             Terms of Service
           </h1>
           <p className="text-xs text-slate-400">
-            Last Updated: November 2026 · Version 1.0 (Draft Template)
+            Last Updated: 2026 · AEGIS ACADEMY
           </p>
         </header>
 
@@ -42,35 +33,35 @@ export const TermsConditions: React.FC = () => {
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-white">1. Agreement to Terms</h2>
             <p>
-              By accessing the website and digital portals of Aegis Academy Pvt. Ltd. ("Aegis"), you agree to be bound by these Terms of Service. If you disagree with any part of these terms, please refrain from using our digital services.
+              By accessing the website and digital portals of AEGIS ACADEMY ("AEGIS", "we", "our", or "us"), you agree to be bound by these Terms of Service. If you disagree with any part of these terms, please refrain from using our digital services.
             </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-white">2. Educational Program Enrollments</h2>
             <p>
-              Submission of an enrollment application constitutes an expression of interest and request for academic admission. Final admission into practical cohorts remains subject to prerequisite validation, cohort availability, and successful tuition schedule arrangement.
+              Submission of an enrollment application constitutes an expression of interest and request for academic admission. Final admission into practical cohorts remains subject to prerequisite validation, cohort availability, and successful academic coordination.
             </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-white">3. Intellectual Property</h2>
             <p>
-              All curriculum courseware, lab diagrams, pedagogical videos, and portal source code remain the exclusive intellectual property of Aegis Academy Pvt. Ltd. Enrolled students are granted personal, non-exclusive licenses to access courseware for educational purposes only.
+              All curriculum courseware, lab materials, technical documentation, and portal assets remain the exclusive intellectual property of AEGIS ACADEMY. Enrolled students and partners are granted personal, non-exclusive licenses to access courseware for educational purposes only.
             </p>
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-lg font-bold text-white">4. Enterprise Software Consultations</h2>
+            <h2 className="text-lg font-bold text-white">4. Technology Engagements & Solutions</h2>
             <p>
-              Preliminary quotations generated via the portal are indicative architectural estimates. Binding delivery timelines, service level agreements (SLAs), and payment milestones are finalized through formal master service agreements (MSAs) executed with client organizations.
+              Preliminary project specifications and scope inquiries generated via the portal are indicative technical estimates. Binding delivery timelines, service level commitments, and deliverables are finalized through formal service agreements executed with partner institutions and client organizations.
             </p>
           </section>
 
           <section className="space-y-3">
             <h2 className="text-lg font-bold text-white">5. Governing Law & Jurisdiction</h2>
             <p>
-              These draft terms are governed in accordance with the laws of India. Any statutory disputes arising in connection with services shall be subject to the exclusive jurisdiction of the competent courts in Bengaluru, Karnataka.
+              These terms are governed in accordance with the laws of India. Any statutory disputes arising in connection with services shall be subject to the exclusive jurisdiction of the competent courts in Tamil Nadu, India.
             </p>
           </section>
         </div>

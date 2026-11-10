@@ -31,17 +31,8 @@ export const ProjectsPortfolio: React.FC = () => {
             Projects & Technical Portfolio
           </h1>
           <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            A curated showcase of full-stack platforms, precision IoT meshes, and generative AI systems engineered by Aegis Academy teams and student fellows.
+            A showcase of software platforms, precision agritech systems, and research initiatives developed across AEGIS Technologies and student innovation programs.
           </p>
-
-          {/* Sample portfolio disclaimer as instructed */}
-          <div className="mt-6 p-4 rounded-xl glass-light-card border-[#C9D9EC] text-xs text-slate-600 flex items-start gap-3 text-left max-w-2xl mx-auto shadow-sm">
-            <Info className="w-5 h-5 text-[#B88E3E] shrink-0 mt-0.5" />
-            <div>
-              <strong className="text-[#0C1B30] block mb-0.5">Sample Portfolio Notice:</strong>
-              The projects shown below are representative demonstration case studies developed to showcase technical architecture and engineering craft. They are not intended as verified historical client endorsements.
-            </div>
-          </div>
         </div>
       </section>
 
@@ -83,6 +74,11 @@ export const ProjectsPortfolio: React.FC = () => {
                   <div className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-[#285B91] bg-white/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#C9D9EC]">
                     {proj.category}
                   </div>
+                  {proj.status && (
+                    <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-[#B88E3E] bg-[#0C1B30]/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#D5AD63]/30">
+                      {proj.status}
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6">

@@ -177,56 +177,56 @@ export const AegisLogoOrb: React.FC<AegisLogoOrbProps> = ({ className = '' }) =>
             Independent hover and proximity with zero global stretching
             ========================================================================= */}
 
-        {/* 1. TOP-RIGHT: AI Skills */}
+        {/* 1. TOP-RIGHT: AI Skills (Floating gracefully above top-right) */}
         <FloatingGlassBadge
           label="AI Skills"
           icon={Bot}
           accentColor="#00A3FF"
-          className="top-[4%] sm:top-[6%] right-[0%] sm:right-[4%]"
+          className="top-[4%] sm:top-[6%] right-[2%] sm:right-[6%] z-20"
           floatDelay={0}
           floatDuration={5.2}
           onClick={() => navigate('/services/ai-solutions')}
         />
 
-        {/* 2. LEFT: Build & Code */}
+        {/* 2. LEFT: Build & Code (Floating on top of left edge of the tile) */}
         <FloatingGlassBadge
           label="Build & Code"
           icon={Code2}
           accentColor="#00A3FF"
-          className="top-[38%] sm:top-[36%] -left-[6%] sm:left-[0%]"
+          className="top-[36%] sm:top-[35%] -left-[2%] sm:left-[2%] z-20"
           floatDelay={0.9}
           floatDuration={4.8}
           onClick={() => navigate('/programs/full-stack-web-development')}
         />
 
-        {/* 3. RIGHT: Career Ready */}
+        {/* 3. RIGHT: Career Ready (Floating on top of right edge of the tile) */}
         <FloatingGlassBadge
           label="Career Ready"
           icon={Briefcase}
           accentColor="#00A3FF"
-          className="top-[52%] sm:top-[50%] -right-[6%] sm:right-[0%]"
+          className="top-[54%] sm:top-[52%] -right-[2%] sm:right-[2%] z-20"
           floatDelay={1.8}
           floatDuration={5.4}
           onClick={() => navigate('/education')}
         />
 
-        {/* 4. BOTTOM-LEFT: Cloud Native */}
+        {/* 4. BOTTOM-LEFT: Cloud Native (Floating on top of bottom-left edge of the tile) */}
         <FloatingGlassBadge
           label="Cloud Native"
           icon={Cloud}
           accentColor="#00A3FF"
-          className="bottom-[8%] sm:bottom-[10%] left-[6%] sm:left-[12%]"
+          className="bottom-[8%] sm:bottom-[10%] left-[6%] sm:left-[12%] z-20"
           floatDelay={1.4}
           floatDuration={5}
           onClick={() => navigate('/services/cloud-solutions')}
         />
 
-        {/* 5. BOTTOM-RIGHT: 10× Stat Card (Matching Reference Image 2) */}
+        {/* 5. BOTTOM-RIGHT: 10× Stat Card (Floating on top of bottom-right corner of the tile) */}
         <div
           ref={statRef}
           onMouseEnter={() => setStatHovered(true)}
           onMouseLeave={() => setStatHovered(false)}
-          className="absolute bottom-[2%] sm:bottom-[4%] right-[-2%] sm:right-[4%] z-20 pointer-events-auto select-none transition-all"
+          className="absolute bottom-[2%] sm:bottom-[4%] right-[-2%] sm:right-[3%] z-20 hover:z-30 pointer-events-auto select-none transition-all"
           style={{
             animation: 'statCardFloat 5.6s ease-in-out infinite',
             animationDelay: '1.2s'

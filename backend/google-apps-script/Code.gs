@@ -1,78 +1,121 @@
 /**
- * AEGIS ACADEMY - WEB APP DISPATCHER (Google Apps Script)
- * Main entry point for HTTP GET and POST requests from the Vercel frontend.
- * Handles routing, authentication, error management, and JSON response formatting.
+ * ============================================================================
+ * AEGIS ACADEMY — GOOGLE APPS SCRIPT WEB APP DISPATCHER
+ * File: Code.gs
+ * Description: HTTP GET/POST dispatcher implementing standardized JSON envelopes,
+ * server-side authorization enforcement, and error isolation.
+ * ============================================================================
  */
 
 /**
- * Helper to build JSON responses
+ * Standardized Success Response Envelope
  */
-function jsonResponse(data, status) {
-  var output = ContentService.createTextOutput(JSON.stringify(data));
+function sendSuccess(data, message) {
+  var envelope = {
+    success: true,
+    message: message || 'Operation completed successfully',
+    data: data || {},
+    error: null
+  };
+  var output = ContentService.createTextOutput(JSON.stringify(envelope));
   output.setMimeType(ContentService.MimeType.JSON);
   return output;
 }
 
 /**
- * Handle HTTP GET requests
+ * Standardized Error Response Envelope
+ */
+function sendError(code, message) {
+  var envelope = {
+    success: false,
+    message: message || 'Operation failed',
+    data: null,
+    error: {
+      code: code || 'INTERNAL_ERROR',
+      message: message || 'An unexpected error occurred'
+    }
+  };
+  var output = ContentService.createTextOutput(JSON.stringify(envelope));
+  output.setMimeType(ContentService.MimeType.JSON);
+  return output;
+}
+
+/**
+ * HTTP GET Dispatcher
  */
 function doGet(e) {
   try {
     var params = e && e.parameter ? e.parameter : {};
     var action = params.action || 'ping';
 
-    // 1. Health check & version
+    // 1. Public Health Check
     if (action === 'ping' || action === 'health') {
-      return jsonResponse({
-        success: true,
+      return sendSuccess({
         service: 'Aegis Academy GAS Backend',
-        version: '2.0.0',
+        version: '2.1.0',
         timestamp: new Date().toISOString()
-      });
+      }, 'Aegis backend is operational');
     }
 
-    // 2. Public Content Lists
+    // 2. Public Content Endpoints
     if (action === 'listPrograms') {
-      return jsonResponse({ success: true, data: ContentService.listPrograms(true) });
+      return sendSuccess(ContentService.listPrograms(true), 'Active programs retrieved');
     }
     if (action === 'listProjects') {
-      return jsonResponse({ success: true, data: ContentService.listProjects(true) });
+      return sendSuccess(ContentService.listProjects(true), 'Active projects retrieved');
     }
     if (action === 'listEvents') {
-      return jsonResponse({ success: true, data: ContentService.listEvents(true) });
+      return sendSuccess(ContentService.listEvents(true), 'Active events retrieved');
     }
 
-    // 3. Protected Admin Endpoints (Require Valid Token)
-    var user = AuthService.authenticateRequest(e);
-
+    // 3. Protected Endpoints (Role-based Authorization)
     if (action === 'getOverview') {
-      return jsonResponse(AdminService.getDashboardOverview());
-    }
-    if (action === 'listEnrollments') {
-      return jsonResponse({ success: true, data: EnrollmentService.listEnrollments() });
-    }
-    if (action === 'listContacts') {
-      return jsonResponse({ success: true, data: ContactService.listMessages() });
-    }
-    if (action === 'listQuotes') {
-      return jsonResponse({ success: true, data: QuoteService.listQuotes() });
-    }
-    if (action === 'listApplications') {
-      return jsonResponse({ success: true, data: CareerService.listApplications() });
-    }
-    if (action === 'getActivityLogs') {
-      return jsonResponse({ success: true, data: Database.getAllRecords(Config.SHEETS.ACTIVITY_LOGS, Database.ACTIVITY_HEADERS) });
+      var user = AuthService.authenticateRequest(e, 'view_dashboard');
+      return sendSuccess(AdminService.getDashboardOverview(), 'Dashboard metrics calculated');
     }
 
-    return jsonResponse({ success: false, error: 'Unknown GET action: ' + action });
+    if (action === 'listEnrollments') {
+      var user = AuthService.authenticateRequest(e, 'manage_enrollments');
+      return sendSuccess(EnrollmentService.listEnrollments(), 'Enrollments retrieved');
+    }
+
+    if (action === 'listContacts') {
+      var user = AuthService.authenticateRequest(e, 'manage_contacts');
+      return sendSuccess(ContactService.listMessages(), 'Contact messages retrieved');
+    }
+
+    if (action === 'listQuotes') {
+      var user = AuthService.authenticateRequest(e, 'manage_quotes');
+      return sendSuccess(QuoteService.listQuotes(), 'Quote requests retrieved');
+    }
+
+    if (action === 'listApplications') {
+      var user = AuthService.authenticateRequest(e, 'manage_careers');
+      return sendSuccess(CareerService.listApplications(), 'Job applications retrieved');
+    }
+
+    if (action === 'getActivityLogs') {
+      var user = AuthService.authenticateRequest(e, 'view_logs');
+      return sendSuccess(Database.getAllRecords(Config.SHEETS.ACTIVITY_LOGS, Database.ACTIVITY_HEADERS), 'Activity logs retrieved');
+    }
+
+    if (action === 'getResumeDownloadUrl') {
+      var user = AuthService.authenticateRequest(e, 'manage_careers');
+      var appId = params.applicationId;
+      if (!appId) throw new Error('Missing applicationId parameter.');
+      return sendSuccess(CareerService.getResumeDownloadUrl(appId), 'Secure resume access URL generated');
+    }
+
+    return sendError('UNKNOWN_ACTION', 'Unrecognized GET action: ' + action);
   } catch (err) {
     Logger.log('doGet error: ' + err.toString());
-    return jsonResponse({ success: false, error: err.message || err.toString() });
+    var code = err.code || 'BAD_REQUEST';
+    return sendError(code, err.message || err.toString());
   }
 }
 
 /**
- * Handle HTTP POST requests
+ * HTTP POST Dispatcher
  */
 function doPost(e) {
   try {
@@ -81,7 +124,6 @@ function doPost(e) {
       try {
         body = JSON.parse(e.postData.contents);
       } catch (parseErr) {
-        // Fallback for form-encoded
         body = e.parameter || {};
       }
     } else if (e && e.parameter) {
@@ -90,64 +132,68 @@ function doPost(e) {
 
     var action = body.action || (e.parameter ? e.parameter.action : '');
 
-    // 1. Public Form Submissions
+    // 1. Public Submissions
     if (action === 'submitEnrollment') {
       var enrResult = EnrollmentService.submitEnrollment(body);
-      return jsonResponse(enrResult);
+      return sendSuccess(enrResult, 'Student application submitted successfully');
     }
 
     if (action === 'submitContact') {
       var cntResult = ContactService.submitMessage(body);
-      return jsonResponse(cntResult);
+      return sendSuccess(cntResult, 'Message submitted successfully');
     }
 
     if (action === 'submitQuote') {
       var quoResult = QuoteService.submitQuote(body);
-      return jsonResponse(quoResult);
+      return sendSuccess(quoResult, 'Quotation request submitted successfully');
     }
 
     if (action === 'submitApplication') {
       var appResult = CareerService.submitApplication(body);
-      return jsonResponse(appResult);
+      return sendSuccess(appResult, 'Career application submitted successfully');
     }
 
-    // 2. Admin Authentication
+    // 2. Administrator Authentication
     if (action === 'login') {
       var authResult = AuthService.authenticate(body.email, body.password);
-      return jsonResponse(authResult);
+      return sendSuccess(authResult, 'Authentication successful');
     }
 
-    // 3. Protected Admin Mutations (Require Valid Token)
-    var user = AuthService.authenticateRequest(e);
-
+    // 3. Protected Status Mutations (Requires Authorization)
     if (action === 'updateEnrollmentStatus') {
-      var enrUpdate = EnrollmentService.updateEnrollmentStatus(body.enrollmentId, body.status, body.adminNotes);
-      return jsonResponse(enrUpdate);
+      var user = AuthService.authenticateRequest(e, 'manage_enrollments');
+      var res = EnrollmentService.updateEnrollmentStatus(body.enrollmentId, body.status, body.adminNotes, user.email);
+      return sendSuccess(res, 'Enrollment status updated');
     }
 
     if (action === 'updateContactStatus') {
-      var cntUpdate = ContactService.updateMessageStatus(body.messageId, body.status, body.adminNotes);
-      return jsonResponse(cntUpdate);
+      var user = AuthService.authenticateRequest(e, 'manage_contacts');
+      var res = ContactService.updateMessageStatus(body.messageId, body.status, body.adminNotes, user.email);
+      return sendSuccess(res, 'Contact status updated');
     }
 
     if (action === 'updateQuoteStatus') {
-      var quoUpdate = QuoteService.updateQuoteStatus(body.quoteId, body.status, body.adminNotes);
-      return jsonResponse(quoUpdate);
+      var user = AuthService.authenticateRequest(e, 'manage_quotes');
+      var res = QuoteService.updateQuoteStatus(body.quoteId, body.status, body.adminNotes, user.email);
+      return sendSuccess(res, 'Quote status updated');
     }
 
     if (action === 'updateApplicationStatus') {
-      var appUpdate = CareerService.updateApplicationStatus(body.applicationId, body.status, body.adminNotes);
-      return jsonResponse(appUpdate);
+      var user = AuthService.authenticateRequest(e, 'manage_careers');
+      var res = CareerService.updateApplicationStatus(body.applicationId, body.status, body.adminNotes, user.email);
+      return sendSuccess(res, 'Application status updated');
     }
 
     if (action === 'saveProgram') {
-      var prgSave = ContentService.saveProgram(body.programData);
-      return jsonResponse(prgSave);
+      var user = AuthService.authenticateRequest(e, 'manage_content');
+      var res = ContentService.saveProgram(body.programData);
+      return sendSuccess(res, 'Program catalog record saved');
     }
 
-    return jsonResponse({ success: false, error: 'Unknown POST action: ' + action });
+    return sendError('UNKNOWN_ACTION', 'Unrecognized POST action: ' + action);
   } catch (err) {
     Logger.log('doPost error: ' + err.toString());
-    return jsonResponse({ success: false, error: err.message || err.toString() });
+    var code = err.code || 'BAD_REQUEST';
+    return sendError(code, err.message || err.toString());
   }
 }

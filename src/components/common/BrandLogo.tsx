@@ -63,8 +63,8 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           <span className={`font-bold tracking-[0.16em] leading-none ${isLight ? 'text-slate-900' : 'text-white'} ${textSizes[size]}`}>
             AEGIS <span className={isLight ? 'text-[#0077FE]' : 'text-[#00A3FF]'}>ACADEMY</span>
           </span>
-          <span className={`text-[9px] uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'} mt-1 font-medium hidden sm:inline-block`}>
-            Pvt. Ltd.
+          <span className={`text-[8px] uppercase tracking-wider ${isLight ? 'text-slate-500' : 'text-slate-400'} mt-1 font-medium hidden sm:inline-block`}>
+            Where Guidance Meets Growth
           </span>
         </div>
       )}

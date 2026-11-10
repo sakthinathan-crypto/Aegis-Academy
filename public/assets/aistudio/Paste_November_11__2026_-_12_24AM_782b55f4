@@ -1,0 +1,1138 @@
+# AEGIS ACADEMY
+## Phase 1 – Website Content Replacement, Integration & Quality Assurance
+
+### 1. Project Objective
+
+Update the existing AEGIS Academy website by replacing all placeholder, demo, sample, and outdated company information with the approved AEGIS Academy content provided in this document.
+
+This is an existing website enhancement project, NOT a website redesign or rebuild.
+
+**Primary objective:**
+- Replace all dummy company information.
+- Integrate the approved company profile and business information.
+- Update leadership profiles and business divisions.
+- Update educational programs and technology services.
+- Populate the projects and achievements sections.
+- Update contact information and social media links.
+- Configure Careers and Internship information.
+- Preserve the existing website's design and functionality.
+- Test and debug the complete website after implementation.
+
+---
+
+# 2. Existing Project References
+
+GitHub Repository:
+https://github.com/sakthinathan-crypto/Aegis-Academy
+
+Existing Preview:
+https://aegis-academy-two.vercel.app/
+
+Official Website:
+https://www.aegisacademy.in/
+
+### Mandatory Instructions
+
+1. Inspect the existing GitHub repository before making changes.
+2. Work with the existing main branch and current codebase.
+3. Understand the existing component structure, routes, content model, styling, and backend integrations.
+4. Do not create a separate replacement website.
+5. Do not unnecessarily restructure the existing project.
+6. Preserve existing working functionality.
+7. Make changes only where required to replace or correct website content and integrations.
+
+---
+
+# 3. Strict UI Preservation Rules
+
+This is one of the most important requirements.
+
+**DO NOT CHANGE THE EXISTING UI DESIGN.**
+
+Preserve:
+
+- Existing color palette.
+- Existing typography.
+- Existing font sizes and hierarchy.
+- Existing layouts.
+- Existing section arrangements.
+- Existing navigation.
+- Existing buttons.
+- Existing animations.
+- Existing transitions.
+- Existing hover effects.
+- Existing glassmorphism effects.
+- Existing responsive behaviour.
+- Existing component styling.
+- Existing spacing and alignment.
+- Existing background effects.
+- Existing design elements.
+
+Do not introduce a new design system.
+
+Do not change the website's visual identity.
+
+Only modify the content, data, and necessary integration logic.
+
+If the existing design cannot accommodate a particular content item, adapt the content within the existing component structure rather than redesigning the component.
+
+---
+
+# 4. Brand Identity
+
+**Official Brand Name:**
+AEGIS ACADEMY
+
+**Tagline:**
+Where Guidance Meets Growth
+
+### Brand Personality
+
+- Premium
+- Corporate
+- Innovative
+- Technology-driven
+- Educational
+- Trustworthy
+
+### Business Divisions
+
+1. AEGIS Education
+2. AEGIS Technologies
+
+### Logo
+
+The official logo will be uploaded separately.
+
+Until then:
+- Preserve the existing logo placement and dimensions.
+- Do not generate or invent a replacement logo.
+- Make the logo asset easy to replace later.
+
+Do not use "AEGIS Academy Pvt Ltd" as the public-facing brand name.
+
+Use AEGIS ACADEMY consistently across the website.
+
+---
+
+# 5. Company Profile
+
+### About AEGIS Academy
+
+AEGIS Academy is an education and technology-driven organisation focused on empowering individuals, transforming learning experiences, and delivering innovative technology solutions.
+
+Through AEGIS Education, we provide practical learning experiences, skill development, professional training, and industry-oriented programs that prepare individuals for future opportunities.
+
+Through AEGIS Technologies, we focus on developing innovative digital solutions, building technology-driven products, and helping businesses and organisations solve real-world challenges.
+
+Our approach brings education and technology together to create opportunities, encourage innovation, and drive meaningful growth.
+
+### Vision
+
+To build a future where knowledge, technology, and innovation empower individuals and organisations to achieve meaningful growth and create a positive impact on society.
+
+### Mission
+
+To bridge the gap between learning and real-world application through quality education, practical skill development, innovative technology solutions, and continuous collaboration with individuals, institutions, and industries.
+
+### Core Values
+
+- Innovation
+- Integrity
+- Excellence
+- Collaboration
+- Continuous Learning
+- Empowerment
+
+### Target Audience
+
+- School Students
+- College Students
+- Graduates
+- Working Professionals
+- Educational Institutions
+- Startups
+- Businesses and Organisations
+
+---
+
+# 6. Founder & Leadership
+
+Display the following nine leadership profiles.
+
+Use the existing leadership/team component.
+
+Each profile should support:
+- Name
+- Designation
+- Biography
+- LinkedIn profile
+- Profile photograph
+
+The profile photographs will be uploaded later. Preserve the existing image component and make future image replacement straightforward.
+
+### 1. Founder – Sakthinathan Jayakumar
+
+**Designation:** Chief Executive Officer (CEO)
+
+**LinkedIn:**
+https://www.linkedin.com/in/sakthinathan-jayakumar-b3400b33b/
+
+**Biography:**
+
+Sakthinathan Jayakumar leads AEGIS Academy's strategic direction, organisational development, and long-term vision. With a background in Computer Science Engineering and a strong interest in technology innovation and entrepreneurship, he focuses on building meaningful educational initiatives, developing technology-driven solutions, and establishing institutional and industry collaborations.
+
+### 2. Co-Founder – Sham S
+
+**Designation:** Chief Business Officer (CBO)
+
+**LinkedIn:**
+https://www.linkedin.com/in/sham-s-9bb689316/
+
+**Biography:**
+
+Sham S contributes to business strategy, growth opportunities, and organisational development at AEGIS Academy. He focuses on strengthening business relationships, identifying opportunities, and supporting institutional and industry partnerships.
+
+### 3. Co-Founder – Megna K
+
+**Designation:** Chief Financial Officer (CFO)
+
+**LinkedIn:**
+https://www.linkedin.com/in/megnova/
+
+**Biography:**
+
+Megna K brings technical expertise in cloud engineering and Artificial Intelligence and Machine Learning. As CFO, she contributes to financial planning, resource management, budgeting, and sustainable organisational growth.
+
+### 4. Co-Founder – Sowrirajan N
+
+**Designation:** Chief Product Officer (CPO)
+
+**LinkedIn:**
+https://www.linkedin.com/in/sowrirajan-nalan-661279355/
+
+**Biography:**
+
+Sowrirajan N focuses on product vision, development direction, and product strategy. He contributes to transforming ideas into structured product concepts while aligning product priorities with user requirements and organisational objectives.
+
+### 5. Co-Founder – Baasith Ahamed B
+
+**Designation:** Chief Marketing Officer (CMO)
+
+**LinkedIn:**
+https://www.linkedin.com/in/baasith-ahamed-103551371/
+
+**Biography:**
+
+Baasith Ahamed B contributes to brand development, marketing strategy, and audience engagement. He focuses on strengthening AEGIS Academy's market presence, communicating its value proposition, and supporting organisational growth.
+
+### 6. Co-Founder – Abinaya G
+
+**Designation:** Chief Technology Officer (CTO)
+
+**LinkedIn:**
+https://www.linkedin.com/in/abinaya-ganesan-677144361/
+
+**Biography:**
+
+Abinaya G contributes to the technology direction and technical development strategy of AEGIS Academy. She focuses on technology planning, engineering excellence, and aligning technical development with organisational goals.
+
+### 7. Co-Founder – Ishwarya R
+
+**Designation:** Event Manager
+
+**LinkedIn:**
+https://www.linkedin.com/in/ishwarya-r-b326a2378/
+
+**Biography:**
+
+Ishwarya R manages event planning, coordination, and execution. She contributes to organising workshops, educational programs, and institutional events while focusing on scheduling, team coordination, and participant engagement.
+
+### 8. Co-Founder – Santhosh S
+
+**Designation:** General Manager
+
+**LinkedIn:**
+https://www.linkedin.com/in/santhosh-sadagopan-8b2a64371/
+
+**Biography:**
+
+Santhosh S contributes to organisational operations, cross-functional coordination, and execution management. He focuses on operational planning, team coordination, and ensuring that organisational activities progress efficiently.
+
+### 9. Co-Founder – Vasantharaja M
+
+**Designation:** Research & Development Manager
+
+**LinkedIn:**
+https://www.linkedin.com/in/vasantha-raja-806287355/
+
+**Biography:**
+
+Vasantharaja M focuses on research initiatives, innovation, and technology exploration. He contributes to evaluating emerging technologies, conducting experiments, exploring new ideas, and supporting research-driven product development.
+
+---
+
+# 7. Business Divisions
+
+The website must clearly communicate the two independent business divisions.
+
+## A. AEGIS Education
+
+**Positioning:** Future Skills & Professional Development
+
+**Tagline:** Learn. Develop. Lead.
+
+### School Education
+
+- AI Awareness
+- Generative AI
+- Digital Literacy
+- Computational Thinking
+
+### Career Guidance
+
+- Career Awareness
+- Career Exploration
+- Higher Education Guidance
+- Future Career Opportunities
+
+### Technical Training
+
+- Python
+- Java
+- Web Development
+- App Development
+- UI/UX Design
+
+### Emerging Technologies
+
+- Artificial Intelligence
+- Machine Learning
+- Cybersecurity
+
+### Professional Development
+
+- Communication Skills
+- Soft Skills
+- Aptitude Training
+- Interview Preparation
+
+### Institutional Training
+
+- College Workshops
+- Faculty Development Programs
+- Skill Development Programs
+
+### Innovation Programs
+
+- Hackathons
+- Project Development
+- Technical Events
+
+**Target Customers:**
+- Schools
+- Colleges
+- Universities
+- Individual Learners
+
+## B. AEGIS Technologies
+
+**Positioning:** Technology Solutions & Innovation
+
+**Tagline:** Innovate. Build. Transform.
+
+### Services
+
+- Web Development
+- App Development
+- AI & Machine Learning
+- Cloud Solutions
+- Cybersecurity
+- IoT Solutions
+- Automation
+- Custom Software Development
+- Research & Product Development
+
+**Target Customers:**
+- Startups
+- Small and Medium Enterprises
+- Enterprises
+- Educational Institutions
+- Individual Clients
+
+### Delivery Models
+
+Both divisions support:
+
+- Online
+- On-Campus
+- Hybrid
+
+---
+
+# 8. Detailed Education Programs
+
+## School Programs
+
+**Target Classes: 9–12**
+
+Programs:
+
+- AI & Generative AI
+- Digital Literacy
+- Computational Thinking
+- Career Counselling
+- Higher Education Guidance
+- Competitive Exams Awareness
+- Future Career Awareness
+- Life Skills
+- Communication Skills
+
+## College Programs
+
+- Python
+- Java
+- Web Development
+- App Development
+- UI/UX Design
+- AI & Machine Learning
+- Cybersecurity
+- Data Structures
+- Aptitude
+- Soft Skills & Communication
+
+## Professional & Institutional Programs
+
+- Faculty Development Programs
+- Corporate Training
+- Technical Workshops
+- Skill Development Programs
+- Internship-oriented Training
+- Project Development Guidance
+
+## Program Duration
+
+Display flexible training durations:
+
+| Program | Duration |
+|---|---|
+| Seminar / Workshop | 1 Day |
+| Short-Term Workshop | 2–3 Days |
+| Technical Bootcamp | 1 Week |
+| Intensive Skill Development | 2 Weeks |
+| Technical Training | 1 Month |
+| Advanced Training / Internship | 2–3 Months |
+| Institutional Program | 1 Semester |
+
+## Internship Opportunities
+
+Internship opportunities include:
+
+- Technical Internships
+- Project-Based Learning
+- Real-World Problem Solving
+- Team-Based Development
+- Mentorship and Technical Guidance
+- Practical Skill Assessment
+
+**Important Internship Policy:**
+
+All internships are unpaid and do not include a stipend.
+
+This information must be clearly visible wherever internship opportunities are advertised.
+
+Do not imply that internships provide a salary or stipend.
+
+---
+
+# 9. AEGIS Technologies – Products & Services
+
+### Client Services
+
+- Web Development
+- App Development
+- AI & Machine Learning
+- Cloud Solutions
+- Cybersecurity
+- IoT Solutions
+- Business Automation
+- Custom Software Development
+
+### Own Products & R&D
+
+AEGIS Technologies focuses on:
+
+- AI-Powered Software Products
+- SaaS Platforms
+- Smart IoT Solutions
+- Industry-Specific Products
+- Research and Experimental Prototypes
+- Deep-Tech Product Development
+
+Deep-tech research and development must be presented as a major focus.
+
+Create or retain a separate **Our Products** section/page if the existing website architecture supports it.
+
+Clearly distinguish:
+- Client services
+- Internal products
+- Research initiatives
+- Experimental prototypes
+
+Do not present research prototypes as commercially available products unless confirmed.
+
+### Client Engagement Models
+
+- Project-Based Development
+- Monthly Maintenance
+- Long-Term Technology Partnerships
+
+---
+
+# 10. Projects & Portfolio
+
+Use the existing portfolio/project component.
+
+Every project card should support:
+
+- Project name
+- Category
+- Short description
+- Technologies used
+- Project status
+- Project cover image
+- Optional GitHub repository link
+
+Do not create fake screenshots or fake GitHub links.
+
+The project images will be uploaded later.
+
+Until then, use the existing placeholder/temporary image mechanism.
+
+### AEGIS Technologies Projects
+
+#### 1. AGRORA – Smart Agriculture System
+
+A smart agriculture initiative focused on identifying crop diseases, pest attacks, nutrient deficiencies, and irrigation requirements using technology-driven analysis.
+
+Related to Smart India Hackathon problem statement SIH26180.
+
+**Status:** Awaiting confirmation.
+
+#### 2. UPTIME OS
+
+A deep-tech research and development initiative focused on refrigeration and equipment intelligence.
+
+Research areas include:
+- Equipment monitoring
+- Performance analysis
+- Predictive maintenance
+- Intelligent monitoring systems
+- Refrigeration technology research
+
+**Status:** Research & Development.
+
+#### 3. SYNTRONIX '26 Symposium Website
+
+A digital platform developed for the International Student Symposium on Humanizing Technology.
+
+The platform supports event information, registration details, and participant engagement.
+
+**Status:** Awaiting confirmation.
+
+#### 4. Hospital Waste Segregation System
+
+A technology-driven medical waste management system designed around the segregation of hospital waste materials such as metal, glass, and plastic.
+
+Related to the UK Registered Design achievement documented in the Achievements section.
+
+**Status:** Awaiting confirmation.
+
+#### 5. Fertilizer Recommendation Model
+
+A machine learning-based recommendation system that analyses soil nutrient information and related agricultural parameters to support fertilizer recommendations.
+
+**Status:** Awaiting confirmation.
+
+#### 6. Smart Exam Seat Allocation System
+
+A system designed to support efficient examination seat allocation and management.
+
+**Status:** Awaiting confirmation.
+
+#### 7. PAG – Process, Analyse, Generate
+
+An intelligent document processing and analysis initiative designed to work with documents such as PDF, PPTX, and Excel files.
+
+The system aims to process uploaded documents, retrieve relevant information, and generate useful outputs using AI-assisted analysis.
+
+**Status:** Awaiting confirmation.
+
+#### 8. AI-Powered Placement Readiness & Career Intelligence Platform
+
+A platform concept focused on evaluating placement readiness and supporting career development through intelligent analysis.
+
+**Status:** Awaiting confirmation.
+
+#### 9. Smart Traffic Management System
+
+A technology initiative focused on improving traffic management through intelligent and automated systems.
+
+**Status:** Awaiting confirmation.
+
+## AEGIS Education Initiative
+
+### Thiran Thedal Thittam
+
+A student-to-student mentoring and higher education awareness initiative.
+
+The initiative focuses on:
+- Career pathways
+- Higher education opportunities
+- Peer learning
+- Student mentoring
+- Educational awareness
+
+Display this initiative under AEGIS Education, not under the AEGIS Technologies portfolio.
+
+### Project Status Accuracy
+
+Do not invent project completion statuses.
+
+Use the following status labels only after verification:
+
+- Completed
+- Prototype
+- In Development
+- Research & Development
+
+For projects awaiting confirmation, use a temporary internal content state or omit the public-facing status until verified.
+
+There must be no fake live demo links.
+
+Display GitHub links only when valid repository links are provided.
+
+---
+
+# 11. Achievements & Recognitions
+
+## International Design Registration – United Kingdom
+
+**Design Title:**
+Automated AI-Based Medical Waste Crushing and Collection Machine
+
+**Intellectual Property:**
+UK Registered Design
+
+**Design Registration Number:**
+6529168
+
+**Registration Date:**
+27 May 2026
+
+**Grant Date:**
+05 June 2026
+
+### Description
+
+An innovative medical waste management machine design registered in the United Kingdom. This achievement represents an important milestone in our journey towards developing technology-driven solutions for healthcare waste management.
+
+### Important Legal Accuracy
+
+This is a UK Registered Design.
+
+Do not call it:
+- UK Patent
+- Granted Patent
+- Utility Patent
+
+Use the correct term: **UK Registered Design**.
+
+## Institutional Collaborations
+
+The following institutions have been identified for the institutional collaborations section:
+
+1. Designers Domain Club – Department of CSE, E.G.S. Pillay Engineering College.
+2. KIIT University.
+3. Arunai Engineering College, Tiruvannamalai.
+4. St. Joseph's College of Engineering and Technology, Thanjavur.
+
+**Important:**
+
+The exact relationship with each institution must be verified before publicly displaying it as an official partner.
+
+Do not invent:
+- MOUs
+- Formal partnerships
+- Signed agreements
+- Official endorsements
+- Institutional approvals
+
+If the relationship is limited to a workshop, event, training program, or discussion, describe it accurately.
+
+---
+
+# 12. Contact Information
+
+### Brand Name
+
+AEGIS ACADEMY
+
+### Email Addresses
+
+Primary Email:
+connect@aegisacademy.in
+
+General Enquiries:
+info@aegisacademy.in
+
+### Phone Numbers
+
++91 93427 97014
+
++91 84382 66090
+
+### WhatsApp
+
++91 93427 97014
+
+### Address
+
+3/155, Main Road, Sithankathiruppu, Sirkazhi, Tamil Nadu – 609106.
+
+### Social Media
+
+Instagram:
+https://www.instagram.com/_aegis_academy/
+
+LinkedIn:
+https://www.linkedin.com/company/aegis-academy05/
+
+### Contact Form
+
+Fields:
+
+1. Full Name
+2. Email Address
+3. Phone Number
+4. Organisation
+5. Enquiry Type
+6. Message
+
+Enquiry Types:
+
+- Education & Training
+- Technology Services
+- Institutional Partnership
+- Internship
+- Career Opportunities
+- General Enquiry
+
+### Contact Page Requirements
+
+Preserve the existing contact page design.
+
+Ensure:
+- Email buttons open the correct email application.
+- Phone buttons initiate calls.
+- WhatsApp button opens the correct WhatsApp conversation.
+- Social media buttons open the official profiles.
+- Address is displayed accurately.
+- Contact form validation works.
+- Successful submissions are recorded in the backend.
+- Users receive appropriate submission feedback.
+
+---
+
+# 13. Careers & Testimonials
+
+## Careers
+
+Display career opportunities in the following categories:
+
+- Full-Time
+- Part-Time
+- Freelance
+
+### Potential Roles
+
+- Technical Trainers
+- Web Developers
+- App Developers
+- AI/ML Developers
+- UI/UX Designers
+- Marketing & Business Development
+- Campus Ambassadors
+- Event Coordinators
+
+**Important:**
+
+These are potential role categories, not confirmed current vacancies.
+
+Do not display every role as an active opening.
+
+Only display an active vacancy when it has been confirmed.
+
+## Internship Applications
+
+Internship applications remain open throughout the year.
+
+Students from all academic years can apply.
+
+### Internship Categories
+
+- Technical Internships
+- Project-Based Learning
+- Mentorship
+- Practical Skill Development
+- Team-Based Development
+
+### Internship Policy
+
+All internships are unpaid and do not include a stipend.
+
+Display this policy clearly on the internship page and application form.
+
+### Careers Application Form
+
+Suggested fields:
+
+- Full Name
+- Email
+- Phone Number
+- Academic Qualification
+- College / Organisation
+- Academic Year
+- Position Applied For
+- Resume Upload
+- LinkedIn Profile (optional)
+- Additional Information
+
+Ensure uploaded resumes are handled securely.
+
+## Testimonials
+
+Testimonials will be added in the final phase.
+
+Until genuine testimonials are collected:
+
+- Do not generate fictional reviews.
+- Do not invent student names.
+- Do not invent ratings.
+- Do not create fake institutional feedback.
+- Hide or disable the testimonial section.
+
+The website must be ready to support genuine testimonials later.
+
+---
+
+# 14. Backend & Data Integration
+
+### Current Preferred Architecture
+
+- Frontend: Existing React/Vite application.
+- Hosting: Vercel.
+- Backend: Google Apps Script.
+- Database: Google Sheets.
+- File Storage: Google Drive.
+- Email Notifications: Google Apps Script MailApp.
+
+Do not migrate to PostgreSQL or another database in this phase.
+
+A future database migration may be considered separately.
+
+### Required Form Integrations
+
+Where supported by the existing website, connect:
+
+1. Contact Form
+2. Careers Application Form
+3. Internship Application Form
+4. Enquiry Form
+
+### Expected Workflow
+
+1. User fills out a form.
+2. Frontend validates the submitted information.
+3. Data is sent to the configured Google Apps Script endpoint.
+4. Google Apps Script validates the request.
+5. Data is stored in the appropriate Google Sheet.
+6. Uploaded documents are stored in Google Drive where applicable.
+7. Appropriate email notifications are triggered.
+8. The frontend displays a success or failure message.
+
+### Important Technical Requirements
+
+- Never expose private credentials or secrets in frontend code.
+- Use appropriate validation and sanitisation.
+- Prevent duplicate submissions where practical.
+- Handle network failures.
+- Handle Apps Script errors.
+- Validate uploaded files and file sizes.
+- Protect uploaded resumes from unintended public access.
+- Avoid storing sensitive information unnecessarily.
+- Do not claim successful integration without testing it.
+
+Inspect the existing backend implementation before modifying it.
+
+---
+
+# 15. Content Management & Future Image Uploads
+
+The following assets will be provided later:
+
+- Official company logo
+- Founder photograph
+- Co-founder photographs
+- Project images
+- Project screenshots
+- Achievement certificates
+- Institutional logos, where permitted
+
+Prepare the existing content structure to support these assets.
+
+Do not invent certificates, institutional logos, founder photographs, or project screenshots.
+
+Use existing placeholders until the real assets are supplied.
+
+Make future image replacement simple and maintainable.
+
+---
+
+# 16. Technical Audit & Bug Fixing
+
+Before implementation, inspect the entire existing codebase.
+
+Pay particular attention to:
+
+- Placeholder company information
+- Demo project records
+- Dummy team profiles
+- Hardcoded sample data
+- LocalStorage-based demo records
+- Invalid navigation links
+- Broken internal routes
+- Missing page content
+- Form submission logic
+- Careers application workflow
+- Contact form integration
+- Admin access protection
+- Google Apps Script integration
+- Vercel deployment configuration
+- Mobile responsiveness
+
+### Existing Issues to Investigate
+
+Previously identified potential issues include:
+
+1. Demo company data.
+2. Demo records stored in LocalStorage.
+3. Admin route without an obvious authentication guard.
+4. Careers form that only updates local submitted state.
+5. Invalid slug fallback behaviour.
+
+These are investigation points, not assumptions about the current code.
+
+Verify whether they still exist in the current repository before making changes.
+
+### Security
+
+- Do not expose admin functionality publicly without proper authentication.
+- Do not rely on frontend-only access restrictions.
+- Validate all backend requests.
+- Do not expose private API keys.
+- Do not expose confidential applicant information.
+- Do not make private uploaded documents publicly accessible.
+
+---
+
+# 17. Testing & Quality Assurance
+
+After replacing the content and implementing the required integrations, perform a complete testing process.
+
+### A. Build Testing
+
+- Install dependencies using the existing package manager.
+- Run the project's build command.
+- Resolve build errors.
+- Check for missing imports.
+- Check for broken assets.
+- Check for runtime errors.
+
+### B. Navigation Testing
+
+Test:
+- Homepage
+- About page
+- Leadership page
+- Education page
+- Technologies page
+- Projects page
+- Products page
+- Achievements page
+- Careers page
+- Contact page
+
+Verify all internal links and routes.
+
+### C. Form Testing
+
+Test:
+- Empty form submission
+- Invalid email
+- Invalid phone number
+- Missing mandatory fields
+- Valid submission
+- Duplicate submission
+- Backend failure
+- File upload
+- Success notification
+
+### D. Responsive Testing
+
+Test the website on:
+
+- Desktop
+- Laptop
+- Tablet
+- Mobile
+
+Verify that the original design remains consistent across screen sizes.
+
+### E. Functional Testing
+
+Verify:
+- Navigation menus
+- Buttons
+- LinkedIn links
+- Instagram links
+- WhatsApp integration
+- Email links
+- Phone links
+- Project cards
+- Application forms
+- Contact form
+- Existing animations
+- Existing interactive components
+
+### F. Deployment Testing
+
+After local testing:
+
+1. Push the verified changes to GitHub.
+2. Verify the Vercel deployment.
+3. Check the production website.
+4. Test all major routes.
+5. Verify form integrations in the deployed environment.
+
+Do not mark a task as complete until it has actually been tested.
+
+---
+
+# 18. Implementation Rules
+
+Follow this order:
+
+**Phase A – Repository Audit**
+- Inspect repository.
+- Understand current architecture.
+- Identify placeholder content.
+- Identify existing bugs.
+- Identify backend integrations.
+
+**Phase B – Content Replacement**
+- Update brand identity.
+- Update company profile.
+- Update leadership profiles.
+- Update business divisions.
+- Update education programs.
+- Update technology services.
+- Update portfolio.
+- Update achievements.
+- Update contact information.
+- Update careers and internship information.
+
+**Phase C – Backend Integration**
+- Verify existing Apps Script connection.
+- Integrate required forms.
+- Validate data storage.
+- Validate email notifications.
+- Validate file upload handling.
+
+**Phase D – Quality Assurance**
+- Build testing.
+- Route testing.
+- Form testing.
+- Responsive testing.
+- Functional testing.
+- Security checks.
+
+**Phase E – Deployment**
+- Push verified changes.
+- Verify Vercel deployment.
+- Perform production smoke testing.
+
+---
+
+# 19. Strict Restrictions
+
+The following actions are prohibited unless explicitly approved:
+
+- Rebuilding the website from scratch.
+- Changing the existing UI design.
+- Changing the existing colour palette.
+- Replacing existing animations.
+- Removing existing working features.
+- Inventing institutional partnerships.
+- Inventing testimonials.
+- Inventing awards.
+- Inventing project statuses.
+- Creating fake GitHub links.
+- Adding fake demo URLs.
+- Inventing founder qualifications.
+- Displaying unpaid internships as paid opportunities.
+- Calling a UK Registered Design a patent.
+- Using "AEGIS Academy Pvt Ltd" as the public-facing brand identity.
+
+---
+
+# 20. Final Expected Deliverables
+
+At the end of Phase 1, provide:
+
+1. Updated AEGIS Academy website.
+2. Updated company information.
+3. Updated leadership profiles.
+4. Updated business division information.
+5. Updated education program details.
+6. Updated technology services.
+7. Updated project portfolio.
+8. Updated achievements section.
+9. Updated contact information.
+10. Updated careers and internship information.
+11. Working and verified form integrations.
+12. Bug-fixing report.
+13. Build and testing report.
+14. GitHub commit reference.
+15. Vercel deployment URL.
+16. List of pending items requiring user-provided assets or confirmation.
+
+### Final Acceptance Criteria
+
+The project is considered complete only when:
+
+- All approved company content is correctly displayed.
+- Existing UI and design are preserved.
+- No outdated demo company details remain in public-facing pages.
+- No fabricated information is displayed.
+- All available navigation routes work.
+- Forms work with the configured backend.
+- No critical build errors remain.
+- The website is responsive.
+- The deployed website has been tested.
+
+If any information is missing or requires confirmation, do not guess. Maintain the existing placeholder mechanism or temporarily hide that specific content and include it in the pending-items report.
+
+**FINAL INSTRUCTION:**
+
+Treat this as a controlled content replacement and website quality improvement project. Preserve the existing AEGIS Academy website identity, architecture, and design. Prioritise accuracy, reliability, security, maintainability, and functional correctness over unnecessary visual changes.

@@ -1,42 +1,58 @@
 /**
- * AEGIS ACADEMY - AUTH SERVICE (Google Apps Script)
- * Manages admin authentication, secure token issuance, and role-based access.
+ * ============================================================================
+ * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
+ * File: AuthService.gs
+ * Description: Multi-round password derivation, rate-limited admin authentication,
+ * JWT-style session tokens, and role-based access control.
+ * ============================================================================
  */
 
-var AuthService = (function() {
-  var HEADERS = ['userId', 'email', 'name', 'passwordHash', 'salt', 'role', 'active', 'createdAt', 'lastLoginAt'];
+var AuthService = {
+  HEADERS: ['userId', 'email', 'name', 'passwordHash', 'salt', 'role', 'active', 'createdAt', 'lastLoginAt'],
 
   /**
-   * Helper: compute SHA-256 hash with salt
+   * Multi-iteration key derivation function (1,000 rounds of HMAC-SHA256)
    */
-  function hashPassword(password, salt) {
-    var raw = salt + password;
-    var digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, raw, Utilities.Charset.UTF_8);
-    return digest.map(function(byte) {
-      var v = (byte < 0 ? byte + 256 : byte).toString(16);
-      return v.length === 1 ? '0' + v : v;
-    }).join('');
-  }
+  hashPassword: function(password, salt) {
+    if (!password || !salt) throw new Error('Password and salt are required.');
+    var derived = salt + password;
+    var secret = Config.getAdminSecretKey();
+
+    // 1,000 rounds of HMAC-SHA256
+    for (var i = 0; i < 1000; i++) {
+      var sig = Utilities.computeHmacSha256Signature(derived + ':' + i, secret);
+      derived = Utilities.base64Encode(sig);
+    }
+    return derived;
+  },
 
   /**
-   * Helper: create signed HMAC session token
+   * Generates a 16-character cryptographically unique hex salt
    */
-  function createToken(payload) {
+  generateSalt: function() {
+    return Utilities.getUuid().replace(/-/g, '').substring(0, 16);
+  },
+
+  /**
+   * Create signed HMAC session token (24-hour expiration)
+   */
+  createToken: function(payload) {
     var secret = Config.getAdminSecretKey();
     var header = Utilities.base64EncodeWebSafe(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
     var exp = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
     payload.exp = exp;
+    payload.iat = Date.now();
     var body = Utilities.base64EncodeWebSafe(JSON.stringify(payload));
     var signature = Utilities.computeHmacSha256Signature(header + '.' + body, secret);
     var sigBase64 = Utilities.base64EncodeWebSafe(signature);
     return header + '.' + body + '.' + sigBase64;
-  }
+  },
 
   /**
-   * Helper: verify signed session token
+   * Verify signed session token and validate claims
    */
-  function verifyToken(token) {
-    if (!token) return null;
+  verifyToken: function(token) {
+    if (!token || typeof token !== 'string') return null;
     var parts = token.split('.');
     if (parts.length !== 3) return null;
 
@@ -58,76 +74,75 @@ var AuthService = (function() {
     } catch (e) {
       return null;
     }
-  }
+  },
 
   /**
-   * Authenticate admin user
-   * @param {string} email
-   * @param {string} password
+   * Authenticate admin user with rate limiting against brute force
    */
-  function authenticate(email, password) {
+  authenticate: function(email, password) {
     if (!email || !password) {
-      throw new Error('Email and password are required.');
+      var err = new Error('Email and password are required.');
+      err.code = 'INVALID_CREDENTIALS';
+      throw err;
     }
 
     var cleanEmail = String(email).trim().toLowerCase();
-    var users = Database.getAllRecords(Config.SHEETS.ADMIN_USERS, HEADERS, { email: cleanEmail });
 
-    // Fallback bootstrap admin if sheet is empty or admin secret key matches
+    // Check rate limit: max 5 failed attempts per 15 minutes per email
+    var cache = CacheService.getScriptCache();
+    var attemptsKey = 'login_fail_' + cleanEmail;
+    var failedAttempts = parseInt(cache.get(attemptsKey) || '0', 10);
+    if (failedAttempts >= 5) {
+      var rateErr = new Error('Too many failed login attempts. Account temporarily locked for 15 minutes.');
+      rateErr.code = 'RATE_LIMITED';
+      throw rateErr;
+    }
+
+    var users = Database.getAllRecords(Config.SHEETS.ADMIN_USERS, this.HEADERS, { email: cleanEmail });
+
     if (users.length === 0) {
-      var adminSecret = Config.getAdminSecretKey();
-      // If master secret is supplied or default initial login
-      if (cleanEmail === 'admin@aegisacademy.in' && password === adminSecret) {
-        var token = createToken({
-          userId: 'ADM-SUPER-001',
-          email: cleanEmail,
-          name: 'Super Admin',
-          role: Config.ROLES.SUPER_ADMIN
-        });
-
-        Database.logActivity('ADMIN_LOGIN', 'Master super admin login successful', { email: cleanEmail });
-
-        return {
-          success: true,
-          token: token,
-          user: {
-            userId: 'ADM-SUPER-001',
-            email: cleanEmail,
-            name: 'Super Admin',
-            role: Config.ROLES.SUPER_ADMIN
-          }
-        };
-      }
-      throw new Error('Invalid credentials.');
+      // Record failed attempt
+      cache.put(attemptsKey, String(failedAttempts + 1), 900); // 15 mins
+      Database.logActivity('ADMIN_LOGIN_FAILED', 'Failed login attempt for unknown user: ' + cleanEmail, {}, cleanEmail);
+      var authErr = new Error('Invalid email or password.');
+      authErr.code = 'INVALID_CREDENTIALS';
+      throw authErr;
     }
 
     var user = users[0];
     if (user.active !== true && user.active !== 'true' && user.active !== 1) {
-      throw new Error('This administrative account has been deactivated.');
+      var deactErr = new Error('This administrative account has been deactivated.');
+      deactErr.code = 'ACCOUNT_DEACTIVATED';
+      throw deactErr;
     }
 
-    var computedHash = hashPassword(password, user.salt || '');
+    var computedHash = this.hashPassword(password, user.salt || '');
     if (computedHash !== user.passwordHash) {
-      Database.logActivity('ADMIN_LOGIN_FAILED', 'Failed password attempt for ' + cleanEmail, { email: cleanEmail });
-      throw new Error('Invalid credentials.');
+      cache.put(attemptsKey, String(failedAttempts + 1), 900);
+      Database.logActivity('ADMIN_LOGIN_FAILED', 'Failed password attempt for ' + cleanEmail, {}, cleanEmail);
+      var pwErr = new Error('Invalid email or password.');
+      pwErr.code = 'INVALID_CREDENTIALS';
+      throw pwErr;
     }
 
-    // Update last login timestamp
-    Database.updateRecord(Config.SHEETS.ADMIN_USERS, HEADERS, 'userId', user.userId, {
-      lastLoginAt: new Date().toISOString()
+    // Login successful — clear rate limit
+    cache.remove(attemptsKey);
+
+    var nowIso = new Date().toISOString();
+    Database.updateRecord(Config.SHEETS.ADMIN_USERS, this.HEADERS, 'userId', user.userId, {
+      lastLoginAt: nowIso
     });
 
-    var token = createToken({
+    var token = this.createToken({
       userId: user.userId,
       email: user.email,
       name: user.name,
       role: user.role
     });
 
-    Database.logActivity('ADMIN_LOGIN_SUCCESS', 'Admin login successful', { email: user.email, role: user.role });
+    Database.logActivity('ADMIN_LOGIN_SUCCESS', 'Admin login successful', { role: user.role }, user.email);
 
     return {
-      success: true,
       token: token,
       user: {
         userId: user.userId,
@@ -136,12 +151,12 @@ var AuthService = (function() {
         role: user.role
       }
     };
-  }
+  },
 
   /**
-   * Verify token from request
+   * Authenticate request from event parameter or POST body
    */
-  function authenticateRequest(e) {
+  authenticateRequest: function(e, requiredPermission) {
     var token = '';
     if (e.parameter && e.parameter.token) {
       token = e.parameter.token;
@@ -152,18 +167,24 @@ var AuthService = (function() {
       } catch (err) {}
     }
 
-    var user = verifyToken(token);
+    var user = this.verifyToken(token);
     if (!user) {
-      throw new Error('Unauthorized: Invalid or expired session token.');
+      var unauthErr = new Error('Unauthorized: Missing, invalid, or expired session token.');
+      unauthErr.code = 'UNAUTHORIZED';
+      throw unauthErr;
     }
+
+    // Role-based authorization check
+    if (requiredPermission) {
+      var userRole = user.role || Config.ROLES.VIEWER;
+      var rolePerms = Config.PERMISSIONS[userRole] || [];
+      if (rolePerms.indexOf('all') === -1 && rolePerms.indexOf(requiredPermission) === -1) {
+        var forbidErr = new Error('Forbidden: Insufficient privileges for action (' + requiredPermission + ').');
+        forbidErr.code = 'FORBIDDEN';
+        throw forbidErr;
+      }
+    }
+
     return user;
   }
-
-  return {
-    HEADERS: HEADERS,
-    hashPassword: hashPassword,
-    authenticate: authenticate,
-    verifyToken: verifyToken,
-    authenticateRequest: authenticateRequest
-  };
-})();
+};

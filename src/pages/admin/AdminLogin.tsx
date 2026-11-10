@@ -9,7 +9,7 @@ interface AdminLoginProps {
 
 export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
   const { navigate } = useRouter();
-  const [email, setEmail] = useState('admin@aegisacademy.in');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,10 +21,13 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
 
     try {
       const res = await authService.login(email, password);
-      if (res.success && res.user) {
-        onSuccess(res.user);
+      if (res.success && res.data?.user) {
+        onSuccess(res.data.user);
       } else {
-        setError(res.error || 'Invalid credentials. Please verify your administrative email and password.');
+        const errorMsg = typeof res.error === 'object' && res.error?.message
+          ? res.error.message
+          : (typeof res.error === 'string' ? res.error : res.message || 'Invalid credentials. Please verify your administrative email and password.');
+        setError(errorMsg);
       }
     } catch (err: any) {
       setError(err.message || 'Authentication failed. Please check network connection.');
@@ -103,9 +106,6 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
                 className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#020617]/70 border border-white/20 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00A3FF] focus:ring-1 focus:ring-[#00A3FF]"
               />
               <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-            </div>
-            <div className="text-[11px] text-slate-400 mt-1.5 flex items-center justify-between">
-              <span>Default key: <code className="text-[#38BDF8] bg-slate-800/80 px-1 py-0.5 rounded font-mono">Aegis@Admin2026!</code></span>
             </div>
           </div>
 

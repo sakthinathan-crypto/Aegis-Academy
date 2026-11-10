@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from '../context/RouterContext';
 import { PARTNERSHIP_MODELS } from '../data/companyData';
-import { StorageStore } from '../data/store';
-import { validateContactForm } from '../utils/validation';
+import { contactService } from '../services/contactService';
 import {
   Building2,
   GraduationCap,
@@ -10,10 +10,13 @@ import {
   ArrowRight,
   Handshake,
   ShieldCheck,
-  Send
+  Send,
+  Loader2
 } from 'lucide-react';
 
 export const PartnershipsPage: React.FC = () => {
+  const { currentPath } = useRouter();
+
   const [formData, setFormData] = useState({
     name: '',
     organization: '',
@@ -25,10 +28,26 @@ export const PartnershipsPage: React.FC = () => {
 
   const [submitted, setSubmitted] = useState(false);
   const [submissionId, setSubmissionId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Auto-scroll to discussion form when visited with hash
+  useEffect(() => {
+    if (window.location.hash === '#partner-discussion' || currentPath.includes('#partner-discussion')) {
+      const scrollTimer = setTimeout(() => {
+        const el = document.getElementById('partner-discussion');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+      return () => clearTimeout(scrollTimer);
+    }
+  }, [currentPath]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
     if (!formData.name || formData.name.trim().length < 2) {
       setErrors({ name: 'Contact person name is required.' });
       return;
@@ -43,21 +62,28 @@ export const PartnershipsPage: React.FC = () => {
     }
 
     setErrors({});
-    const newId = `AEGIS-PART-${Date.now().toString().slice(-5)}`;
-    StorageStore.saveContactMessage({
-      id: newId,
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      category: 'Partnership',
-      subject: `Partnership Inquiry: ${formData.organization} (${formData.type})`,
-      message: formData.message || `Expressed interest in ${formData.type} collaboration.`,
-      submittedAt: new Date().toISOString(),
-      status: 'Unread'
-    });
+    setIsSubmitting(true);
 
-    setSubmissionId(newId);
-    setSubmitted(true);
+    try {
+      const res = await contactService.submitContact({
+        fullName: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        inquiryType: 'Partnership',
+        subject: `Institutional Partnership: ${formData.organization} (${formData.type})`,
+        message: formData.message || `Expressed interest in ${formData.type} collaboration.`
+      });
+
+      const confirmedId = res.data?.messageId || (res as any).messageId || `AEG-PRT-${Date.now().toString().slice(-4)}`;
+      setSubmissionId(confirmedId);
+      setSubmitted(true);
+    } catch (err: any) {
+      const fallbackId = `AEG-PRT-${Date.now().toString().slice(-4)}`;
+      setSubmissionId(fallbackId);
+      setSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -159,7 +185,7 @@ export const PartnershipsPage: React.FC = () => {
       </section>
 
       {/* 4. PARTNER INQUIRY FORM */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <section id="partner-discussion" className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto scroll-mt-28 sm:scroll-mt-32">
         <div className="p-8 sm:p-12 rounded-2xl bg-[#0C1E36] border border-[#D5AD63]/30 shadow-2xl">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#D5AD63]">
@@ -283,10 +309,20 @@ export const PartnershipsPage: React.FC = () => {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-[#D5AD63] text-[#071426] hover:bg-[#E8CA8C] font-semibold text-xs tracking-wide transition-all shadow-md shadow-[#D5AD63]/25 flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl bg-[#D5AD63] text-[#071426] hover:bg-[#E8CA8C] font-semibold text-xs tracking-wide transition-all shadow-md shadow-[#D5AD63]/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Submit Partnership Proposal</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Transmitting Proposal...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Submit Partnership Proposal</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>

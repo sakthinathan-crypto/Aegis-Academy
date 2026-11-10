@@ -1,143 +1,291 @@
-import { Program, Service, Project, Leader, EventItem, GalleryItem, Testimonial, InsightArticle, JobPosting } from '../types';
+import {
+  Program,
+  Service,
+  Project,
+  Leader,
+  EventItem,
+  GalleryItem,
+  Testimonial,
+  InsightArticle,
+  JobPosting,
+  Achievement,
+  InstitutionalCollaboration,
+  EducationInitiative
+} from '../types';
 
 export const COMPANY_INFO = {
-  name: 'Aegis Academy Pvt. Ltd.',
-  shortName: 'Aegis Academy',
+  name: 'AEGIS ACADEMY',
+  shortName: 'AEGIS ACADEMY',
   acronym: 'AEGIS',
   fullForm: 'Alliance of Entrepreneurs Guiding Innovation and Strategies',
-  tagline: 'Empowering Minds. Engineering Futures.',
+  tagline: 'Where Guidance Meets Growth',
   subtaglines: [
-    'Learn Beyond Boundaries.',
-    'Innovation Through Education.',
-    'Building Skills for Tomorrow.',
-    'Transforming Ideas into Technology.'
+    'Where Guidance Meets Growth',
+    'Learn. Develop. Lead.',
+    'Innovate. Build. Transform.',
+    'Future Skills & Professional Development'
   ],
-  description: 'Aegis Academy is an education and technology-oriented organization focused on empowering students, institutions, and businesses through modern education, emerging technologies, innovation, and practical skill development.',
-  vision: 'To empower the next generation with future-ready knowledge, practical skills, and innovative technological solutions.',
-  mission: 'To bridge the gap between education and industry through accessible learning, hands-on training, technology innovation, and meaningful collaborations.',
-  philosophy: 'We believe education should be applied, experiential, and directly aligned with modern industrial realities. By integrating academic rigor with frontier technology development, we cultivate thinkers who build and engineers who lead.',
+  description:
+    'AEGIS Academy is an education and technology-driven organisation focused on empowering individuals, transforming learning experiences, and delivering innovative technology solutions.',
+  fullAbout:
+    'AEGIS Academy is an education and technology-driven organisation focused on empowering individuals, transforming learning experiences, and delivering innovative technology solutions.\n\nThrough AEGIS Education, we provide practical learning experiences, skill development, professional training, and industry-oriented programs that prepare individuals for future opportunities.\n\nThrough AEGIS Technologies, we focus on developing innovative digital solutions, building technology-driven products, and helping businesses and organisations solve real-world challenges.\n\nOur approach brings education and technology together to create opportunities, encourage innovation, and drive meaningful growth.',
+  vision:
+    'To build a future where knowledge, technology, and innovation empower individuals and organisations to achieve meaningful growth and create a positive impact on society.',
+  mission:
+    'To bridge the gap between learning and real-world application through quality education, practical skill development, innovative technology solutions, and continuous collaboration with individuals, institutions, and industries.',
+  philosophy:
+    'Our approach brings education and technology together to create opportunities, encourage innovation, and drive meaningful growth. We bridge the gap between academic theory and real-world application through practical skill development, deep technical exploration, and enduring collaborations.',
   coreValues: [
-    { title: 'Excellence in Execution', description: 'Striving for highest craftsmanship in pedagogy and software engineering.' },
-    { title: 'Applied Innovation', description: 'Transforming theoretical knowledge into real-world technological solutions.' },
-    { title: 'Inclusive Empowerment', description: 'Making high-impact technical training accessible to ambitious learners everywhere.' },
-    { title: 'Ethical Leadership', description: 'Operating with integrity, transparency, and deep institutional responsibility.' }
+    {
+      title: 'Innovation',
+      description: 'Pioneering forward-looking pedagogical approaches, emerging technology programs, and cutting-edge software solutions.'
+    },
+    {
+      title: 'Integrity',
+      description: 'Operating with honesty, transparency, ethical principles, and deep responsibility across all initiatives.'
+    },
+    {
+      title: 'Excellence',
+      description: 'Committing to the highest standards of quality in education delivery, technical instruction, and engineering craftsmanship.'
+    },
+    {
+      title: 'Collaboration',
+      description: 'Building enduring, impactful partnerships with students, educational institutions, startups, and enterprises.'
+    },
+    {
+      title: 'Continuous Learning',
+      description: 'Fostering intellectual curiosity, adaptive technical skills, and lifelong learning for future readiness.'
+    },
+    {
+      title: 'Empowerment',
+      description: 'Equipping learners and organisations with the knowledge, tools, and confidence to solve real-world challenges.'
+    }
   ],
+  targetAudience: [
+    'School Students',
+    'College Students',
+    'Graduates',
+    'Working Professionals',
+    'Educational Institutions',
+    'Startups',
+    'Businesses and Organisations'
+  ],
+  divisions: {
+    education: {
+      name: 'AEGIS Education',
+      positioning: 'Future Skills & Professional Development',
+      tagline: 'Learn. Develop. Lead.',
+      targetCustomers: ['Schools', 'Colleges', 'Universities', 'Individual Learners'],
+      deliveryModels: ['Online', 'On-Campus', 'Hybrid']
+    },
+    technologies: {
+      name: 'AEGIS Technologies',
+      positioning: 'Technology Solutions & Innovation',
+      tagline: 'Innovate. Build. Transform.',
+      targetCustomers: ['Startups', 'Small and Medium Enterprises', 'Enterprises', 'Educational Institutions', 'Individual Clients'],
+      deliveryModels: ['Online', 'On-Campus', 'Hybrid']
+    }
+  },
   contact: {
-    email: 'contact@aegisacademy.sample.in',
-    admissionsEmail: 'admissions@aegisacademy.sample.in',
-    techEmail: 'solutions@aegisacademy.sample.in',
-    phone: '+91 (0) 80 4920 1800',
-    whatsapp: '+91 98450 12345',
-    address: 'Technology Innovation Hub, Phase 2, Electronic City, Bengaluru, Karnataka 560100',
-    googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.0191834160416!2d77.6631853759325!3d12.841399887462725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae6c8869cbfae5%3A0x9599298450e1ef00!2sElectronic%20City%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
+    email: 'connect@aegisacademy.in',
+    generalEmail: 'info@aegisacademy.in',
+    admissionsEmail: 'connect@aegisacademy.in',
+    techEmail: 'info@aegisacademy.in',
+    phone: '+91 93427 97014',
+    secondaryPhone: '+91 84382 66090',
+    whatsapp: '+91 93427 97014',
+    address: '3/155, Main Road, Sithankathiruppu, Sirkazhi, Tamil Nadu – 609106.',
+    googleMapsEmbedUrl:
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3914.542718917865!2d79.7300!3d11.2333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5518b5b7668603%3A0x6b6c07dc17b2b73!2sSirkazhi%2C%20Tamil%20Nadu%20609106!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin',
     hours: 'Monday – Saturday: 9:00 AM – 6:30 PM IST',
-    isSampleNotice: 'All phone numbers, emails, and address listings provided here are demonstration placeholders and can be replaced with verified corporate coordinates.'
+    isSampleNotice: ''
   },
   socials: {
-    linkedin: 'https://linkedin.com/company/aegis-academy-sample',
-    instagram: 'https://instagram.com/aegisacademy_sample',
-    twitter: 'https://twitter.com/aegis_sample',
-    github: 'https://github.com/aegis-academy-sample'
+    linkedin: 'https://www.linkedin.com/company/aegis-academy05/',
+    instagram: 'https://www.instagram.com/_aegis_academy/',
+    github: 'https://github.com/sakthinathan-crypto/Aegis-Academy'
   }
 };
 
 export const SAMPLE_STATISTICS = [
-  { value: '18,500+', label: 'Students Trained', context: 'Across 45+ academic institutions (Demo metric)' },
-  { value: '120+', label: 'Industry Workshops', context: 'Hands-on practical cohorts conducted' },
-  { value: '35+', label: 'Enterprise Solutions', context: 'Web, Mobile & AI deployments' },
-  { value: '94.2%', label: 'Positive Outcomes', context: 'Student skill evaluation benchmark' }
+  { value: '2', label: 'Core Divisions', context: 'AEGIS Education & AEGIS Technologies' },
+  { value: '9', label: 'Leadership Members', context: 'Experienced founders and technical leads' },
+  { value: '10+', label: 'Flagship Projects', context: 'Research, IoT, and automated platforms' },
+  { value: '100%', label: 'Practical Focus', context: 'Hands-on learning & real-world solutions' }
 ];
+
+export const PROGRAM_DURATIONS = [
+  { program: 'Seminar / Workshop', duration: '1 Day', description: 'Intensive single-day orientation and hands-on demonstrations.' },
+  { program: 'Short-Term Workshop', duration: '2–3 Days', description: 'Focused topic immersion with live coding and guided exercises.' },
+  { program: 'Technical Bootcamp', duration: '1 Week', description: 'Fast-paced technical sprint covering foundational paradigms.' },
+  { program: 'Intensive Skill Development', duration: '2 Weeks', description: 'Comprehensive practical training with mini capstone defense.' },
+  { program: 'Technical Training', duration: '1 Month', description: 'Deep-dive curriculum covering full application development.' },
+  { program: 'Advanced Training / Internship', duration: '2–3 Months', description: 'Project-based mentorship with real-world problem solving.' },
+  { program: 'Institutional Program', duration: '1 Semester', description: 'Integrated on-campus academic semester curriculum.' }
+];
+
+export const INTERNSHIP_POLICY = {
+  title: 'Important Internship Policy',
+  notice: 'All AEGIS Academy student internships are unpaid and do not include a stipend. Internships focus strictly on practical skill development, mentorship, real-world problem solving, and project-based learning.',
+  eligibility: 'Open throughout the year for students from all academic years and degree streams.',
+  benefits: [
+    'Project-Based Learning on live architectures',
+    'Real-World Problem Solving & technical exploration',
+    'Team-Based Development with Git workflows',
+    'Mentorship and Technical Guidance from senior practitioners',
+    'Practical Skill Assessment & project defense'
+  ]
+};
 
 export const LEADERSHIP_TEAM: Leader[] = [
   {
     id: 'lead-1',
-    name: 'Aarav V. Sharma',
-    designation: 'Founder & Chief Executive Officer',
-    department: 'Executive Board',
-    bio: 'Visionary technologist and education advocate with over 15 years leading cross-functional digital transformations and higher education initiatives.',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-founder',
-    isSampleProfile: true
+    name: 'Sakthinathan Jayakumar',
+    designation: 'Chief Executive Officer (CEO)',
+    department: 'Founder & CEO',
+    bio: "Sakthinathan Jayakumar leads AEGIS Academy's strategic direction, organisational development, and long-term vision. With a background in Computer Science Engineering and a strong interest in technology innovation and entrepreneurship, he focuses on building meaningful educational initiatives, developing technology-driven solutions, and establishing institutional and industry collaborations.",
+    avatar: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/sakthinathan-jayakumar-b3400b33b/',
+    isSampleProfile: false
   },
   {
     id: 'lead-2',
-    name: 'Pooja R. Krishnan',
-    designation: 'Chief Business Officer',
-    department: 'Business & Institutional Alliances',
-    bio: 'Experienced strategist specializing in strategic university collaborations, industrial MOUs, and sustainable revenue growth.',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-cbo',
-    isSampleProfile: true
+    name: 'Sham S',
+    designation: 'Chief Business Officer (CBO)',
+    department: 'Co-Founder & CBO',
+    bio: 'Sham S contributes to business strategy, growth opportunities, and organisational development at AEGIS Academy. He focuses on strengthening business relationships, identifying opportunities, and supporting institutional and industry partnerships.',
+    avatar: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/sham-s-9bb689316/',
+    isSampleProfile: false
   },
   {
     id: 'lead-3',
-    name: 'Vikramaditya Sengupta',
-    designation: 'Chief Technology Officer',
-    department: 'Aegis Technologies',
-    bio: 'Former principal cloud architect. Leads Aegis enterprise engineering, software architecture, and developer incubation programs.',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-cto',
-    isSampleProfile: true
+    name: 'Megna K',
+    designation: 'Chief Financial Officer (CFO)',
+    department: 'Co-Founder & CFO',
+    bio: 'Megna K brings technical expertise in cloud engineering and Artificial Intelligence and Machine Learning. As CFO, she contributes to financial planning, resource management, budgeting, and sustainable organisational growth.',
+    avatar: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/megnova/',
+    isSampleProfile: false
   },
   {
     id: 'lead-4',
-    name: 'Meera Nambiar',
-    designation: 'Chief Financial Officer',
-    department: 'Finance & Governance',
-    bio: 'Chartered accountant with deep expertise in tech venture budgeting, statutory compliance, and corporate capital planning.',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-cfo',
-    isSampleProfile: true
+    name: 'Sowrirajan N',
+    designation: 'Chief Product Officer (CPO)',
+    department: 'Co-Founder & CPO',
+    bio: 'Sowrirajan N focuses on product vision, development direction, and product strategy. He contributes to transforming ideas into structured product concepts while aligning product priorities with user requirements and organisational objectives.',
+    avatar: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/sowrirajan-nalan-661279355/',
+    isSampleProfile: false
   },
   {
     id: 'lead-5',
-    name: 'Rohan Deshmukh',
-    designation: 'Chief Product Officer',
-    department: 'EdTech Product & Curriculum',
-    bio: 'Specialist in learner experience architecture, cognitive learning models, and gamified pedagogical platforms.',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-cpo',
-    isSampleProfile: true
+    name: 'Baasith Ahamed B',
+    designation: 'Chief Marketing Officer (CMO)',
+    department: 'Co-Founder & CMO',
+    bio: "Baasith Ahamed B contributes to brand development, marketing strategy, and audience engagement. He focuses on strengthening AEGIS Academy's market presence, communicating its value proposition, and supporting organisational growth.",
+    avatar: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/baasith-ahamed-103551371/',
+    isSampleProfile: false
   },
   {
     id: 'lead-6',
-    name: 'Ananya S. Iyer',
-    designation: 'Chief Marketing Officer',
-    department: 'Brand & Communications',
-    bio: 'Digital marketing strategist dedicated to building authentic student communities, institutional outreach, and media campaigns.',
-    avatar: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-cmo',
-    isSampleProfile: true
+    name: 'Abinaya G',
+    designation: 'Chief Technology Officer (CTO)',
+    department: 'Co-Founder & CTO',
+    bio: 'Abinaya G contributes to the technology direction and technical development strategy of AEGIS Academy. She focuses on technology planning, engineering excellence, and aligning technical development with organisational goals.',
+    avatar: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/abinaya-ganesan-677144361/',
+    isSampleProfile: false
   },
   {
     id: 'lead-7',
-    name: 'Karthik Balakrishnan',
-    designation: 'Event & Community Head',
-    department: 'Student & Academic Events',
-    bio: 'Organizer of major collegiate hackathons, technical symposiums, and inter-state robotics competitions.',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-events',
-    isSampleProfile: true
+    name: 'Ishwarya R',
+    designation: 'Event Manager',
+    department: 'Co-Founder & Event Manager',
+    bio: 'Ishwarya R manages event planning, coordination, and execution. She contributes to organising workshops, educational programs, and institutional events while focusing on scheduling, team coordination, and participant engagement.',
+    avatar: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/ishwarya-r-b326a2378/',
+    isSampleProfile: false
   },
   {
     id: 'lead-8',
-    name: 'Sunita Chandrasekhar',
-    designation: 'General Manager - Operations',
-    department: 'Executive Operations',
-    bio: 'Ensuring seamless day-to-day administrative excellence, faculty coordination, and multi-campus logistics.',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-gm',
-    isSampleProfile: true
+    name: 'Santhosh S',
+    designation: 'General Manager',
+    department: 'Co-Founder & General Manager',
+    bio: 'Santhosh S contributes to organisational operations, cross-functional coordination, and execution management. He focuses on operational planning, team coordination, and ensuring that organisational activities progress efficiently.',
+    avatar: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/santhosh-sadagopan-8b2a64371/',
+    isSampleProfile: false
   },
   {
     id: 'lead-9',
-    name: 'Dr. Tushar Pradhan',
-    designation: 'R&D Manager - Applied AI',
-    department: 'Research & Innovation',
-    bio: 'PhD in Computer Vision. Directs student research projects, proprietary AI prototypes, and industry grant papers.',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400',
-    linkedInUrl: 'https://linkedin.com/in/sample-rd',
-    isSampleProfile: true
+    name: 'Vasantharaja M',
+    designation: 'Research & Development Manager',
+    department: 'Co-Founder & R&D Manager',
+    bio: 'Vasantharaja M focuses on research initiatives, innovation, and technology exploration. He contributes to evaluating emerging technologies, conducting experiments, exploring new ideas, and supporting research-driven product development.',
+    avatar: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
+    linkedInUrl: 'https://www.linkedin.com/in/vasantha-raja-806287355/',
+    isSampleProfile: false
+  }
+];
+
+export const EDUCATION_INITIATIVES: EducationInitiative[] = [
+  {
+    id: 'edu-init-1',
+    title: 'Thiran Thedal Thittam',
+    subtitle: 'Student-to-Student Mentoring & Higher Education Awareness',
+    description:
+      'A student-to-student mentoring and higher education awareness initiative. Designed to help students discover future career possibilities, navigate higher education pathways, engage in peer learning, and build technical aspirations.',
+    focusAreas: [
+      'Career Pathways',
+      'Higher Education Guidance',
+      'Peer-to-Peer Learning',
+      'Student Mentoring',
+      'Educational & Technology Awareness'
+    ],
+    delivery: 'On-Campus, School Outreach & Community Seminars'
+  }
+];
+
+export const ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'achieve-1',
+    title: 'Automated AI-Based Medical Waste Crushing and Collection Machine',
+    type: 'UK Registered Design',
+    registrationNumber: '6529168',
+    registrationDate: '27 May 2026',
+    grantDate: '05 June 2026',
+    description:
+      'An innovative medical waste management machine design registered in the United Kingdom. This achievement represents an important milestone in our journey towards developing technology-driven solutions for healthcare waste management.',
+    legalClassification: 'UK Registered Design'
+  }
+];
+
+export const INSTITUTIONAL_COLLABORATIONS: InstitutionalCollaboration[] = [
+  {
+    id: 'collab-1',
+    name: 'Designers Domain Club',
+    departmentOrUnit: 'Department of CSE, E.G.S. Pillay Engineering College',
+    scope: 'Technical workshops, student hackathons, and design thinking initiatives.'
+  },
+  {
+    id: 'collab-2',
+    name: 'KIIT University',
+    departmentOrUnit: 'Technical Activities & Student Engagement',
+    scope: 'Collaborative technical sessions and knowledge-sharing workshops.'
+  },
+  {
+    id: 'collab-3',
+    name: 'Arunai Engineering College, Tiruvannamalai',
+    departmentOrUnit: 'Academic Collaboration',
+    scope: 'Student skill development bootcamps and faculty development discussions.'
+  },
+  {
+    id: 'collab-4',
+    name: "St. Joseph's College of Engineering and Technology, Thanjavur",
+    departmentOrUnit: 'Academic Collaboration',
+    scope: 'Emerging technology seminars and student project guidance.'
   }
 ];
 
@@ -157,7 +305,7 @@ export const PROGRAMS: Program[] = [
       'Modern JavaScript (ESNext) and TypeScript fundamentals',
       'React component architecture, state management & React Query',
       'Node.js, Express, and RESTful API engineering',
-      'Relational (PostgreSQL) and NoSQL (MongoDB) data modeling',
+      'Relational (PostgreSQL) and NoSQL data modeling',
       'Authentication, RBAC, JWT, and web security best practices',
       'CI/CD, Docker basics, and Cloud Deployment on AWS/Vercel'
     ],
@@ -165,7 +313,7 @@ export const PROGRAMS: Program[] = [
       { moduleNumber: 1, title: 'Web Fundamentals & TypeScript', topics: ['Modern DOM', 'Semantic HTML5', 'CSS Flex/Grid', 'TypeScript Types & Interfaces'] },
       { moduleNumber: 2, title: 'Frontend Mastery with React', topics: ['Hooks & Custom Hooks', 'Component Lifecycle', 'State Management', 'Tailwind CSS'] },
       { moduleNumber: 3, title: 'Backend Systems & REST APIs', topics: ['Node.js Event Loop', 'Express Framework', 'Middleware Design', 'API Validation'] },
-      { moduleNumber: 4, title: 'Data Persistence & Security', topics: ['PostgreSQL & Prisma ORM', 'Indexing & Queries', 'JWT Auth', 'HTTPS & CORS'] },
+      { moduleNumber: 4, title: 'Data Persistence & Security', topics: ['Database Schema Design', 'Indexing & Queries', 'JWT Auth', 'HTTPS & CORS'] },
       { moduleNumber: 5, title: 'DevOps & Capstone Project', topics: ['Docker Containerization', 'GitHub Actions', 'Cloud Deployment', 'Live Defense'] }
     ],
     practicalProjects: [
@@ -178,15 +326,15 @@ export const PROGRAMS: Program[] = [
       'A GitHub portfolio with 2 verified production-grade capstone projects.'
     ],
     faqs: [
-      { question: 'Will I receive a certificate upon completion?', answer: 'Yes, students who successfully complete curriculum modules and defend their capstone receive the Aegis Academy Full-Stack Engineering Certificate.' },
-      { question: 'Are classes recorded if I miss a lecture?', answer: 'All live sessions are recorded and made available immediately on the Aegis Student Portal along with instructor code repositories.' }
+      { question: 'Will I receive a certificate upon completion?', answer: 'Yes, students who successfully complete curriculum modules and defend their capstone receive the AEGIS Academy Full-Stack Engineering Certificate.' },
+      { question: 'Are classes recorded if I miss a lecture?', answer: 'All live sessions are recorded and made available immediately on the AEGIS Student Portal along with instructor code repositories.' }
     ],
     image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg'
   },
   {
     id: 'prog-2',
     slug: 'generative-ai',
-    title: 'Applied Generative AI & LLM Systems',
+    title: 'Applied Generative AI & Machine Learning',
     category: 'college',
     shortDescription: 'Build intelligent applications using Large Language Models, embeddings, RAG architectures, and autonomous agents.',
     overview: 'Dive deep into modern generative AI systems. Learn to architect, fine-tune, and orchestrate LLMs, vector search databases, multimodal models, and autonomous tool-calling pipelines.',
@@ -197,7 +345,7 @@ export const PROGRAMS: Program[] = [
     whatYouWillLearn: [
       'Foundations of Transformer architectures, attention mechanisms, and tokenization',
       'Prompt engineering patterns: Few-shot, ReAct, Chain-of-Thought',
-      'Retrieval-Augmented Generation (RAG) with vector databases (Pinecone, ChromaDB)',
+      'Retrieval-Augmented Generation (RAG) with vector databases',
       'Building agentic workflows with LangChain and LlamaIndex',
       'Multimodal AI integration (vision, speech, and document parsing)',
       'Production deployment, latency optimization, and evaluation metrics'
@@ -207,7 +355,7 @@ export const PROGRAMS: Program[] = [
       { moduleNumber: 2, title: 'Structured Prompting & Tool Calling', topics: ['System Prompts', 'Function Calling', 'JSON Schemas', 'Output Parsers'] },
       { moduleNumber: 3, title: 'Vector Stores & Enterprise RAG', topics: ['Document Chunking', 'Vector Embeddings', 'Hybrid Search', 'Re-ranking'] },
       { moduleNumber: 4, title: 'Autonomous Agents & Workflows', topics: ['Agentic Loops', 'Tool Orchestration', 'Memory Management', 'Guardrails'] },
-      { moduleNumber: 5, title: 'Evaluation, Fine-tuning & Deployment', topics: ['Ragas & TruLens', 'PEFT / LoRA concepts', 'Quantization', 'FastAPI Serving'] }
+      { moduleNumber: 5, title: 'Evaluation, Fine-tuning & Deployment', topics: ['Evaluation metrics', 'PEFT / LoRA concepts', 'Quantization', 'FastAPI Serving'] }
     ],
     practicalProjects: [
       { title: 'Multimodal Research Assistant', description: 'Upload scientific papers and diagrams to perform grounded multi-source question-answering with citation verification.', tools: ['Python', 'Gemini API', 'ChromaDB', 'FastAPI'] },
@@ -227,7 +375,7 @@ export const PROGRAMS: Program[] = [
   {
     id: 'prog-3',
     slug: 'cybersecurity',
-    title: 'Cybersecurity & Ethical Hacking',
+    title: 'Cybersecurity & Defensive Engineering',
     category: 'college',
     shortDescription: 'Master penetration testing, network defense, threat intelligence, and secure software development.',
     overview: 'An intensive hands-on security training program simulating real-world cyber attack surfaces, vulnerability assessments, network intrusion detection, and proactive defensive hardening.',
@@ -244,10 +392,10 @@ export const PROGRAMS: Program[] = [
       'Incident response, log forensics, and compliance frameworks'
     ],
     curriculum: [
-      { moduleNumber: 1, title: 'Network Fundamentals & Linux Hardening', topics: ['Packet Flow', 'Subnetting', 'Firewalls', 'SELinux & Permissions'] },
-      { moduleNumber: 2, title: 'Reconnaissance & Vulnerability Scanning', topics: ['OSINT', 'Port Scanning', 'Nessus', 'Service Enumeration'] },
+      { moduleNumber: 1, title: 'Network Fundamentals & Linux Hardening', topics: ['Packet Flow', 'Subnetting', 'Firewalls', 'Permissions'] },
+      { moduleNumber: 2, title: 'Reconnaissance & Vulnerability Scanning', topics: ['OSINT', 'Port Scanning', 'Vulnerability Assessment', 'Service Enumeration'] },
       { moduleNumber: 3, title: 'Web App Exploitation & OWASP', topics: ['SQL Injection', 'Cross-Site Scripting (XSS)', 'CSRF', 'Broken Access Control'] },
-      { moduleNumber: 4, title: 'Privilege Escalation & Defensive Controls', topics: ['Buffer Overflow basics', 'Active Directory security', 'SIEM & SOC overview'] },
+      { moduleNumber: 4, title: 'Privilege Escalation & Defensive Controls', topics: ['System security', 'Active Directory security', 'SIEM & SOC overview'] },
       { moduleNumber: 5, title: 'Red vs. Blue Team Capstone Simulation', topics: ['Capture The Flag (CTF)', 'Forensic Analysis', 'Remediation Reporting'] }
     ],
     practicalProjects: [
@@ -255,11 +403,11 @@ export const PROGRAMS: Program[] = [
     ],
     learningOutcomes: [
       'Practical competence in identifying, exploiting, and fixing high-risk vulnerabilities.',
-      'Preparedness for industry security certifications (CEH, CompTIA Security+).',
+      'Preparedness for industry security certifications.',
       'Professional security reporting and remediation documentation skills.'
     ],
     faqs: [
-      { question: 'Is ethical hacking legal to practice in this course?', answer: 'Yes, all offensive exercises are strictly confined to isolated virtual sandbox labs provided by Aegis Academy with strict safety controls.' }
+      { question: 'Is ethical hacking legal to practice in this course?', answer: 'Yes, all exercises are strictly confined to isolated virtual sandbox labs provided by AEGIS Academy with strict safety controls.' }
     ],
     image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg'
   },
@@ -277,7 +425,7 @@ export const PROGRAMS: Program[] = [
     whatYouWillLearn: [
       'Python syntax, control flow, functions, and recursion',
       'Object-Oriented Design (OOP), inheritance, and design patterns',
-      'Working with files, JSON, CSV, and SQLite databases',
+      'Working with files, JSON, CSV, and databases',
       'Data manipulation with NumPy and Pandas',
       'Building REST APIs with FastAPI',
       'Automated testing with PyTest and virtual environment management'
@@ -289,14 +437,14 @@ export const PROGRAMS: Program[] = [
       { moduleNumber: 4, title: 'APIs & Web Services', topics: ['FastAPI setup', 'Pydantic models', 'Endpoints', 'Database CRUD'] }
     ],
     practicalProjects: [
-      { title: 'Automated Financial Data Pipeline', description: 'Scrapes market indicators, validates records with Pydantic, and generates automated PDF summary analytics.', tools: ['Python', 'Pandas', 'FastAPI', 'Matplotlib'] }
+      { title: 'Automated Financial Data Pipeline', description: 'Scrapes market indicators, validates records with Pydantic, and generates automated summary analytics.', tools: ['Python', 'Pandas', 'FastAPI', 'Matplotlib'] }
     ],
     learningOutcomes: [
       'Mastery of idiomatic Python syntax and clean code principles.',
       'Ability to automate repetitive data tasks and build clean web services.'
     ],
     faqs: [
-      { question: 'Is Python suitable for first-time coders?', answer: 'Python is the ideal first programming language due to its readable syntax and vast modern ecosystem.' }
+      { question: 'Is Python suitable for first-time coders?', answer: 'Python is an ideal programming language due to its readable syntax and vast modern ecosystem.' }
     ],
     image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
   },
@@ -332,7 +480,7 @@ export const PROGRAMS: Program[] = [
       'Real-world portfolio app published on live test tracks.'
     ],
     faqs: [
-      { question: 'Do I need a Mac to build iOS apps in this course?', answer: 'We utilize cloud build pipelines and test flights so students with Windows or Linux machines can complete all required coursework.' }
+      { question: 'Do I need a Mac to build iOS apps in this course?', answer: 'We utilize cloud build pipelines so students with Windows or Linux machines can complete coursework.' }
     ],
     image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg'
   },
@@ -342,7 +490,7 @@ export const PROGRAMS: Program[] = [
     title: 'Data Structures & Algorithms (DSA)',
     category: 'college',
     shortDescription: 'Master problem-solving, asymptotic complexity analysis, graph algorithms, and technical interview patterns.',
-    overview: 'An intensive algorithm training bootcamp designed to build rigorous analytical thinking and prepare candidates for top-tier software engineering technical assessments.',
+    overview: 'An intensive algorithm training bootcamp designed to build rigorous analytical thinking and prepare candidates for software engineering technical assessments.',
     duration: '12 Weeks (80 Hours)',
     eligibility: 'Engineering undergraduates preparing for campus placements and technical interviews.',
     prerequisites: 'Knowledge of C++, Java, or Python.',
@@ -353,7 +501,7 @@ export const PROGRAMS: Program[] = [
       'Non-linear structures: Binary Trees, BSTs, Heaps, AVL Trees',
       'Graph theory: BFS, DFS, Dijkstra, Minimum Spanning Trees',
       'Dynamic Programming, Divide and Conquer, Greedy Algorithms',
-      'Top 75 LeetCode problem patterns and behavioral mock drills'
+      'Top algorithmic problem patterns and behavioral mock drills'
     ],
     curriculum: [
       { moduleNumber: 1, title: 'Complexity & Linear Structures', topics: ['Big O Analysis', 'Two Pointers', 'Sliding Window', 'Linked List Manipulation'] },
@@ -365,27 +513,27 @@ export const PROGRAMS: Program[] = [
       { title: 'Optimized Routing & Metro Path Finder', description: 'Implementation of A* search and Dijkstra algorithm on realistic municipal transit graphs with transfer penalty scoring.', tools: ['C++', 'Graph Algorithms', 'CLI Interface'] }
     ],
     learningOutcomes: [
-      'Mastery of 200+ core algorithmic challenges across complexity tiers.',
+      'Mastery of core algorithmic challenges across complexity tiers.',
       'Ability to articulate time/space trade-offs clearly to interview panels.'
     ],
     faqs: [
-      { question: 'Which programming language will be used in class?', answer: 'Instruction is provided in C++ and Java with dual implementations provided for all algorithmic demonstrations.' }
+      { question: 'Which programming language will be used in class?', answer: 'Instruction is provided in C++ and Java with implementations provided for algorithmic demonstrations.' }
     ],
     image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
   },
   {
     id: 'prog-7',
     slug: 'aptitude-training',
-    title: 'Quantitative & Logical Aptitude Mastery',
+    title: 'Quantitative & Logical Aptitude Training',
     category: 'college',
     shortDescription: 'Sharpen speed math, data interpretation, critical reasoning, and corporate assessment problem-solving.',
-    overview: 'A high-impact training track focused on cracking company placement screening exams, competitive exams, and logical reasoning assessment rounds with speed and mathematical clarity.',
+    overview: 'A high-impact training track focused on clearing company placement screening exams, competitive exams, and logical reasoning assessment rounds with speed and mathematical clarity.',
     duration: '8 Weeks (50 Hours)',
     eligibility: 'Final-year and pre-final-year students across all degree streams.',
     prerequisites: 'Basic high school mathematics.',
     learningMode: 'In-Person',
     whatYouWillLearn: [
-      'Vedic mathematics and mental calculation shortcuts',
+      'Speed mathematics and mental calculation shortcuts',
       'Arithmetic: Percentages, Profit & Loss, Time & Work, Speed & Distance',
       'Algebra, Permutations & Combinations, Probability',
       'Data Interpretation: Bar charts, Pie charts, Tabular analysis',
@@ -398,24 +546,24 @@ export const PROGRAMS: Program[] = [
       { moduleNumber: 4, title: 'Data Interpretation & Timed Mocks', topics: ['Tables & Charts', 'Caselets', 'Full-Length Timed Test Batteries'] }
     ],
     practicalProjects: [
-      { title: 'Placement Mock Assessment Battery', description: '5 comprehensive diagnostic evaluations benchmarked against leading national IT recruitment tests.', tools: ['Computer-Based Testing', 'Percentile Analytics'] }
+      { title: 'Placement Mock Assessment Battery', description: 'Diagnostic evaluations benchmarked against leading national recruitment tests.', tools: ['Computer-Based Testing', 'Percentile Analytics'] }
     ],
     learningOutcomes: [
       'Significant reduction in calculation time with high accuracy rates.',
-      'Confidence in clearing competitive tier-1 aptitude screenings.'
+      'Confidence in clearing competitive aptitude screenings.'
     ],
     faqs: [
-      { question: 'Are daily practice sheets provided?', answer: 'Yes, over 2,500 curated practice questions with step-by-step video solutions are provided via the student dashboard.' }
+      { question: 'Are daily practice sheets provided?', answer: 'Yes, curated practice questions with step-by-step solutions are provided via the student dashboard.' }
     ],
     image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
   },
   {
     id: 'prog-8',
     slug: 'communication-skills',
-    title: 'Professional Communication & Workplace Fluency',
+    title: 'Soft Skills, Communication & Interview Preparation',
     category: 'college',
     shortDescription: 'Build executive presence, group discussion leadership, interview storytelling, and corporate correspondence skills.',
-    overview: 'Designed to elevate verbal articulation, public speaking confidence, active listening, and persuasive writing skills required to excel in multinational corporate environments.',
+    overview: 'Designed to elevate verbal articulation, public speaking confidence, active listening, and persuasive writing skills required to excel in professional work environments.',
     duration: '6 Weeks (40 Hours)',
     eligibility: 'College students and early-career professionals seeking to enhance workplace communication.',
     prerequisites: 'Basic English comprehension.',
@@ -434,14 +582,14 @@ export const PROGRAMS: Program[] = [
       { moduleNumber: 4, title: 'Written Corporate Fluency', topics: ['Email Structure', 'Meeting Minutes', 'Executive Presentations'] }
     ],
     practicalProjects: [
-      { title: 'Simulated Boardroom Presentation', description: 'Students pitch a digital transformation initiative in front of a live panel with recorded playback critique.', tools: ['Video Review', 'Peer Rubric Feedback'] }
+      { title: 'Simulated Professional Presentation', description: 'Students pitch a digital transformation initiative in front of a live panel with recorded playback critique.', tools: ['Video Review', 'Peer Rubric Feedback'] }
     ],
     learningOutcomes: [
       'Poised presentation ability and interview confidence.',
       'Clean professional writing skills devoid of ambiguity.'
     ],
     faqs: [
-      { question: 'Are practice sessions recorded for review?', answer: 'Yes, individual student presentations are recorded and analyzed one-on-one with certified speech coaches.' }
+      { question: 'Are practice sessions recorded for review?', answer: 'Yes, student presentations are reviewed and analyzed with certified speech coaches.' }
     ],
     image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
   },
@@ -449,12 +597,12 @@ export const PROGRAMS: Program[] = [
   {
     id: 'prog-school-1',
     slug: 'ai-awareness-schools',
-    title: 'Artificial Intelligence Awareness for Young Minds',
+    title: 'AI Awareness & Generative AI for Schools',
     category: 'school',
     shortDescription: 'Engaging, interactive introduction to how computers learn, recognize images, and assist everyday life.',
-    overview: 'Specially crafted for students aged 10–15 to demystify artificial intelligence through playful visual games, machine learning experiments, and ethical discussions on technology.',
+    overview: 'Specially crafted for students in Grades 9–12 to demystify artificial intelligence through playful visual experiments, machine learning labs, and ethical discussions on technology.',
     duration: '4 Weeks (16 Hours)',
-    eligibility: 'School students in Grades 6 through 9 (Ages 10–15).',
+    eligibility: 'School students in Grades 9 through 12.',
     prerequisites: 'Enthusiasm for technology; basic familiarity with using a computer.',
     learningMode: 'In-Person',
     whatYouWillLearn: [
@@ -465,32 +613,32 @@ export const PROGRAMS: Program[] = [
       'Being a responsible digital citizen: Fairness, privacy, and online safety'
     ],
     curriculum: [
-      { moduleNumber: 1, title: 'Meet the Thinking Machine', topics: ['What is Intelligence?', 'Computers vs. Humans', 'The History of Robots'] },
-      { moduleNumber: 2, title: 'Teaching a Computer to See', topics: ['Teachable Machine Labs', 'Pixels & Patterns', 'Training vs Testing'] },
+      { moduleNumber: 1, title: 'Meet the Thinking Machine', topics: ['What is Intelligence?', 'Computers vs. Humans', 'The History of Computing'] },
+      { moduleNumber: 2, title: 'Teaching a Computer to See', topics: ['Visual ML Labs', 'Pixels & Patterns', 'Training vs Testing'] },
       { moduleNumber: 3, title: 'Chatting with Computers', topics: ['Language Models', 'Giving Good Instructions', 'Spotting AI Mistakes'] },
       { moduleNumber: 4, title: 'Building a Friendly Robot Project', topics: ['Visual Logic Builder', 'Ethical Tech Rules', 'Final Showcase'] }
     ],
     practicalProjects: [
-      { title: 'Smart Recycling Classifier', description: 'Train a webcam model to detect whether an object is paper, plastic, or organic waste.', tools: ['Google Teachable Machine', 'Scratch'] }
+      { title: 'Smart Recycling Classifier', description: 'Train a webcam model to detect whether an object is paper, plastic, or organic waste.', tools: ['Teachable Machine', 'Visual Logic'] }
     ],
     learningOutcomes: [
       'Confidence using emerging technology constructively rather than merely consuming it.',
       'Clear conceptual understanding of training data and algorithms.'
     ],
     faqs: [
-      { question: 'Is complex math required for school students?', answer: 'No mathematical formulas are used; all concepts are taught through physical metaphors, games, and drag-and-drop tools.' }
+      { question: 'Is complex math required for school students?', answer: 'No advanced mathematics is required; all concepts are taught through physical metaphors, games, and visual tools.' }
     ],
     image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
   },
   {
     id: 'prog-school-2',
     slug: 'computational-thinking-schools',
-    title: 'Computational Thinking & Creative Problem Solving',
+    title: 'Computational Thinking & Digital Literacy',
     category: 'school',
     shortDescription: 'Fostering algorithmic problem breakdown, logic puzzles, and foundational coding through creative projects.',
-    overview: 'Teaches young learners the mental models of computer scientists: decomposition, pattern recognition, abstraction, and algorithmic design using visual block programming and interactive games.',
+    overview: 'Teaches young learners in Grades 9–12 the mental models of problem solvers: decomposition, pattern recognition, abstraction, and algorithmic design using interactive tools.',
     duration: '6 Weeks (24 Hours)',
-    eligibility: 'School students in Grades 5 through 8.',
+    eligibility: 'School students in Grades 9 through 12.',
     prerequisites: 'None.',
     learningMode: 'In-Person',
     whatYouWillLearn: [
@@ -505,49 +653,84 @@ export const PROGRAMS: Program[] = [
       { moduleNumber: 3, title: 'Interactive Game Creation', topics: ['Sprites', 'Collision Detection', 'Score Tracking'] }
     ],
     practicalProjects: [
-      { title: 'Interactive Science Adventure Game', description: 'A multi-level educational game teaching solar system exploration built by the student.', tools: ['Scratch 3.0', 'Block Logic'] }
+      { title: 'Interactive Educational Game', description: 'A multi-level educational game teaching science exploration built by the student.', tools: ['Block Logic', 'Visual Coding'] }
     ],
     learningOutcomes: [
       'Strong logical structuring skills applicable to math and science.',
       'Joy of creative expression through technology.'
     ],
     faqs: [
-      { question: 'Can this program be conducted on school campuses?', answer: 'Yes, Aegis Academy conducts this program directly within partner school computer laboratories during academic terms.' }
+      { question: 'Can this program be conducted on school campuses?', answer: 'Yes, AEGIS Academy conducts this program directly within partner school computer laboratories during academic terms.' }
     ],
     image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
   },
-  // Professional development
   {
-    id: 'prog-pro-1',
-    slug: 'corporate-ai-upskilling',
-    title: 'Enterprise AI & Modernization for Engineering Teams',
-    category: 'professional',
-    shortDescription: 'Customized corporate workshops on integrating LLMs, cloud migration, and modern DevSecOps pipelines.',
-    overview: 'Accelerate your engineering organization’s technological agility. Tailored for enterprise product teams transitioning legacy architectures to microservices, cloud-native deployments, and AI-assisted workflows.',
-    duration: 'Custom (2–6 Weeks)',
-    eligibility: 'Software engineers, engineering leads, tech architects, and product managers.',
-    prerequisites: 'Professional software engineering experience.',
-    learningMode: 'Virtual Live',
+    id: 'prog-school-3',
+    slug: 'career-counselling-schools',
+    title: 'Career Awareness & Higher Education Guidance',
+    category: 'school',
+    shortDescription: 'Empowering high school students to explore modern careers, higher education options, and competitive exam roadmaps.',
+    overview: 'A structured career counselling and guidance track designed for Grades 9–12. Covers future career awareness, emerging technology professions, higher education pathways, competitive exams awareness, and foundational life skills.',
+    duration: '2–4 Weeks (Flexible)',
+    eligibility: 'School students in Grades 9 through 12.',
+    prerequisites: 'None.',
+    learningMode: 'In-Person',
     whatYouWillLearn: [
-      'Architecting resilient distributed microservices',
-      'Practical adoption of AI developer tooling (GitHub Copilot, Cursor, LLM APIs)',
-      'Designing robust internal enterprise RAG pipelines and security compliance',
-      'Cloud cost optimization, observability (OpenTelemetry), and zero-downtime releases'
+      'Understanding modern career paths in engineering, technology, design, and commerce',
+      'Higher education options, university admissions criteria, and degree selection',
+      'Awareness of national competitive entrance examinations and preparation strategies',
+      'Foundational life skills, critical thinking, and communication confidence'
     ],
     curriculum: [
-      { moduleNumber: 1, title: 'Modern Architecture Patterns', topics: ['Event-Driven Systems', 'API Gateways', 'Database Sharding'] },
-      { moduleNumber: 2, title: 'AI Engineering in Enterprise', topics: ['LLM Security', 'Private Model Hosting', 'Evaluation Frameworks'] },
-      { moduleNumber: 3, title: 'Modern Delivery Pipelines', topics: ['Infrastructure as Code', 'Observability', 'Chaos Engineering'] }
+      { moduleNumber: 1, title: 'Career Exploration & Self-Discovery', topics: ['Aptitude Mapping', 'Emerging Tech Fields', 'Industry Demands'] },
+      { moduleNumber: 2, title: 'Higher Education Roadmaps', topics: ['Degree Streams', 'Institutions & Admissions', 'Scholarships'] },
+      { moduleNumber: 3, title: 'Competitive Exam Demystification', topics: ['National Exams Overview', 'Study Habits', 'Time Management'] },
+      { moduleNumber: 4, title: 'Life Skills & Communication', topics: ['Confidence Building', 'Public Speaking Basics', 'Goal Setting'] }
     ],
     practicalProjects: [
-      { title: 'Enterprise Blueprint Implementation', description: 'Live architectural refactor of an enterprise staging service with automated CI/CD and AI-powered log auditing.', tools: ['AWS / GCP', 'Kubernetes', 'Terraform', 'FastAPI'] }
+      { title: 'Personal Career Blueprint', description: 'A guided portfolio blueprint mapping individual strengths to higher education targets and 5-year milestones.', tools: ['Career Assessment', 'Mentorship Review'] }
     ],
     learningOutcomes: [
-      'Immediate acceleration in enterprise delivery velocity.',
-      'Safe, compliant adoption of modern AI paradigms within existing corporate governance.'
+      'Clear clarity on higher education options and prospective career trajectories.',
+      'Actionable roadmaps for board exams and competitive entrance pathways.'
     ],
     faqs: [
-      { question: 'Can the syllabus be tailored to our tech stack?', answer: 'Yes, our enterprise curriculum team conducts an initial architectural discovery session to customize modules directly to your production stack.' }
+      { question: 'Can parents attend the guidance sessions?', answer: 'Yes, parent-student orientation workshops are conducted as part of the school guidance program.' }
+    ],
+    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+  },
+  // Professional & Institutional programs
+  {
+    id: 'prog-pro-1',
+    slug: 'faculty-development-program',
+    title: 'Faculty Development Program (FDP) & Institutional Training',
+    category: 'professional',
+    shortDescription: 'Customized training for college faculty and educators on emerging technologies, modern pedagogical tools, and AI.',
+    overview: 'Accelerate institutional teaching excellence. Tailored for college professors, department heads, and technical instructors wanting to incorporate modern software engineering and AI workflows into their curricula.',
+    duration: 'Custom (1–2 Weeks)',
+    eligibility: 'College faculty, professors, school teachers, and academic administrators.',
+    prerequisites: 'Teaching or technical instruction background.',
+    learningMode: 'Hybrid',
+    whatYouWillLearn: [
+      'Modern software architecture and industry development practices',
+      'Teaching AI, Generative AI, and Machine Learning effectively',
+      'Designing capstone projects that align with industry standards',
+      'Cloud deployments, automated code grading, and open-source teaching aids'
+    ],
+    curriculum: [
+      { moduleNumber: 1, title: 'Modern Pedagogy & Emerging Tech', topics: ['Industry Expectations', 'Curriculum Modernization', 'Interactive Labs'] },
+      { moduleNumber: 2, title: 'Hands-on AI & Cloud Tools', topics: ['LLM APIs', 'Cloud Workbenches', 'Automated Lab Setups'] },
+      { moduleNumber: 3, title: 'Student Mentoring & Capstones', topics: ['Project Supervision', 'Rubrics Design', 'Hackathon Mentoring'] }
+    ],
+    practicalProjects: [
+      { title: 'Institutional Curriculum Modernization Plan', description: 'Design an updated syllabus module and corresponding hands-on laboratory exercises.', tools: ['Curriculum Templates', 'Open-source Labs'] }
+    ],
+    learningOutcomes: [
+      'Empowered faculty ready to guide students in contemporary industry tech stacks.',
+      'Certified FDP completion credentials recognized across academic alliances.'
+    ],
+    faqs: [
+      { question: 'Can this program be conducted on our college campus?', answer: 'Yes, AEGIS Academy delivers on-campus Faculty Development Programs tailored to your institution.' }
     ],
     image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg'
   }
@@ -570,12 +753,12 @@ export const SERVICES: Service[] = [
     ourSolutions: [
       'High-performance React and Next.js frontends with atomic component design',
       'Scalable Node.js, Express, and Go backend microservices with OpenAPI documentation',
-      'Distributed database architecture with read-replicas, connection pooling, and caching',
-      'Automated end-to-end testing, static type checking, and sub-second CI/CD pipelines'
+      'Distributed database architecture with connection pooling and caching',
+      'Automated end-to-end testing, static type checking, and CI/CD pipelines'
     ],
     technologiesUsed: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'Docker', 'Tailwind CSS'],
     developmentProcess: [
-      { step: '01', title: 'Architecture & Discovery', description: 'Requirement discovery, domain-driven modeling, and technical specification drafting.' },
+      { step: '01', title: 'Architecture & Discovery', description: 'Requirement discovery, domain modeling, and technical specification drafting.' },
       { step: '02', title: 'Interactive Prototyping', description: 'High-fidelity wireframes, design tokens, and user journey validation.' },
       { step: '03', title: 'Agile Engineering Sprints', description: 'Two-week iterative sprints with continuous code reviews and test automation.' },
       { step: '04', title: 'Security & Quality Audit', description: 'Penetration testing, accessibility compliance checks, and performance profiling.' },
@@ -585,15 +768,15 @@ export const SERVICES: Service[] = [
       'Production-ready, thoroughly tested source code repository with complete documentation',
       'Dockerized deployment configuration and CI/CD pipelines',
       'Interactive API documentation and schema contracts',
-      'System architecture diagrams and runbooks for client DevOps teams'
+      'System architecture diagrams and runbooks'
     ],
     sampleProjects: [
-      { name: 'Enterprise Management Portal', description: 'Scalable multi-tenant portal with role-based access control handling 50k+ daily transactions.' },
-      { name: 'Interactive Learning Platform', description: 'Real-time collaborative educational portal with code execution playgrounds and video streaming.' }
+      { name: 'SYNTRONIX ’26 Symposium Website', description: 'Digital event platform for an international student symposium supporting registrations and session schedules.' },
+      { name: 'Smart Exam Seat Allocation System', description: 'Automated examination room allocation and student seating chart generator.' }
     ],
     faqs: [
       { question: 'What is your typical project delivery timeline?', answer: 'Standard enterprise MVP web applications typically range from 6 to 12 weeks depending on integration complexity.' },
-      { question: 'Do you offer post-launch maintenance?', answer: 'Yes, we provide tiered SLA-backed maintenance, security patch updates, and ongoing infrastructure monitoring.' }
+      { question: 'Do you offer post-launch maintenance?', answer: 'Yes, we provide tiered maintenance, security patch updates, and ongoing infrastructure monitoring.' }
     ],
     icon: 'Code2'
   },
@@ -624,23 +807,22 @@ export const SERVICES: Service[] = [
       { step: '04', title: 'Store Certification & Launch', description: 'Handling metadata, privacy policies, review certifications, and rollout.' }
     ],
     deliverables: [
-      'Signed application binaries (APK, AAB, IPA) ready for store release',
+      'Signed application binaries ready for store release',
       'Full cross-platform source code with native build scripts',
       'Push notification server integrations and analytics dashboards'
     ],
     sampleProjects: [
-      { name: 'Student Productivity Companion', description: 'Cross-platform student timetable, peer notes, and study group communication app.' },
-      { name: 'Field Inspection Suite', description: 'Offline-first tablet app for industrial facility auditors with photo annotation.' }
+      { name: 'Student Placement Readiness App', description: 'Mobile career assessment and skill diagnostics tool for university learners.' }
     ],
     faqs: [
-      { question: 'Do you manage Apple App Store and Google Play approvals?', answer: 'Yes, our team handles the end-to-end submission, cryptographic signing, and store approval process.' }
+      { question: 'Do you manage Apple App Store and Google Play approvals?', answer: 'Yes, our team handles end-to-end submission, cryptographic signing, and store approval.' }
     ],
     icon: 'Smartphone'
   },
   {
     id: 'serv-3',
     slug: 'ai-solutions',
-    title: 'Artificial Intelligence & Machine Learning',
+    title: 'AI & Machine Learning Solutions',
     category: 'Intelligence',
     shortDescription: 'Custom LLM integration, intelligent document processing, predictive modeling, and automated agent workflows.',
     overview: 'We turn cutting-edge artificial intelligence into dependable business engines. We architect proprietary RAG systems, predictive analytics, computer vision, and autonomous workflow agents.',
@@ -669,8 +851,8 @@ export const SERVICES: Service[] = [
       'Automated evaluation suites measuring hallucination and retrieval precision'
     ],
     sampleProjects: [
-      { name: 'AI Academic Advisory Assistant', description: 'Intelligent student counseling engine recommending personalized learning pathways based on performance.' },
-      { name: 'Automated Document Parser', description: 'Deep learning pipeline extracting structured JSON from multi-page messy PDF contracts with 98% accuracy.' }
+      { name: 'AGRORA Crop Disease Vision Model', description: 'Machine learning model identifying plant pest and disease symptoms.' },
+      { name: 'PAG Document Analysis Engine', description: 'Intelligent multi-format document parser processing PDF, PPTX, and Excel files.' }
     ],
     faqs: [
       { question: 'Is client proprietary data used to train public models?', answer: 'Never. We enforce strict enterprise zero-retention policies and private VPC deployments for all proprietary models.' }
@@ -680,7 +862,7 @@ export const SERVICES: Service[] = [
   {
     id: 'serv-4',
     slug: 'cloud-solutions',
-    title: 'Cloud Solutions & Infrastructure',
+    title: 'Cloud Solutions & DevOps',
     category: 'Infrastructure',
     shortDescription: 'Secure cloud migrations, container orchestration with Kubernetes, serverless pipelines, and multi-region resilience.',
     overview: 'Design and manage modern cloud architectures that reduce operating expenses, prevent downtime, and effortlessly scale during traffic spikes.',
@@ -692,7 +874,7 @@ export const SERVICES: Service[] = [
     ],
     ourSolutions: [
       'Infrastructure as Code (Terraform) for reproducible, version-controlled cloud environments',
-      'Kubernetes (EKS/GKE) cluster configuration with automated horizontal pod autoscaling',
+      'Kubernetes cluster configuration with automated horizontal pod autoscaling',
       'Zero-trust network security, private subnets, and automated secret rotations',
       'Comprehensive telemetry with Prometheus, Grafana, and Datadog'
     ],
@@ -709,33 +891,33 @@ export const SERVICES: Service[] = [
       'Disaster recovery playbook and security policy documentation'
     ],
     sampleProjects: [
-      { name: 'Multi-Tenant SaaS Migration', description: 'Migrated 30 enterprise clients from bare-metal servers to Kubernetes with 40% cost reduction.' }
+      { name: 'Cloud Migration & Containerization', description: 'Migrated web services to containerized autoscaling architecture.' }
     ],
     faqs: [
-      { question: 'Which cloud providers do you support?', answer: 'We are certified architects on both Amazon Web Services (AWS) and Google Cloud Platform (GCP).' }
+      { question: 'Which cloud providers do you support?', answer: 'We build architectures on Amazon Web Services (AWS) and Google Cloud Platform (GCP).' }
     ],
     icon: 'Cloud'
   },
   {
     id: 'serv-5',
     slug: 'automation',
-    title: 'Business Automation & Workflow Engineering',
+    title: 'Business Automation & IoT Solutions',
     category: 'Operations',
-    shortDescription: 'Streamline operational bottlenecks, automate data entry, and connect fragmented software systems.',
-    overview: 'We design custom workflow automation engines that eliminate redundant human steps, connect legacy databases to modern APIs, and drastically cut processing turnaround times.',
+    shortDescription: 'Streamline operational bottlenecks, automate data entry, and connect physical IoT hardware systems.',
+    overview: 'We design custom workflow automation engines and smart IoT systems that eliminate redundant human steps, connect hardware sensors to modern dashboards, and drastically cut processing turnaround times.',
     problemsWeSolve: [
       'Employees wasting hours copy-pasting records across disconnected enterprise tools',
-      'Manual human error in invoices, payroll calculation, and inventory reconciliation',
-      'Slow customer support response times for repetitive inquiries',
-      'Inability to gain real-time visibility across operational business metrics'
+      'Manual human error in data reconciliation and inventory management',
+      'Lack of real-time sensory telemetry from physical equipment and facilities',
+      'Slow response times for automated alert triggers'
     ],
     ourSolutions: [
       'Custom webhook and event-driven automation middleware',
-      'Intelligent robotic process automation (RPA) for legacy desktop software',
-      'Automated reconciliation pipelines that flag discrepancies instantly',
+      'IoT sensor mesh integration for environmental and equipment telemetry',
+      'Automated data reconciliation pipelines that flag discrepancies instantly',
       'Executive dashboards streaming live operational KPIs in real time'
     ],
-    technologiesUsed: ['Node.js', 'Python', 'Kafka', 'Redis', 'Webhooks', 'Airflow', 'PostgreSQL'],
+    technologiesUsed: ['Node.js', 'Python', 'MQTT', 'Redis', 'Webhooks', 'PostgreSQL', 'Docker'],
     developmentProcess: [
       { step: '01', title: 'Process Mining', description: 'Shadowing workflows to quantify bottlenecks and calculate automation ROI.' },
       { step: '02', title: 'Connector & Event Design', description: 'Building resilient API integrations with automatic retry backoffs.' },
@@ -748,49 +930,49 @@ export const SERVICES: Service[] = [
       'Operator handbooks and exception-handling guidelines'
     ],
     sampleProjects: [
-      { name: 'Automated Inventory & Dispatch System', description: 'Connected 4 warehouse databases to dispatch carriers, reducing fulfillment delays by 75%.' }
+      { name: 'Smart Traffic Management Telemetry', description: 'Dynamic signal timing and vehicle density monitoring.' }
     ],
     faqs: [
-      { question: 'Can you connect with legacy software without modern APIs?', answer: 'Yes, our team engineers custom database triggers, sFTP polling scripts, and headless RPA connectors.' }
+      { question: 'Can you connect with custom hardware sensors?', answer: 'Yes, our team engineers microcontrollers, MQTT telemetry, and cloud ingestion pipelines.' }
     ],
     icon: 'Zap'
   },
   {
     id: 'serv-6',
-    slug: 'digital-presence',
-    title: 'Digital Presence & Brand Strategy',
-    category: 'Strategy',
-    shortDescription: 'High-impact corporate brand identities, design systems, editorial web design, and digital brand elevation.',
-    overview: 'Crafting unforgettable corporate identities and digital brand flagships that communicate institutional authority, inspire confidence, and attract top-tier clients and partners.',
+    slug: 'custom-software',
+    title: 'Custom Software & Deep-Tech R&D',
+    category: 'Strategy & R&D',
+    shortDescription: 'Deep-tech research, proprietary equipment intelligence, prototype engineering, and bespoke software solutions.',
+    overview: 'Beyond traditional software consulting, AEGIS Technologies invests deeply in proprietary research and development: AI-powered software products, SaaS platforms, smart IoT solutions, and deep-tech experimental prototypes.',
     problemsWeSolve: [
-      'Outdated corporate websites that look like generic templates',
-      'Inconsistent brand typography, colors, and messaging across touchpoints',
-      'Low lead conversion rates due to uninspired UX and unclear value propositions',
-      'Weak digital authority failing to win institutional trust'
+      'Standard off-the-shelf software failing to address unique domain requirements',
+      'Lack of research and development capabilities for experimental engineering concepts',
+      'Complex hardware-software interface challenges in refrigeration and equipment intelligence'
     ],
     ourSolutions: [
-      'Holistic corporate brand identity guidelines and bespoke design tokens',
-      'Editorial-grade digital design with bespoke iconography and photography art direction',
-      'Conversion-rate-optimized landing experiences with frictionless CTAs',
-      'Comprehensive social and collateral design kits'
+      'End-to-end bespoke software engineering from concept to deployment',
+      'Deep-tech experimental prototyping (e.g. UPTIME OS equipment intelligence)',
+      'Structured technical feasibility studies and proof-of-concept validation',
+      'Long-term technology partnerships and R&D collaboration'
     ],
-    technologiesUsed: ['Figma', 'React', 'Tailwind CSS', 'Motion Design', 'SVG Animation'],
+    technologiesUsed: ['Python', 'C/C++', 'TypeScript', 'React', 'Embedded Systems', 'IoT Edge'],
     developmentProcess: [
-      { step: '01', title: 'Brand Discovery & Positioning', description: 'Defining core value proposition, audience personas, and market differentiation.' },
-      { step: '02', title: 'Visual Identity System', description: 'Crafting color palettes, typography hierarchies, and component design tokens.' },
-      { step: '03', title: 'Interactive Web Flagship', description: 'Developing immersive digital experiences with motion design and micro-interactions.' },
-      { step: '04', title: 'Brand Guidelines Handoff', description: 'Delivering comprehensive brand books and design assets for all organizational channels.' }
+      { step: '01', title: 'Research & Feasibility', description: 'Evaluating theoretical foundations, technical constraints, and hardware parameters.' },
+      { step: '02', title: 'Prototype Engineering', description: 'Building functional testbeds and validating core operational hypotheses.' },
+      { step: '03', title: 'Iterative Refinement', description: 'Refining algorithms, reducing error margins, and hardening performance.' },
+      { step: '04', title: 'Product Architecture', description: 'Packaging verified prototypes into maintainable software architectures.' }
     ],
     deliverables: [
-      'Brand style guide (typography scale, palette tokens, logo usage rules)',
-      'Figma component library with interactive states',
-      'Production web code and collateral templates'
+      'Experimental prototypes and technical research documentation',
+      'Full custom source code with test suites',
+      'Intellectual property preparation and technical reports'
     ],
     sampleProjects: [
-      { name: 'Fintech Corporate Flagship', description: 'Complete digital rebrand and high-converting portal for an institutional investment advisory.' }
+      { name: 'UPTIME OS', description: 'Deep-tech refrigeration and equipment intelligence R&D initiative.' },
+      { name: 'Hospital Waste Segregation Machine', description: 'UK Registered Design automated crushing and segregation system.' }
     ],
     faqs: [
-      { question: 'Do you create custom illustrations and design assets?', answer: 'Yes, our creative team creates bespoke design assets tailored precisely to your brand ethos.' }
+      { question: 'What is your engagement model for custom software?', answer: 'We offer project-based development, monthly maintenance, and long-term technology partnerships.' }
     ],
     icon: 'Layers'
   }
@@ -799,408 +981,459 @@ export const SERVICES: Service[] = [
 export const PROJECTS: Project[] = [
   {
     id: 'proj-1',
-    slug: 'smart-agriculture-platform',
-    title: 'Smart Agriculture IoT & Drone Telemetry Platform',
-    category: 'Automation Solutions',
-    shortDescription: 'Precision agriculture system aggregating soil moisture IoT nodes, drone multispectral imagery, and crop health alerts.',
-    problemStatement: 'Small and medium farming cooperatives in semi-arid regions struggled with erratic irrigation schedules, undetected early fungal blight, and inefficient fertilizer application that eroded crop yields.',
-    proposedSolution: 'Aegis Technologies designed an end-to-end telemetry system combining low-power LoRaWAN sensor nodes, autonomous agricultural drone imagery processing, and predictive soil irrigation analytics.',
+    slug: 'agrora-smart-agriculture',
+    title: 'AGRORA – Smart Agriculture System',
+    category: 'AI Solutions',
+    shortDescription:
+      'A smart agriculture initiative focused on identifying crop diseases, pest attacks, nutrient deficiencies, and irrigation requirements using technology-driven analysis.',
+    problemStatement:
+      'Farmers frequently suffer yield loss due to delayed detection of leaf diseases, fungal infections, and inefficient irrigation and chemical fertilizer application.',
+    proposedSolution:
+      'AGRORA combines computer vision crop disease recognition, soil nutrient analysis, and smart irrigation calculation. (Related to Smart India Hackathon problem statement SIH26180).',
     keyFeatures: [
-      'Sub-GHz wireless IoT sensor mesh reporting soil moisture, pH, and temperature every 15 minutes',
-      'Automated NDVI (Normalized Difference Vegetation Index) calculation from drone aerial uploads',
-      'SMS and mobile push alerts in regional languages with actionable irrigation advice',
-      'Solar-powered edge computing gateways designed for harsh rural conditions'
+      'Crop disease & pest attack detection via image analysis',
+      'Soil nutrient deficiency identification (NPK evaluation)',
+      'Precision irrigation requirement recommendations',
+      'Actionable recommendations designed for regional farmers'
     ],
-    techStack: ['Python', 'FastAPI', 'PostgreSQL', 'TimescaleDB', 'React', 'Tailwind CSS', 'Docker'],
+    techStack: ['Python', 'Computer Vision', 'FastAPI', 'React', 'IoT Telemetry'],
     image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
     outcomes: [
-      '32% documented reduction in water usage across demonstration plots',
-      'Early blight detection achieved 7 days prior to visual human inspection',
-      'Featured at the National AgroTech Symposium (Demonstration project)'
+      'Formulated for Smart India Hackathon problem statement SIH26180',
+      'Awaiting confirmation for field deployment milestones',
+      'Provides actionable insights for water and fertilizer optimization'
     ],
-    clientSector: 'Agritech & Rural Innovation (Demonstration Case Study)',
-    duration: '16 Weeks'
+    clientSector: 'Smart Agriculture & Agritech',
+    duration: 'Ongoing Development',
+    status: 'Awaiting Confirmation'
   },
   {
     id: 'proj-2',
-    slug: 'ai-learning-assistant',
-    title: 'Adaptive AI Learning Navigator & Analytics Suite',
-    category: 'AI Solutions',
-    shortDescription: 'Intelligent cognitive learning assistant that diagnoses student misconceptions and creates personalized revision plans.',
-    problemStatement: 'Educators in large college classrooms cannot provide individual feedback to 120+ students simultaneously, resulting in unnoticed learning gaps in foundational subjects like data structures and calculus.',
-    proposedSolution: 'Developed an intelligent student copilot that continuously analyzes quiz patterns, code submissions, and reading times to construct personalized knowledge graphs and interactive Socratic review modules.',
+    slug: 'uptime-os',
+    title: 'UPTIME OS – Equipment Intelligence',
+    category: 'Academic & Research',
+    shortDescription:
+      'A deep-tech research and development initiative focused on refrigeration and equipment intelligence.',
+    problemStatement:
+      'Industrial and commercial cooling systems experience unexpected compressor failures, refrigerant leaks, and inefficient power draw without predictive warnings.',
+    proposedSolution:
+      'UPTIME OS is a deep-tech research initiative researching equipment monitoring, performance analysis, predictive maintenance, and intelligent refrigeration technology.',
     keyFeatures: [
-      'Real-time student knowledge state modeling using dynamic Bayesian networks',
-      'Socratic dialogue engine that guides students to answers rather than merely giving solutions',
-      'Automated code misconception highlighting with syntax and logic explanations',
-      'Teacher dashboard displaying aggregated class conceptual bottlenecks'
+      'Real-time equipment telemetry and temperature monitoring',
+      'Thermal performance and electrical load analysis',
+      'Predictive maintenance indicators for cooling compressors',
+      'Intelligent monitoring and alert notifications'
     ],
-    techStack: ['React', 'TypeScript', 'Node.js', 'Gemini API', 'PostgreSQL', 'ChromaDB', 'Tailwind CSS'],
-    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
+    techStack: ['Embedded Systems', 'IoT Edge', 'Python', 'Telemetry Pipelines', 'Data Modeling'],
+    image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
     outcomes: [
-      '41% improvement in quiz retention rates observed in initial student cohort tests',
-      'Average student practice time increased from 18 to 44 minutes per day',
-      'Adopted across 4 pilot collegiate technology departments (Sample deployment)'
+      'Deep-tech research and development initiative',
+      'Laboratory experimental prototype validation',
+      'Focused on commercial and industrial equipment resilience'
     ],
-    clientSector: 'Higher Education Technology (Demonstration Case Study)',
-    duration: '20 Weeks'
+    clientSector: 'Refrigeration Technology & Equipment Intelligence',
+    duration: 'Active R&D',
+    status: 'Research & Development'
   },
   {
     id: 'proj-3',
-    slug: 'business-management-system',
-    title: 'Enterprise ERP & Operations Management Engine',
+    slug: 'syntronix-26-symposium',
+    title: 'SYNTRONIX ’26 Symposium Website',
     category: 'Web Applications',
-    shortDescription: 'Unified cloud ERP solution consolidating procurement, multi-warehouse inventory, employee billing, and audit reports.',
-    problemStatement: 'A regional manufacturing conglomerate relied on disconnected spreadsheets and legacy software, resulting in missed purchase order reconciliations, delayed invoices, and lack of real-time cash flow visibility.',
-    proposedSolution: 'A modern, modular web-based ERP platform with multi-tenant permissions, automated purchase order workflows, electronic signature trails, and automated financial statements.',
+    shortDescription:
+      'A digital platform developed for the International Student Symposium on Humanizing Technology.',
+    problemStatement:
+      'Large-scale academic student symposiums require centralized digital coordination for participant registration, paper submissions, and event itineraries.',
+    proposedSolution:
+      'Developed a modern digital platform supporting event information, registration details, speaker schedules, and participant engagement.',
     keyFeatures: [
-      'Role-based access control (RBAC) with granular department permissions',
-      'Real-time multi-warehouse stock tracking with automated reorder thresholds',
-      'Integrated invoicing engine with automated tax calculation and PDF generation',
-      'Comprehensive audit log recording every data change with cryptographic timestamps'
+      'Event information & track overview schedules',
+      'Participant digital registration workflow',
+      'Symposium theme & presentation guidelines',
+      'Responsive design with seamless mobile accessibility'
     ],
-    techStack: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Prisma', 'Tailwind CSS', 'AWS ECS'],
-    image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Cloud Hosting'],
+    image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
     outcomes: [
-      'Reduced monthly financial closing cycles from 9 business days to 36 hours',
-      'Zero documented stockout events during peak quarterly manufacturing runs',
-      'Demonstration platform showcasing enterprise-grade engineering standards'
+      'Built for the International Student Symposium on Humanizing Technology',
+      'Awaiting confirmation for production archive stats',
+      'Provided streamlined information access for student delegates'
     ],
-    clientSector: 'Enterprise Manufacturing & Distribution (Sample Portfolio Item)',
-    duration: '24 Weeks'
+    clientSector: 'Academic & Technical Symposiums',
+    duration: 'Event Platform',
+    status: 'Awaiting Confirmation'
   },
   {
     id: 'proj-4',
-    slug: 'student-productivity-app',
-    title: 'Pulse Campus: Mobile Student Productivity Companion',
-    category: 'Mobile Applications',
-    shortDescription: 'Cross-platform mobile application coordinating campus class schedules, peer study hubs, and assignments.',
-    problemStatement: 'College students experience fragmented campus communications across disparate WhatsApp groups, paper notice boards, and clunky legacy university portals.',
-    proposedSolution: 'An elegant, fluid mobile application connecting timetable synchronization, peer study groups, campus club announcements, and offline exam reminder notifications.',
+    slug: 'hospital-waste-segregation',
+    title: 'Hospital Waste Segregation System',
+    category: 'Automation Solutions',
+    shortDescription:
+      'A technology-driven medical waste management system designed around the segregation of hospital waste materials such as metal, glass, and plastic.',
+    problemStatement:
+      'Clinical waste management poses serious biohazard and physical injury risks when medical metal, glass vials, and plastic disposables are mingled in general hospital waste streams.',
+    proposedSolution:
+      'An automated crushing and collection machine concept engineered to isolate waste materials safely. Related to the UK Registered Design achievement.',
     keyFeatures: [
-      'Automatic timetable calendar sync with offline class reminders',
-      'Encrypted peer study rooms with code snippet sharing and document exchange',
-      'Campus event ticketing and digital pass generation',
-      'Anonymous academic feedback channel for institutional improvement'
+      'Automated segregation of metal, glass, and plastic medical waste',
+      'AI-assisted mechanical crushing and collection mechanics',
+      'Sanitary containment preventing physical touch exposure',
+      'Direct link to UK Registered Design No. 6529168'
     ],
-    techStack: ['Flutter', 'Dart', 'Node.js', 'Firebase Auth', 'Cloud Firestore', 'Tailwind-inspired Theme'],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
+    techStack: ['Robotics', 'Automation Engineering', 'Mechanical Design', 'Sensor Array'],
+    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
     outcomes: [
-      'Over 4,200 active student downloads achieved during campus pilot phase',
-      '88% daily active usage during examination prep periods',
-      'Sample application built by Aegis student cohort under senior mentor supervision'
+      'Granted UK Registered Design (Design Number 6529168)',
+      'Innovative milestone in healthcare waste technology',
+      'Awaiting confirmation for commercial licensing phase'
     ],
-    clientSector: 'Collegiate Life & EdTech (Sample Portfolio Item)',
-    duration: '12 Weeks'
+    clientSector: 'Healthcare Technology & Environmental Engineering',
+    duration: 'Design Registered',
+    status: 'Awaiting Confirmation'
   },
   {
     id: 'proj-5',
-    slug: 'automated-inventory-system',
-    title: 'Cloud Warehouse Automation & Dispatch Routing System',
-    category: 'Automation Solutions',
-    shortDescription: 'Computer vision barcode sorting, autonomous order dispatch queuing, and courier SLA optimization.',
-    problemStatement: 'A high-volume fulfillment center faced 14% mis-shipment rates and prolonged package turnaround times due to manual handoffs between picking, packing, and courier staging.',
-    proposedSolution: 'A high-speed industrial dispatch system integrating optical barcode scanning, dynamic picker route optimization, and automated dispatch courier API handoffs.',
+    slug: 'fertilizer-recommendation-model',
+    title: 'Fertilizer Recommendation Model',
+    category: 'AI Solutions',
+    shortDescription:
+      'A machine learning-based recommendation system that analyses soil nutrient information and related agricultural parameters to support fertilizer recommendations.',
+    problemStatement:
+      'Imbalanced chemical fertilizer application damages soil health, increases costs, and reduces crop output due to lack of precise nutrient matching.',
+    proposedSolution:
+      'A machine learning model trained on soil nutrient data (Nitrogen, Phosphorus, Potassium, pH) to recommend optimal fertilizer blends.',
     keyFeatures: [
-      'Picker path optimization algorithm cutting warehouse walking distances by 35%',
-      'Dual optical verification preventing incorrect carton packing',
-      'Real-time courier rate comparison and automated airway bill generation',
-      'Sub-second scanner response via local edge caching'
+      'Soil NPK and pH data analysis',
+      'Crop-specific fertilizer dosage calculation',
+      'Nutrient replenishment advice to prevent soil degradation',
+      'Fast algorithmic calculation'
     ],
-    techStack: ['Go', 'TypeScript', 'React', 'Docker', 'PostgreSQL', 'Redis', 'MQTT'],
+    techStack: ['Python', 'Scikit-Learn', 'Pandas', 'FastAPI', 'NumPy'],
+    image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
+    outcomes: [
+      'Empirical machine learning model prototype',
+      'Awaiting confirmation for broader field testing validation',
+      'Promotes sustainable agricultural soil management'
+    ],
+    clientSector: 'Agritech & Applied Machine Learning',
+    duration: 'Prototype',
+    status: 'Awaiting Confirmation'
+  },
+  {
+    id: 'proj-6',
+    slug: 'smart-exam-seat-allocation',
+    title: 'Smart Exam Seat Allocation System',
+    category: 'Web Applications',
+    shortDescription:
+      'A system designed to support efficient examination seat allocation and hall management.',
+    problemStatement:
+      'Manual examination hall mapping in educational institutions is tedious and prone to clerical errors, branch overlap, and room capacity violations.',
+    proposedSolution:
+      'A web application that automates seating arrangements, distributes candidates cleanly across halls, and prevents proximity of identical department rolls.',
+    keyFeatures: [
+      'Automated candidate seat mapping across multiple halls',
+      'Branch diversity algorithm preventing adjacent subject overlap',
+      'Printable room-wise seating charts and roll rosters',
+      'Administrative dashboard for exam controllers'
+    ],
+    techStack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
+    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
+    outcomes: [
+      'Automates institutional exam seating logistics',
+      'Awaiting confirmation for production deployment tracking',
+      'Eliminates manual allocation overhead'
+    ],
+    clientSector: 'Educational Administration',
+    duration: 'Prototype',
+    status: 'Awaiting Confirmation'
+  },
+  {
+    id: 'proj-7',
+    slug: 'pag-document-processing',
+    title: 'PAG – Process, Analyse, Generate',
+    category: 'AI Solutions',
+    shortDescription:
+      'An intelligent document processing and analysis initiative designed to work with documents such as PDF, PPTX, and Excel files.',
+    problemStatement:
+      'Organisations face substantial friction retrieving specific structured data and contextual insights trapped in heterogeneous document files.',
+    proposedSolution:
+      'PAG aims to process uploaded multi-format documents (PDF, PPTX, XLSX), retrieve relevant information, and generate useful outputs using AI-assisted analysis.',
+    keyFeatures: [
+      'Multi-format ingestion: PDF, PPTX, and Excel files',
+      'Contextual information extraction and search',
+      'AI-assisted analytical summary generation',
+      'Clean data export for workflow integration'
+    ],
+    techStack: ['Python', 'FastAPI', 'LangChain', 'Vector Embeddings', 'React'],
+    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
+    outcomes: [
+      'Intelligent document processing concept in active development',
+      'Awaiting confirmation for enterprise benchmarks',
+      'Designed to reduce manual document reading time'
+    ],
+    clientSector: 'Enterprise Document Intelligence',
+    duration: 'In Development',
+    status: 'Awaiting Confirmation'
+  },
+  {
+    id: 'proj-8',
+    slug: 'placement-readiness-platform',
+    title: 'AI-Powered Placement Readiness & Career Intelligence Platform',
+    category: 'AI Solutions',
+    shortDescription:
+      'A platform concept focused on evaluating placement readiness and supporting career development through intelligent analysis.',
+    problemStatement:
+      'Graduates often struggle to gauge how their coding, aptitude, and communication skills measure against industry hiring criteria.',
+    proposedSolution:
+      'A platform concept providing diagnostic evaluation, coding review, and personalized skill development roadmaps.',
+    keyFeatures: [
+      'Technical assessment and code logic analysis',
+      'Diagnostic skill gap identification',
+      'Personalized interview preparation roadmaps',
+      'Candidate progress tracking'
+    ],
+    techStack: ['React', 'TypeScript', 'Python', 'FastAPI', 'Tailwind CSS'],
     image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
     outcomes: [
-      'Mis-shipment rate reduced to under 0.2% in verification trials',
-      'Order dispatch throughput increased from 420 to 1,150 parcels per hour',
-      'Sample industrial automation case study'
+      'Career intelligence platform concept in development',
+      'Awaiting confirmation for student pilot cohorts',
+      'Aims to empower students with data-driven career clarity'
     ],
-    clientSector: 'Logistics & Supply Chain (Sample Portfolio Item)',
-    duration: '18 Weeks'
+    clientSector: 'Career Intelligence & EdTech',
+    duration: 'In Development',
+    status: 'Awaiting Confirmation'
+  },
+  {
+    id: 'proj-9',
+    slug: 'smart-traffic-management',
+    title: 'Smart Traffic Management System',
+    category: 'Automation Solutions',
+    shortDescription:
+      'A technology initiative focused on improving traffic management through intelligent and automated systems.',
+    problemStatement:
+      'Static, predetermined traffic signal timers result in unnecessary delays and severe junction bottlenecks during fluctuating traffic volumes.',
+    proposedSolution:
+      'An intelligent traffic initiative exploring vehicle density monitoring to adapt signal cycles and optimize intersection throughput.',
+    keyFeatures: [
+      'Vehicle density estimation at intersections',
+      'Dynamic signal cycle adjustments',
+      'Traffic flow monitoring and anomaly alerts',
+      'Automated telemetry communication'
+    ],
+    techStack: ['Computer Vision', 'Python', 'IoT Controllers', 'Edge Devices'],
+    image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
+    outcomes: [
+      'Smart city traffic automation initiative in development',
+      'Awaiting confirmation for junction trial results',
+      'Designed to reduce intersection waiting times'
+    ],
+    clientSector: 'Smart City & Automation',
+    duration: 'In Development',
+    status: 'Awaiting Confirmation'
   }
 ];
 
 export const EVENTS: EventItem[] = [
   {
     id: 'ev-1',
-    slug: 'hack-aegis-2026',
-    title: 'HackAegis 2026: 36-Hour National Innovation Hackathon',
-    type: 'Hackathon',
-    date: 'November 28–29, 2026',
-    time: '09:00 AM – 09:00 PM (36 Hours Continuous)',
-    location: 'Aegis Academy Innovation Campus, Electronic City, Bengaluru',
+    slug: 'technical-innovation-bootcamp',
+    title: 'Frontier Skills & Technical Innovation Bootcamp',
+    type: 'Workshop',
+    date: 'Upcoming Academic Cycle 2026',
+    time: '10:00 AM – 04:30 PM IST',
+    location: 'On-Campus & Online Interactive Labs',
     mode: 'Hybrid',
-    description: 'Flagship nationwide collegiate hackathon convening 300+ student developers to build AI solutions for healthcare, climate resilience, and modern education.',
+    description:
+      'Hands-on technical workshop covering modern full-stack web architectures, Python automation, and applied machine learning principles.',
     status: 'Upcoming',
-    speaker: 'Panel of 12 Senior Industry Mentors & Founders',
-    capacity: '100 Teams (400 Participants)'
+    speaker: 'AEGIS Technical Instructors & Industry Mentors',
+    capacity: 'Open for Student Registration'
   },
   {
     id: 'ev-2',
-    slug: 'genai-masterclass',
-    title: 'Full-Day Hands-on Masterclass: Building Production RAG Systems',
-    type: 'Workshop',
-    date: 'December 12, 2026',
-    time: '10:00 AM – 05:30 PM IST',
-    location: 'Virtual Live Auditorium & Aegis Labs',
-    mode: 'Online',
-    description: 'Code alongside senior AI architects to construct, evaluate, and deploy an enterprise-grade vector search and RAG pipeline with custom guardrails.',
-    status: 'Upcoming',
-    speaker: 'Vikramaditya Sengupta (CTO) & Dr. Tushar Pradhan (R&D)',
-    capacity: '250 Attendees'
-  },
-  {
-    id: 'ev-3',
-    slug: 'cyber-defense-bootcamp',
-    title: 'Red vs. Blue Cyber Defense Simulation Symposium',
-    type: 'Technical Session',
-    date: 'October 14, 2026',
-    time: '01:30 PM – 06:30 PM IST',
-    location: 'Auditorium 2, Tech Park Campus, Bengaluru',
-    mode: 'Offline',
-    description: 'Live interactive demonstration of perimeter breach techniques, SOC intrusion monitoring, and incident mitigation strategies.',
-    status: 'Past',
-    speaker: 'Aegis Security Operations Team',
-    capacity: '180 Attendees'
-  },
-  {
-    id: 'ev-4',
-    slug: 'campus-to-corporate-seminar',
-    title: 'Campus to Corporate: Cracking Top Product Engineering Interviews',
+    slug: 'school-ai-awareness-symposium',
+    title: 'School AI Awareness & Computational Thinking Seminar',
     type: 'Training Program',
-    date: 'September 22, 2026',
-    time: '11:00 AM – 02:00 PM IST',
-    location: 'Partner Engineering College, Mysuru',
+    date: 'Upcoming Academic Term 2026',
+    time: '09:30 AM – 01:00 PM IST',
+    location: 'Partner School Campuses',
     mode: 'Offline',
-    description: 'Practical session covering algorithmic problem decomposition, resume design, and behavioral storytelling for pre-final year engineering students.',
-    status: 'Past',
-    speaker: 'Pooja R. Krishnan & Senior Placement Mentors',
-    capacity: '350 Students'
+    description:
+      'Interactive school orientation introducing Grades 9–12 students to artificial intelligence, digital safety, and future career awareness.',
+    status: 'Upcoming',
+    speaker: 'AEGIS Education Faculty',
+    capacity: 'School Student Delegations'
   }
 ];
 
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 'gal-1',
-    title: 'AI Lab Hands-on Cohort',
+    title: 'Technical Training & Code Labs',
     category: 'Workshops',
     imageUrl: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
-    caption: 'Students collaborating on multi-touch digital workstations during the Applied AI Cohort.',
-    date: 'October 2026'
+    caption: 'Students collaborating on practical programming exercises during technical bootcamps.',
+    date: '2026'
   },
   {
     id: 'gal-2',
-    title: 'National Technology Hackathon',
+    title: 'Student Innovation & Project Development',
     category: 'Events',
     imageUrl: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
-    caption: 'Participants pitching live projects to executive judges in the innovation arena.',
-    date: 'September 2026'
+    caption: 'Learners presenting project prototypes during interactive technical review sessions.',
+    date: '2026'
   },
   {
     id: 'gal-3',
-    title: 'Engineering Operations Room',
+    title: 'Software Engineering & System Architecture',
     category: 'Team Activities',
     imageUrl: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
-    caption: 'Software engineering mentors guiding student fellows on distributed systems deployment.',
-    date: 'August 2026'
+    caption: 'AEGIS team members evaluating system architecture and application workflows.',
+    date: '2026'
   },
   {
     id: 'gal-4',
-    title: 'AgroTech IoT Telemetry Field Testing',
+    title: 'Smart Agriculture & IoT Exploration',
     category: 'Projects',
     imageUrl: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
-    caption: 'Testing drone sensor mesh and telemetry interfaces during research validation trials.',
-    date: 'July 2026'
+    caption: 'Testing agricultural sensor telemetry and environmental monitoring concepts.',
+    date: '2026'
   },
   {
     id: 'gal-5',
-    title: 'Cognitive Learning Interface Testing',
+    title: 'Intelligent Learning Systems Testing',
     category: 'Projects',
     imageUrl: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
-    caption: 'Evaluating tablet UI response and adaptive learning pathways with learner focus groups.',
-    date: 'June 2026'
-  },
-  {
-    id: 'gal-6',
-    title: 'Collegiate Workshop Interactive Session',
-    category: 'Campus Activities',
-    imageUrl: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
-    caption: 'Full-room student engagement during the campus technical orientation symposium.',
-    date: 'May 2026'
+    caption: 'Evaluating interactive user interfaces and diagnostic skill learning pathways.',
+    date: '2026'
   }
 ];
 
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    id: 'test-1',
-    name: 'Siddharth M. Nair',
-    role: 'Associate Software Engineer',
-    organization: 'Fintech Solutions Ltd. (Alumnus)',
-    category: 'Student',
-    quote: 'The Full-Stack Web Development cohort at Aegis Academy bridged the exact gap between my college textbook theory and real production development. The capstone defense directly helped me clear my technical interviews.',
-    rating: 5
-  },
-  {
-    id: 'test-2',
-    name: 'Dr. Radhika Sundaram',
-    role: 'Head of Computer Science Department',
-    organization: 'City Engineering College',
-    category: 'Institution',
-    quote: 'Partnering with Aegis Academy brought practical, high-caliber technical workshops directly to our campus. Our students gained tangible hands-on experience in generative AI and cloud deployments.',
-    rating: 5
-  },
-  {
-    id: 'test-3',
-    name: 'Ravi Teja Varma',
-    role: 'Vice President of Talent Acquisition',
-    organization: 'Apex Digital Technologies',
-    category: 'Corporate',
-    quote: 'Graduates from Aegis programs arrive with clean code discipline, understanding of Git workflows, and genuine problem-solving stamina. They onboard into our production sprints in days rather than months.',
-    rating: 5
-  },
-  {
-    id: 'test-4',
-    name: 'Kavya Ramanathan',
-    role: 'Data Science Intern',
-    organization: 'Neural Analytics Lab (Student Alumna)',
-    category: 'Student',
-    quote: 'The Applied Generative AI program provided hands-on access to real LLM tools and vector databases. The mentors took the time to explain the foundational math behind transformers in plain language.',
-    rating: 5
-  }
-];
+/**
+ * Testimonials are kept empty until genuine verified reviews are collected,
+ * as strictly instructed in Phase 1 specifications.
+ */
+export const TESTIMONIALS: Testimonial[] = [];
 
 export const INSIGHTS: InsightArticle[] = [
   {
     id: 'ins-1',
-    slug: 'bridging-engineering-curriculum-industry-ai',
-    title: 'Bridging the Divide: Why Applied AI Belongs in Undergraduate Engineering',
-    category: 'Artificial Intelligence',
-    summary: 'Traditional computer science degrees often lag behind the rapid evolution of generative AI and LLM agents. Here is how modern educational institutions are closing that gap.',
+    slug: 'bringing-education-and-technology-together',
+    title: 'Bringing Education and Technology Together for Meaningful Growth',
+    category: 'Education',
+    summary:
+      'How bridging the divide between academic learning and real-world technology application empowers students and organisations to innovate.',
     content: [
-      'The pace of technological transformation in software engineering has accelerated exponentially over the past three years. Where previous curriculum revisions occurred on three-to-five-year cycles, modern software paradigms—particularly in applied machine learning, container orchestration, and LLM development—evolve quarterly.',
-      'For engineering colleges, the challenge is not whether to teach artificial intelligence, but how to integrate hands-on, production-grade tools into foundational coursework without diluting essential core principles like data structures, operating systems, and discrete mathematics.',
-      'At Aegis Academy, our pedagogical philosophy is straightforward: theory provides the map, but hands-on engineering provides the journey. By having students build, break, and deploy working vector databases and agentic loops, abstract concepts transform into concrete intuition.',
-      'Institutions that embrace this dual approach see dramatic increases in student engagement, higher retention of complex principles, and substantially stronger campus recruitment outcomes.'
+      'The modern technological landscape evolves at a rapid pace. For learners, developing theoretical knowledge is a crucial foundation, but real growth occurs when that knowledge is applied to solve tangible, real-world problems.',
+      'Through AEGIS Education and AEGIS Technologies, our approach brings education and technology together. By understanding what modern digital products require in production, we equip learners with relevant, future-ready competencies.',
+      'From artificial intelligence awareness in secondary schools to rigorous collegiate engineering bootcamps, practical skill development prepares individuals to become confident creators and problem solvers.'
     ],
-    author: 'Vikramaditya Sengupta',
-    readTime: '5 min read',
-    publishedDate: 'November 2, 2026',
-    tags: ['Artificial Intelligence', 'Higher Education', 'Curriculum Design']
+    author: 'Sakthinathan Jayakumar',
+    readTime: '4 min read',
+    publishedDate: '2026',
+    tags: ['Education', 'Technology', 'Skill Development']
   },
   {
     id: 'ins-2',
-    slug: 'architecting-rag-systems-without-hallucination',
-    title: 'Architecting Enterprise RAG Systems: Minimizing Hallucination at Scale',
+    slug: 'deep-tech-and-equipment-intelligence',
+    title: 'Exploring Deep-Tech: The Promise of Equipment Intelligence',
     category: 'Technology',
-    summary: 'A technical deep-dive into semantic chunking, reciprocal rank fusion, and hybrid search pipelines for high-accuracy enterprise applications.',
+    summary:
+      'An overview of research initiatives in commercial refrigeration, continuous equipment monitoring, and predictive maintenance.',
     content: [
-      'Retrieval-Augmented Generation (RAG) has become the de facto architecture for deploying large language models against private organizational data. However, naive RAG implementations—simple chunking followed by vector cosine similarity—frequently stumble when confronted with nuanced domain queries.',
-      'In our engineering deployments at Aegis Technologies, we emphasize three essential architectural pillars to achieve deterministic reliability:',
-      '1. Context-Aware Semantic Chunking: Avoid rigid character-count window splits that sever logical paragraphs and tabular relationships.',
-      '2. Hybrid Search Fusion: Combine sparse BM25 lexical keyword matching with dense neural vector embeddings using Reciprocal Rank Fusion (RRF).',
-      '3. Re-Ranking & Verification Filters: Pass retrieved passages through a cross-encoder model before feeding them to the generation prompt, discarding irrelevant context that triggers hallucinations.',
-      'By implementing these checks, enterprise teams can achieve accurate, cited answers with strict adherence to organizational ground truth.'
+      'Industrial and commercial equipment systems form the silent backbone of modern supply chains, food preservation, and healthcare storage. When these systems fail unexpectedly, the consequences are severe.',
+      'Through initiatives like UPTIME OS, AEGIS Technologies explores equipment intelligence: combining sensor telemetry, performance modeling, and predictive maintenance to detect anomalies before they cause operational downtime.',
+      'Investments in deep-tech research and experimental prototypes enable us to understand emerging engineering frontiers and build durable, intelligent products.'
     ],
-    author: 'Dr. Tushar Pradhan',
-    readTime: '7 min read',
-    publishedDate: 'October 24, 2026',
-    tags: ['RAG', 'Vector Search', 'Machine Learning']
-  },
-  {
-    id: 'ins-3',
-    slug: 'building-computational-thinking-in-schools',
-    title: 'Cultivating Computational Thinking in Young Learners Aged 10–15',
-    category: 'Education',
-    summary: 'Why algorithmic logic, pattern abstraction, and creative problem-solving are foundational life skills, not just preparation for coding careers.',
-    content: [
-      'In the modern digital age, every student will interact continuously with algorithmic systems. Understanding how these systems make decisions, classify information, and process logic is as critical to 21st-century literacy as reading and basic arithmetic.',
-      'Computational thinking is not solely about memorizing programming syntax. It is the structured ability to break an intimidating challenge into modular sub-problems, recognize recurring patterns, eliminate extraneous noise through abstraction, and formulate precise steps to achieve a goal.',
-      'When introduced through creative storytelling, puzzle solving, and playful visual programming, young learners develop resilience in the face of setbacks—viewing errors not as personal failure, but simply as bugs waiting to be systematically debugged.'
-    ],
-    author: 'Rohan Deshmukh',
-    readTime: '4 min read',
-    publishedDate: 'October 11, 2026',
-    tags: ['K-12 Education', 'Problem Solving', 'STEM']
+    author: 'Vasantharaja M',
+    readTime: '5 min read',
+    publishedDate: '2026',
+    tags: ['Deep Tech', 'IoT', 'Equipment Intelligence']
   }
 ];
 
 export const CAREER_OPENINGS: JobPosting[] = [
   {
     id: 'job-1',
-    title: 'Senior Technical Trainer - Full Stack Web & Cloud',
-    department: 'Aegis Education',
+    title: 'Technical Trainer – Web Development & Python',
+    department: 'AEGIS Education',
     type: 'Full-Time',
-    location: 'Bengaluru (On-Site / Hybrid)',
-    experience: '3–6 Years in Software Engineering / Technical Instruction',
-    overview: 'Lead immersive hands-on engineering cohorts for college students and professionals, mentoring the next generation of full-stack developers.',
+    location: 'Tamil Nadu / Hybrid',
+    experience: 'Open for Discussion based on Technical Competency',
+    overview:
+      'Deliver practical, engaging technical sessions in web development, Python, and modern software fundamentals for collegiate student cohorts.',
     responsibilities: [
-      'Deliver engaging, high-energy live coding lectures and architecture walkthroughs',
-      'Design capstone projects, code review rubrics, and automated grading tests',
-      'Mentor students 1-on-1 through technical challenges and placement preparation'
+      'Conduct practical, hands-on programming workshops and lab guidance',
+      'Assist students with capstone project building and technical problem solving',
+      'Collaborate on curriculum exercises and code review guidelines'
     ],
     requirements: [
-      'Strong production experience with React, TypeScript, Node.js, and PostgreSQL',
-      'Passion for teaching and explaining complex technical concepts clearly',
-      'Familiarity with cloud deployments (AWS/Docker/Vercel)'
+      'Strong proficiency in Python or modern Full Stack JavaScript/TypeScript',
+      'Passion for teaching and breaking down technical concepts clearly',
+      'Good communication and interpersonal skills'
     ],
     status: 'Open'
   },
   {
     id: 'job-2',
-    title: 'Lead Software Engineer - Enterprise Solutions',
-    department: 'Aegis Technologies',
+    title: 'Software Developer – Web & Mobile Systems',
+    department: 'AEGIS Technologies',
     type: 'Full-Time',
-    location: 'Bengaluru (Hybrid)',
-    experience: '4–7 Years in Web & Cloud Architecture',
-    overview: 'Architect and build client web applications, microservices, and AI integrations for Aegis Technologies client engagements.',
+    location: 'Tamil Nadu / Hybrid',
+    experience: 'Experience in Building Web or Mobile Applications',
+    overview:
+      'Contribute to developing client software solutions, responsive web applications, and internal technology products at AEGIS Technologies.',
     responsibilities: [
-      'Lead technical architecture design, system modeling, and API contract specifications',
-      'Write clean, thoroughly tested TypeScript and Python production code',
-      'Mentor junior developers and participate in code reviews and sprint planning'
+      'Write clean, well-tested code in React, Node.js, or mobile frameworks',
+      'Collaborate with product and design leads on feature implementation',
+      'Participate in code reviews, bug fixes, and deployment releases'
     ],
     requirements: [
-      'Deep fluency in React/Next.js, Node.js, Python, and SQL databases',
-      'Experience with distributed systems, caching, and CI/CD automation',
-      'Excellent verbal and written communication skills'
+      'Solid command of modern web technologies (React, Node.js, TypeScript, SQL)',
+      'Problem-solving mindset and eagerness to learn emerging technologies',
+      'Familiarity with Git and collaborative development'
     ],
     status: 'Open'
   },
   {
     id: 'job-3',
-    title: 'Academic Alliances & Institutional Growth Manager',
-    department: 'Business Development',
-    type: 'Full-Time',
-    location: 'Bengaluru (With Regional Travel)',
-    experience: '2–5 Years in EdTech Partnerships / University Relations',
-    overview: 'Drive institutional MOUs and training partnerships with engineering colleges, universities, and schools across southern India.',
+    title: 'Student Technical Intern (Unpaid Learning Internship)',
+    department: 'AEGIS Education & Tech Labs',
+    type: 'Internship',
+    location: 'Virtual / On-Campus',
+    experience: 'Students from All Academic Years (All Streams Eligible)',
+    overview:
+      'Unpaid learning internship open throughout the year. Focuses strictly on practical skill development, project-based learning, teamwork, and technical mentorship. No stipend is provided.',
     responsibilities: [
-      'Establish and nurture relationships with college principals, deans, and placement directors',
-      'Present Aegis Academy education models and coordinate workshop logistics',
-      'Collaborate with curriculum heads to customize institutional training proposals'
+      'Participate in project-based learning modules under mentor guidance',
+      'Work in small teams to solve real-world technical problems',
+      'Present and defend completed project milestones'
     ],
     requirements: [
-      'Proven track record in institutional sales or higher education partnerships',
-      'Outstanding presentation, negotiation, and relationship management skills',
-      'Deep appreciation for technical education and student outcomes'
+      'Curiosity and eagerness to learn programming and technology',
+      'Enrolled college student (any academic year and stream)',
+      'Willingness to commit to regular learning hours and project reviews'
     ],
     status: 'Open'
   },
   {
     id: 'job-4',
-    title: 'Student Technical Fellow (Summer / Fall Internship)',
-    department: 'Aegis Education & Tech Labs',
-    type: 'Internship',
-    location: 'Bengaluru / Remote',
-    experience: 'Undergraduate student in CS/IT/ECE (Final or Pre-Final Year)',
-    overview: 'Hands-on 3-to-6 month paid internship working alongside senior architects on real client platforms and educational curriculum tools.',
+    title: 'Campus Ambassador & Event Coordinator',
+    department: 'Events & Community',
+    type: 'Part-Time',
+    location: 'College Campuses (Regional)',
+    experience: 'Enrolled College Student',
+    overview:
+      'Represent AEGIS Academy on your campus, assist in coordinating technical workshops, and support student engagement for events.',
     responsibilities: [
-      'Assist with open-source curriculum modules and workshop lab configurations',
-      'Build sample full-stack applications and test documentation',
-      'Support campus hackathons and technical community events'
+      'Share event and workshop information with fellow students',
+      'Coordinate on-campus workshop logistics and student registrations',
+      'Gather participant feedback and support community growth'
     ],
     requirements: [
-      'Demonstrated portfolio of personal code projects on GitHub',
-      'Solid command of JavaScript/TypeScript, Python, or C++',
-      'Eager learner with strong work ethic'
+      'Active student with good communication and networking abilities',
+      'Enthusiasm for technology and student community building',
+      'Reliable, organised, and collaborative attitude'
     ],
     status: 'Open'
   }
@@ -1208,36 +1441,39 @@ export const CAREER_OPENINGS: JobPosting[] = [
 
 export const PARTNERSHIP_MODELS = [
   {
-    title: 'School Innovation Alliances',
-    target: 'K-12 & Secondary Schools (Grades 6–12)',
-    description: 'Empower students with age-appropriate AI awareness, computational thinking, and digital safety curricula integrated seamlessly into academic schedules.',
+    title: 'School Innovation Alliance',
+    target: 'Secondary Schools (Grades 9–12)',
+    description:
+      'Equip school students with foundational AI awareness, digital literacy, computational thinking, and career guidance through interactive workshops.',
     benefits: [
-      'Turnkey curriculum and student workbooks',
-      'Certified instructor delivery on your school campus',
-      'Annual intra-school STEM & Robotics exhibition',
-      'Detailed student analytical learning reports'
+      'Age-appropriate AI & digital literacy workshops',
+      'Hands-on interactive problem solving and logic games',
+      'Higher education pathways and career counselling for Grades 9–12',
+      'Structured sessions that fit school academic timetables'
     ]
   },
   {
-    title: 'Collegiate Center of Excellence (CoE)',
+    title: 'Collegiate Center of Excellence (CoE) & Bootcamps',
     target: 'Engineering Colleges & Universities',
-    description: 'Establish a dedicated on-campus modern technology lab and structured finishing school program aligning student skill sets with tier-1 technology recruitment standards.',
+    description:
+      'Establish technical bootcamps and collaborative workshops that provide students with industry-relevant skill training in Web Development, Python, AI, and Cybersecurity.',
     benefits: [
-      'Placement-oriented technical bootcamps (Full Stack, AI, Cyber, DSA)',
-      'Industry capstone project supervision by working engineers',
-      'Faculty Development Programs (FDP) on modern emerging technologies',
-      'Host campus hackathons with corporate sponsor connectivity'
+      'Practical technical workshops aligned with modern industry tools',
+      'Hands-on project mentoring and capstone development guidance',
+      'Faculty Development Programs (FDP) on emerging technologies',
+      'Symposium and campus hackathon collaboration'
     ]
   },
   {
-    title: 'Corporate Upskilling & Incubation',
-    target: 'Technology Enterprises & Startups',
-    description: 'Bespoke corporate technical training sprints designed to accelerate onboarding of campus hires or modernize existing development teams into cloud and AI engineering.',
+    title: 'Corporate & Technology Partnerships',
+    target: 'Startups, SMEs & Enterprises',
+    description:
+      'Collaborate with AEGIS Technologies on custom software development, automated digital solutions, and exploratory technology initiatives.',
     benefits: [
-      'Customized curricula tailored directly to client production stack',
-      'Practical lab assessments with code quality metrics',
-      'Flexible virtual live or on-premise executive delivery',
-      'Pre-vetted graduate hiring pipeline from Aegis talent pool'
+      'Project-based software engineering and digital transformation',
+      'Flexible engagement models (project development, monthly maintenance)',
+      'Access to motivated technical talent and collaborative R&D',
+      'Tailored solutions for real-world business challenges'
     ]
   }
 ];

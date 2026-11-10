@@ -66,12 +66,13 @@ export const StudentEnrollment: React.FC = () => {
         comments: formData.additionalInfo ? `${formData.additionalInfo} | District: ${formData.district}` : `District: ${formData.district}`
       });
 
-      if (res.success && (res.enrollmentId || res.data?.enrollmentId)) {
-        const confirmedId = res.enrollmentId || res.data?.enrollmentId;
+      const confirmedId = res.data?.enrollmentId || (res as any).enrollmentId;
+      if (res.success && confirmedId) {
         setApplicationId(confirmedId);
         setSubmitted(true);
       } else {
-        setApiError(res.error || 'Failed to submit enrollment. Please check your connection and try again.');
+        const errMsg = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to submit enrollment. Please check your connection and try again.');
+        setApiError(errMsg);
       }
     } catch (err: any) {
       setApiError(err.message || 'An unexpected network error occurred.');
@@ -318,7 +319,7 @@ export const StudentEnrollment: React.FC = () => {
                     type="text"
                     value={formData.district}
                     onChange={e => setFormData({ ...formData, district: e.target.value })}
-                    placeholder="e.g. Bengaluru Urban / Pune"
+                    placeholder="e.g. Mayiladuthurai / Chennai / Tiruchirappalli"
                     className={`w-full px-3 py-2.5 rounded-lg bg-white border text-xs text-slate-800 focus:outline-none shadow-xs ${
                       errors.district ? 'border-red-500' : 'border-[#C9D9EC] focus:border-[#285B91]'
                     }`}

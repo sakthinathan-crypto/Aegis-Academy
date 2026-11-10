@@ -69,6 +69,35 @@ export interface Project {
   outcomes: string[];
   clientSector: string;
   duration: string;
+  status?: 'Completed' | 'Prototype' | 'In Development' | 'Research & Development' | 'Awaiting Confirmation';
+  githubUrl?: string;
+}
+
+export interface Achievement {
+  id: string;
+  title: string;
+  type: 'UK Registered Design' | 'Institutional Collaboration';
+  registrationNumber?: string;
+  registrationDate?: string;
+  grantDate?: string;
+  description: string;
+  legalClassification: string;
+}
+
+export interface InstitutionalCollaboration {
+  id: string;
+  name: string;
+  departmentOrUnit?: string;
+  scope: string;
+}
+
+export interface EducationInitiative {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  focusAreas: string[];
+  delivery: string;
 }
 
 export interface Leader {

@@ -168,7 +168,7 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/partnerships')} className="hover:text-[#D5AD63] transition-colors">
+                <button onClick={() => navigate('/partnerships#partner-discussion')} className="hover:text-[#D5AD63] transition-colors">
                   Institutional Partnerships
                 </button>
               </li>
@@ -197,18 +197,10 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Disclaimer Banner on Sample Data */}
-        <div className="py-4 px-4 my-6 rounded-lg bg-[#0C1E36]/60 border border-slate-800 text-[11px] text-slate-400 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <span>
-            <strong className="text-slate-200">Corporate Demo Notice:</strong> Representative company profiles, statistics, partner listings, and contact coordinates on this portal are structured demonstration content designed for institutional preview.
-          </span>
-          <span className="text-[#D5AD63] shrink-0 font-medium">Aegis Academy Pvt. Ltd.</span>
-        </div>
-
         {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 pt-2">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 pt-6 mt-8 border-t border-slate-800/80">
           <div>
-            © {new Date().getFullYear()} Aegis Academy Pvt. Ltd. All rights reserved.
+            © {new Date().getFullYear()} AEGIS ACADEMY. All rights reserved.
           </div>
 
           <div className="flex items-center gap-6">

@@ -11,7 +11,8 @@ export const Contact: React.FC = () => {
     name: '',
     email: '',
     phone: '',
-    category: 'General Inquiry',
+    organization: '',
+    category: 'General Enquiry',
     subject: '',
     message: ''
   });
@@ -39,17 +40,19 @@ export const Contact: React.FC = () => {
         fullName: formData.name,
         email: formData.email,
         phone: formData.phone,
+        organization: formData.organization,
         inquiryType: formData.category,
         subject: formData.subject,
         message: formData.message
       });
 
-      if (res.success && (res.messageId || res.data?.messageId)) {
-        const confirmedId = res.messageId || res.data?.messageId;
+      const confirmedId = res.data?.messageId || (res as any).messageId;
+      if (res.success && confirmedId) {
         setSubmissionId(confirmedId);
         setSubmitted(true);
       } else {
-        setApiError(res.error || 'Failed to submit message. Please try again.');
+        const errMsg = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to submit message. Please try again.');
+        setApiError(errMsg);
       }
     } catch (err: any) {
       setApiError(err.message || 'Network error occurred while sending message.');
@@ -98,9 +101,8 @@ export const Contact: React.FC = () => {
                   <Mail className="w-4 h-4 text-[#B88E3E] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-[#0C1B30] font-bold">Electronic Mail</div>
-                    <div className="text-slate-600 mt-0.5">General: {COMPANY_INFO.contact.email}</div>
-                    <div className="text-slate-600">Admissions: {COMPANY_INFO.contact.admissionsEmail}</div>
-                    <div className="text-slate-600">Solutions: {COMPANY_INFO.contact.techEmail}</div>
+                    <div className="text-slate-600 mt-0.5">Primary: {COMPANY_INFO.contact.email}</div>
+                    <div className="text-slate-600">Enquiries: {COMPANY_INFO.contact.generalEmail}</div>
                   </div>
                 </div>
 
@@ -109,7 +111,8 @@ export const Contact: React.FC = () => {
                   <div>
                     <div className="text-[#0C1B30] font-bold">Telephone Inquiries</div>
                     <div className="text-slate-600 mt-0.5">{COMPANY_INFO.contact.phone}</div>
-                    <div className="text-slate-600">WhatsApp Desk: {COMPANY_INFO.contact.whatsapp}</div>
+                    <div className="text-slate-600">{COMPANY_INFO.contact.secondaryPhone}</div>
+                    <div className="text-slate-600 mt-0.5">WhatsApp Desk: {COMPANY_INFO.contact.whatsapp}</div>
                   </div>
                 </div>
 
@@ -136,11 +139,11 @@ export const Contact: React.FC = () => {
               </div>
             </div>
 
-            {/* Embedded Google Maps Placeholder */}
+            {/* Embedded Google Maps */}
             <div className="rounded-2xl overflow-hidden border border-[#C9D9EC] glass-light-card">
               <div className="p-3 text-xs font-bold text-[#0C1B30] bg-[#EAF1FA] border-b border-[#C9D9EC] flex items-center justify-between">
-                <span>Location Map Placeholder</span>
-                <span className="text-[10px] text-slate-500 font-medium">Bengaluru Innovation Campus</span>
+                <span>Headquarters Location</span>
+                <span className="text-[10px] text-slate-500 font-medium">Sirkazhi, Tamil Nadu – 609106</span>
               </div>
               <div className="h-60 w-full bg-slate-100 relative">
                 <iframe
@@ -154,11 +157,6 @@ export const Contact: React.FC = () => {
                 />
               </div>
             </div>
-
-            {/* Editable sample content disclaimer */}
-            <p className="text-[11px] text-slate-500 italic">
-              Notice: {COMPANY_INFO.contact.isSampleNotice}
-            </p>
           </div>
 
           {/* Right Column: Interactive Form */}
@@ -188,7 +186,8 @@ export const Contact: React.FC = () => {
                           name: '',
                           email: '',
                           phone: '',
-                          category: 'General Inquiry',
+                          organization: '',
+                          category: 'General Enquiry',
                           subject: '',
                           message: ''
                         });
@@ -203,17 +202,19 @@ export const Contact: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-[#0C1B30] mb-1">
-                      Inquiry Category <span className="text-[#B88E3E]">*</span>
+                      Enquiry Type <span className="text-[#B88E3E]">*</span>
                     </label>
                     <select
                       value={formData.category}
                       onChange={e => setFormData({ ...formData, category: e.target.value })}
                       className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#C9D9EC] text-xs text-slate-800 focus:outline-none focus:border-[#285B91] shadow-xs"
                     >
-                      <option value="General Inquiry">General Inquiry</option>
-                      <option value="Education Inquiry">Education & Student Program Enrollment</option>
-                      <option value="Technology Services">Aegis Technologies & Software Solutions</option>
-                      <option value="Partnership">Institutional or Corporate Partnership</option>
+                      <option value="Education & Training">Education & Training</option>
+                      <option value="Technology Services">Technology Services</option>
+                      <option value="Institutional Partnership">Institutional Partnership</option>
+                      <option value="Internship">Internship</option>
+                      <option value="Career Opportunities">Career Opportunities</option>
+                      <option value="General Enquiry">General Enquiry</option>
                     </select>
                   </div>
 
@@ -226,7 +227,7 @@ export const Contact: React.FC = () => {
                         type="text"
                         value={formData.name}
                         onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="e.g. Priya Narayanan"
+                        placeholder="e.g. Dr. Radhika Sundaram"
                         className={`w-full px-3 py-2.5 rounded-lg bg-white border text-xs text-slate-800 focus:outline-none shadow-xs ${
                           errors.name ? 'border-red-500' : 'border-[#C9D9EC] focus:border-[#285B91]'
                         }`}
@@ -242,7 +243,7 @@ export const Contact: React.FC = () => {
                         type="email"
                         value={formData.email}
                         onChange={e => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="e.g. priya@sample.in"
+                        placeholder="e.g. connect@institution.edu"
                         className={`w-full px-3 py-2.5 rounded-lg bg-white border text-xs text-slate-800 focus:outline-none shadow-xs ${
                           errors.email ? 'border-red-500' : 'border-[#C9D9EC] focus:border-[#285B91]'
                         }`}
@@ -267,19 +268,32 @@ export const Contact: React.FC = () => {
 
                     <div>
                       <label className="block text-xs font-bold text-[#0C1B30] mb-1">
-                        Subject <span className="text-[#B88E3E]">*</span>
+                        Organisation
                       </label>
                       <input
                         type="text"
-                        value={formData.subject}
-                        onChange={e => setFormData({ ...formData, subject: e.target.value })}
-                        placeholder="Inquiry regarding workshop cohorts"
-                        className={`w-full px-3 py-2.5 rounded-lg bg-white border text-xs text-slate-800 focus:outline-none shadow-xs ${
-                          errors.subject ? 'border-red-500' : 'border-[#C9D9EC] focus:border-[#285B91]'
-                        }`}
+                        value={formData.organization}
+                        onChange={e => setFormData({ ...formData, organization: e.target.value })}
+                        placeholder="e.g. City College of Engineering / Company"
+                        className="w-full px-3 py-2.5 rounded-lg bg-white border border-[#C9D9EC] text-xs text-slate-800 focus:outline-none focus:border-[#285B91] shadow-xs"
                       />
-                      {errors.subject && <p className="text-[11px] text-red-500 mt-1">{errors.subject}</p>}
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#0C1B30] mb-1">
+                      Subject <span className="text-[#B88E3E]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.subject}
+                      onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                      placeholder="e.g. Discussion regarding institutional technical workshop"
+                      className={`w-full px-3 py-2.5 rounded-lg bg-white border text-xs text-slate-800 focus:outline-none shadow-xs ${
+                        errors.subject ? 'border-red-500' : 'border-[#C9D9EC] focus:border-[#285B91]'
+                      }`}
+                    />
+                    {errors.subject && <p className="text-[11px] text-red-500 mt-1">{errors.subject}</p>}
                   </div>
 
                   <div>
