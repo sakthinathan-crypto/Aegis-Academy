@@ -273,6 +273,12 @@ export const Navbar: React.FC = () => {
                     Leadership Team
                   </button>
                   <button
+                    onClick={() => navigate('/gallery')}
+                    className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
+                  >
+                    Campus Gallery
+                  </button>
+                  <button
                     onClick={handlePartnerNavigate}
                     className="w-full text-left px-3 py-2 text-xs rounded-lg text-white hover:bg-white/10 hover:text-[#00A3FF] transition-colors cursor-pointer"
                   >
@@ -315,6 +321,23 @@ export const Navbar: React.FC = () => {
               />
             )}
             <span>Events</span>
+          </button>
+
+          {/* Gallery */}
+          <button
+            onClick={() => navigate('/gallery')}
+            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              isCurrent('/gallery') ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
+            }`}
+          >
+            {isCurrent('/gallery') && (
+              <motion.span
+                layoutId="activeLiquidPill"
+                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
+                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              />
+            )}
+            <span>Gallery</span>
           </button>
 
           {/* Insights */}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
-import { COMPANY_INFO, SAMPLE_STATISTICS, PROGRAMS, SERVICES, PROJECTS, EVENTS, TESTIMONIALS } from '../data/companyData';
+import { COMPANY_INFO, SAMPLE_STATISTICS, PROGRAMS, SERVICES, PROJECTS, EVENTS, TESTIMONIALS, GALLERY_ITEMS } from '../data/companyData';
 import { HeroSection } from '../components/hero/HeroSection';
 import { GlassCard } from '../components/common/GlassCard';
 import { MagneticButton } from '../components/common/MagneticButton';
@@ -92,21 +92,29 @@ export const Home: React.FC = () => {
             {/* Visual Media Showcase in High-Gloss Frame */}
             <div className="lg:col-span-6 relative">
               <GlassCard variant="light" tiltEnabled={true} glossIntensity="high" className="p-3 aspect-[16/10] shadow-xl">
-                <div className="relative w-full h-full rounded-xl overflow-hidden">
+                <div className="relative w-full h-full rounded-xl overflow-hidden group">
                   <img
-                    src="/src/assets/images/aegis_education_campus_1793890911409.jpg"
-                    alt="Students and engineers collaborating at Aegis Academy"
+                    src="/images/gallery/uiux-workshop-arunai-1.jpeg"
+                    alt="UI/UX Design Workshop at Arunai Engineering College"
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.endsWith('.jpeg')) {
+                        target.src = target.src.replace('.jpeg', '.jpg');
+                      } else if (target.src.endsWith('.jpg')) {
+                        target.src = target.src.replace('.jpg', '.jpeg');
+                      }
+                    }}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/85 via-transparent to-transparent" />
                   <div className="glass-light-card absolute bottom-4 left-4 right-4 p-4 rounded-xl border border-white/60 text-xs">
                     <div className="text-[#0C1B30] font-bold flex items-center justify-between">
-                      <span>Applied Learning & Innovation Lab</span>
+                      <span>UI/UX Design & Engineering Lab</span>
                       <span className="text-[11px] font-mono text-[#285B91]">Active Cohort</span>
                     </div>
                     <div className="text-slate-600 text-[11px] mt-1 leading-relaxed">
-                      Hands-on sandbox environments where learners develop algorithms under direct guidance of senior engineers.
+                      Hands-on collegiate design thinking, wireframing, and digital prototyping conducted at Arunai Engineering College.
                     </div>
                   </div>
                 </div>
@@ -709,6 +717,85 @@ export const Home: React.FC = () => {
           </div>
         </section>
       )}
+
+      {/* =========================================================================
+          SECTION 13.5: WORKSHOPS & OUTREACH GALLERY SPOTLIGHT
+          ========================================================================= */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F7F8FC] border-b border-[#C9D9EC]/60">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#285B91] font-bold mb-2">
+                <span className="w-2 h-2 rounded-full bg-[#D5AD63]" />
+                <span>Visual Chronicle</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0C1B30] tracking-tight">
+                Workshops & Outreach Gallery
+              </h2>
+            </div>
+            <button
+              onClick={() => navigate('/gallery')}
+              className="text-xs font-semibold text-[#285B91] hover:text-[#17385F] flex items-center gap-1.5 transition-colors self-start md:self-auto cursor-pointer"
+            >
+              <span>Explore All {GALLERY_ITEMS.length} Photos in Gallery</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {GALLERY_ITEMS.slice(0, 3).map(item => (
+              <div
+                key={item.id}
+                onClick={() => navigate('/gallery')}
+                className="group cursor-pointer rounded-2xl overflow-hidden bg-white border border-[#C9D9EC] hover:border-[#285B91]/40 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.endsWith('.jpeg')) {
+                        target.src = target.src.replace('.jpeg', '.jpg');
+                      } else if (target.src.endsWith('.jpg')) {
+                        target.src = target.src.replace('.jpg', '.jpeg');
+                      }
+                    }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-[#0C1B30]/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-xs font-bold text-white bg-[#0C1B30]/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                      View in Gallery
+                    </span>
+                  </div>
+                  <div className="absolute top-3 left-3 text-[10px] uppercase font-bold text-[#285B91] bg-white/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#C9D9EC]">
+                    {item.category}
+                  </div>
+                </div>
+
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-sm font-bold text-[#0C1B30] group-hover:text-[#285B91] transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 text-xs text-slate-600 leading-relaxed line-clamp-2">
+                      {item.caption}
+                    </p>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-[#C9D9EC]/50 flex items-center justify-between text-[11px] text-[#285B91] font-semibold">
+                    <span>{item.date}</span>
+                    <span className="flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                      <span>Full View</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* =========================================================================
           SECTION 14 & 15: INSTITUTIONAL ALLIANCES & PARTNERSHIP CTA (DARK CINEMATIC SECTION)

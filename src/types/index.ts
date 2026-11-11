@@ -132,8 +132,10 @@ export interface GalleryItem {
   title: string;
   category: 'Workshops' | 'Events' | 'Training Sessions' | 'Team Activities' | 'Campus Activities' | 'Projects';
   imageUrl: string;
+  images?: string[];
   caption: string;
   date: string;
+  location?: string;
 }
 
 export interface Testimonial {

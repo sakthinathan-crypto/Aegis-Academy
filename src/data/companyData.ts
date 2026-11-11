@@ -1234,51 +1234,110 @@ export const EVENTS: EventItem[] = [
 
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
+    id: 'gal-arunai-uiux',
+    title: 'UI/UX Workshop – Arunai Engineering College, Tiruvannamalai (Interactive Series)',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/uiux-workshop-arunai-1.jpeg',
+    images: [
+      '/images/gallery/uiux-workshop-arunai-1.jpeg',
+      '/images/gallery/uiux-workshop-arunai-2.jpeg',
+      '/images/gallery/uiux-workshop-arunai-3.jpeg',
+      '/images/gallery/uiux-workshop-arunai-4.jpeg'
+    ],
+    caption: 'Comprehensive 4-part UI/UX design workshop series at Arunai Engineering College, Tiruvannamalai. Place your cursor on the image to view the sequence 1 to 4.',
+    date: '2026',
+    location: 'Arunai Engineering College, Tiruvannamalai'
+  },
+  {
+    id: 'gal-arunai-1',
+    title: 'UI/UX Workshop (Sequence 1) – Arunai Engineering College',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/uiux-workshop-arunai-1.jpeg',
+    caption: 'Part 1: Introduction to user interface design principles and wireframing at Arunai Engineering College, Tiruvannamalai.',
+    date: '2026',
+    location: 'Arunai Engineering College, Tiruvannamalai'
+  },
+  {
+    id: 'gal-arunai-2',
+    title: 'UI/UX Workshop (Sequence 2) – Arunai Engineering College',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/uiux-workshop-arunai-2.jpeg',
+    caption: 'Part 2: Hands-on Figma prototyping and UI component architecture at Arunai Engineering College, Tiruvannamalai.',
+    date: '2026',
+    location: 'Arunai Engineering College, Tiruvannamalai'
+  },
+  {
+    id: 'gal-arunai-3',
+    title: 'UI/UX Workshop (Sequence 3) – Arunai Engineering College',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/uiux-workshop-arunai-3.jpeg',
+    caption: 'Part 3: Interactive user testing and student experience lab at Arunai Engineering College, Tiruvannamalai.',
+    date: '2026',
+    location: 'Arunai Engineering College, Tiruvannamalai'
+  },
+  {
+    id: 'gal-arunai-4',
+    title: 'UI/UX Workshop (Sequence 4) – Arunai Engineering College',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/uiux-workshop-arunai-4.jpeg',
+    caption: 'Part 4: Student prototype presentations and design critique session at Arunai Engineering College, Tiruvannamalai.',
+    date: '2026',
+    location: 'Arunai Engineering College, Tiruvannamalai'
+  },
+  {
     id: 'gal-1',
-    title: 'Thiran Thedal Thittam – Classroom Mentoring Outreach',
+    title: 'Career Guidance – Akkarapettai, Nagapattinam',
     category: 'Workshops',
-    imageUrl: '/images/gallery/thiran-thedal.jpeg',
-    caption: 'AEGIS team conducting student-to-student mentoring, career guidance, and higher education awareness in classroom with school students.',
+    imageUrl: '/images/gallery/career-guidance-akkarapettai-nagapattinam.jpeg',
+    caption: 'Higher education guidance and career pathway mentoring session conducted by AEGIS team for students in Akkarapettai, Nagapattinam.',
     date: '2026'
   },
   {
     id: 'gal-2',
-    title: 'Technical Training & Code Labs',
+    title: 'Career Guidance – Azhiyur',
     category: 'Workshops',
-    imageUrl: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
-    caption: 'Students collaborating on practical programming exercises during technical bootcamps.',
-    date: '2026'
-  },
-  {
-    id: 'gal-2',
-    title: 'Student Innovation & Project Development',
-    category: 'Events',
-    imageUrl: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
-    caption: 'Learners presenting project prototypes during interactive technical review sessions.',
+    imageUrl: '/images/gallery/career-guidance-azhiyur.jpeg',
+    caption: 'Student-to-student career orientation and higher secondary stream counseling session conducted at Azhiyur.',
     date: '2026'
   },
   {
     id: 'gal-3',
-    title: 'Software Engineering & System Architecture',
-    category: 'Team Activities',
-    imageUrl: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
-    caption: 'AEGIS team members evaluating system architecture and application workflows.',
+    title: 'Career Guidance – Sikkal',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/career-guidance-sikkal.jpeg',
+    caption: 'Interactive student mentoring and academic roadmap workshop conducted for secondary school students at Sikkal.',
     date: '2026'
   },
   {
     id: 'gal-4',
-    title: 'Smart Agriculture & IoT Exploration',
-    category: 'Projects',
-    imageUrl: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
-    caption: 'Testing agricultural sensor telemetry and environmental monitoring concepts.',
+    title: 'Career Guidance – Thittachery',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/career-guidance-thittachery.jpeg',
+    caption: 'Higher education pathway awareness and future technology career counseling session at Thittachery.',
     date: '2026'
   },
   {
     id: 'gal-5',
-    title: 'Intelligent Learning Systems Testing',
-    category: 'Projects',
-    imageUrl: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
-    caption: 'Evaluating interactive user interfaces and diagnostic skill learning pathways.',
+    title: 'Project Building Workshop',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/project-building-workshop.jpeg',
+    caption: 'Hands-on practical engineering project building workshop guiding learners on end-to-end prototype development.',
+    date: '2026'
+  },
+  {
+    id: 'gal-6',
+    title: 'Python Programming Workshop',
+    category: 'Training Sessions',
+    imageUrl: '/images/gallery/python-workshop.jpeg',
+    caption: 'Intensive code laboratory and Python fundamentals training session conducted for aspiring student developers.',
+    date: '2026'
+  },
+  {
+    id: 'gal-7',
+    title: 'Thiran Thedal Thittam – Classroom Mentoring Outreach',
+    category: 'Campus Activities',
+    imageUrl: '/images/gallery/thiran-thedal.jpeg',
+    caption: 'AEGIS founding team conducting classroom mentoring, career guidance, and higher education awareness with school students.',
     date: '2026'
   }
 ];
