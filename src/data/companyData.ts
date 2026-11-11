@@ -447,7 +447,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Is Python suitable for first-time coders?', answer: 'Python is an ideal programming language due to its readable syntax and vast modern ecosystem.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg'
   },
   {
     id: 'prog-5',
@@ -520,7 +520,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Which programming language will be used in class?', answer: 'Instruction is provided in C++ and Java with implementations provided for algorithmic demonstrations.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg'
   },
   {
     id: 'prog-7',
@@ -556,7 +556,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Are daily practice sheets provided?', answer: 'Yes, curated practice questions with step-by-step solutions are provided via the student dashboard.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg'
   },
   {
     id: 'prog-8',
@@ -592,7 +592,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Are practice sessions recorded for review?', answer: 'Yes, student presentations are reviewed and analyzed with certified speech coaches.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg'
   },
   // School programs
   {
@@ -629,7 +629,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Is complex math required for school students?', answer: 'No advanced mathematics is required; all concepts are taught through physical metaphors, games, and visual tools.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg'
   },
   {
     id: 'prog-school-2',
@@ -663,7 +663,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Can this program be conducted on school campuses?', answer: 'Yes, AEGIS Academy conducts this program directly within partner school computer laboratories during academic terms.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg'
   },
   {
     id: 'prog-school-3',
@@ -698,7 +698,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Can parents attend the guidance sessions?', answer: 'Yes, parent-student orientation workshops are conducted as part of the school guidance program.' }
     ],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg'
+    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg'
   },
   // Professional & Institutional programs
   {

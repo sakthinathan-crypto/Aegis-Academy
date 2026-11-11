@@ -123,8 +123,8 @@ export const SchoolPrograms: React.FC = () => {
           <div className="space-y-6">
             <div className="rounded-2xl overflow-hidden border border-[#C9D9EC] shadow-xl">
               <img
-                src="/src/assets/images/aegis_education_campus_1793890911409.jpg"
-                alt="School students in AI lab"
+                src="/src/assets/images/ai_learning_assistant_1793890911044.jpg"
+                alt="AI Learning & Interactive Exploration"
                 referrerPolicy="no-referrer"
                 className="w-full h-80 object-cover"
               />

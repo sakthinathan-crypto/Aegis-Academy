@@ -323,23 +323,6 @@ export const Navbar: React.FC = () => {
             <span>Events</span>
           </button>
 
-          {/* Gallery */}
-          <button
-            onClick={() => navigate('/gallery')}
-            className={`relative px-3 py-1.5 rounded-full transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-              isCurrent('/gallery') ? 'text-[#00A3FF] font-semibold drop-shadow-[0_0_8px_rgba(0,163,255,0.5)]' : 'hover:text-white'
-            }`}
-          >
-            {isCurrent('/gallery') && (
-              <motion.span
-                layoutId="activeLiquidPill"
-                className="absolute inset-0 rounded-full bg-[#0077FE]/20 border border-[#00A3FF]/45 shadow-[0_0_12px_rgba(0,163,255,0.35)] -z-10"
-                transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-              />
-            )}
-            <span>Gallery</span>
-          </button>
-
           {/* Insights */}
           <button
             onClick={() => navigate('/insights')}
@@ -375,28 +358,20 @@ export const Navbar: React.FC = () => {
           </button>
         </nav>
 
-        {/* RIGHT: Partner & Enroll Now */}
-        <div className="relative z-10 hidden lg:flex items-center gap-3 shrink-0">
+        {/* RIGHT: Partner & Integrated Enroll Now CTA */}
+        <div className="relative z-10 hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
           <button
             onClick={handlePartnerNavigate}
-            className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer whitespace-nowrap"
           >
             Partner
           </button>
 
           <button
             onClick={() => navigate('/enroll')}
-            className="px-5 py-1.5 text-xs font-bold tracking-wide text-[#020617] bg-white hover:bg-slate-100 rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer shadow-[0_4px_16px_rgba(255,255,255,0.3)] transition-all hover:scale-[1.02]"
+            className="px-5 py-1.5 text-xs font-bold tracking-wide text-[#020617] bg-white hover:bg-slate-100 rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer shadow-[0_4px_16px_rgba(255,255,255,0.3)] transition-all hover:scale-[1.03] active:scale-[0.98]"
           >
             <span>Enroll Now</span>
-          </button>
-
-          <button
-            onClick={() => navigate('/admin')}
-            className="text-[11px] text-slate-400 hover:text-slate-200 transition-colors px-1.5 py-1 rounded cursor-pointer"
-            title="Aegis Admin Management Portal"
-          >
-            Admin
           </button>
         </div>
 
@@ -483,6 +458,7 @@ export const Navbar: React.FC = () => {
                 <div className="pl-6 py-1 flex flex-col gap-1 border-l border-[#D5AD63]/30 ml-3 mt-1">
                   <button onClick={() => navigate('/about')} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">About Us</button>
                   <button onClick={() => navigate('/leadership')} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">Leadership</button>
+                  <button onClick={() => navigate('/gallery')} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">Campus Gallery</button>
                   <button onClick={handlePartnerNavigate} className="text-left py-1.5 text-sm text-slate-300 hover:text-[#D5AD63]">Partnerships</button>
                 </div>
               )}
@@ -490,14 +466,9 @@ export const Navbar: React.FC = () => {
 
             <button onClick={() => navigate('/projects')} className="w-full text-left py-2.5 px-3 text-base font-medium text-white hover:bg-white/10 rounded-xl cursor-pointer">Projects</button>
             <button onClick={() => navigate('/events')} className="w-full text-left py-2.5 px-3 text-base font-medium text-white hover:bg-white/10 rounded-xl cursor-pointer">Events</button>
-            <button onClick={() => navigate('/gallery')} className="w-full text-left py-2.5 px-3 text-base font-medium text-white hover:bg-white/10 rounded-xl cursor-pointer">Gallery</button>
             <button onClick={() => navigate('/insights')} className="w-full text-left py-2.5 px-3 text-base font-medium text-white hover:bg-white/10 rounded-xl cursor-pointer">Insights</button>
             <button onClick={() => navigate('/careers')} className="w-full text-left py-2.5 px-3 text-base font-medium text-white hover:bg-white/10 rounded-xl cursor-pointer">Careers</button>
             <button onClick={() => navigate('/contact')} className="w-full text-left py-2.5 px-3 text-base font-medium text-white hover:bg-white/10 rounded-xl cursor-pointer">Contact</button>
-            <button onClick={() => navigate('/admin')} className="w-full text-left py-2.5 px-3 text-base font-medium text-slate-300 hover:text-white rounded-xl flex items-center gap-2 cursor-pointer">
-              <ShieldCheck className="w-4 h-4 text-[#D5AD63]" />
-              <span>Admin Dashboard</span>
-            </button>
 
             <div className="pt-4 mt-2 border-t border-white/15 flex flex-col gap-2.5">
               <button
