@@ -32,14 +32,22 @@ export const Leadership: React.FC = () => {
               className="glass-light-card rounded-2xl overflow-hidden flex flex-col justify-between hover:border-[#285B91]/40 transition-all duration-300 shadow-sm hover:shadow-xl group"
             >
               <div>
-                <div className="relative h-64 overflow-hidden bg-slate-100">
+                <div className="relative h-72 sm:h-80 overflow-hidden bg-slate-900">
                   <img
                     src={leader.avatar}
                     alt={leader.name}
-                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.endsWith('.jpg')) {
+                        target.src = target.src.replace(/\.jpg$/, '.jpeg');
+                      } else if (target.src.endsWith('.jpeg')) {
+                        target.src = target.src.replace(/\.jpeg$/, '.jpg');
+                      }
+                    }}
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/70 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/80 via-[#0C1B30]/20 to-transparent" />
                 </div>
 
                 <div className="p-6">
