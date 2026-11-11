@@ -21,7 +21,9 @@ export interface ApiResponse<T = any> {
   [key: string]: any;
 }
 
-const APPS_SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL || '';
+const APPS_SCRIPT_URL =
+  import.meta.env.VITE_APPS_SCRIPT_URL ||
+  'https://script.google.com/macros/s/AKfycbw5Gf_RRV0To7gOKDJjfBr-Z0nRmJ-7jYfYUVZ__HplBPIAGIaQW61Be_HvX650P819/exec';
 const REQUEST_TIMEOUT_MS = 15000; // 15 seconds timeout
 
 class ApiClient {

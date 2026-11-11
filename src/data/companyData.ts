@@ -144,7 +144,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Chief Executive Officer (CEO)',
     department: 'Founder & CEO',
     bio: "Sakthinathan Jayakumar leads AEGIS Academy's strategic direction, organisational development, and long-term vision. With a background in Computer Science Engineering and a strong interest in technology innovation and entrepreneurship, he focuses on building meaningful educational initiatives, developing technology-driven solutions, and establishing institutional and industry collaborations.",
-    avatar: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
+    avatar: '/images/leadership/sakthinathan.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/sakthinathan-jayakumar-b3400b33b/',
     isSampleProfile: false
   },
@@ -154,7 +154,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Chief Business Officer (CBO)',
     department: 'Co-Founder & CBO',
     bio: 'Sham S contributes to business strategy, growth opportunities, and organisational development at AEGIS Academy. He focuses on strengthening business relationships, identifying opportunities, and supporting institutional and industry partnerships.',
-    avatar: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
+    avatar: '/images/leadership/sham.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/sham-s-9bb689316/',
     isSampleProfile: false
   },
@@ -164,7 +164,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Chief Financial Officer (CFO)',
     department: 'Co-Founder & CFO',
     bio: 'Megna K brings technical expertise in cloud engineering and Artificial Intelligence and Machine Learning. As CFO, she contributes to financial planning, resource management, budgeting, and sustainable organisational growth.',
-    avatar: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
+    avatar: '/images/leadership/megna.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/megnova/',
     isSampleProfile: false
   },
@@ -174,7 +174,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Chief Product Officer (CPO)',
     department: 'Co-Founder & CPO',
     bio: 'Sowrirajan N focuses on product vision, development direction, and product strategy. He contributes to transforming ideas into structured product concepts while aligning product priorities with user requirements and organisational objectives.',
-    avatar: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
+    avatar: '/images/leadership/sowrirajan.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/sowrirajan-nalan-661279355/',
     isSampleProfile: false
   },
@@ -184,7 +184,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Chief Marketing Officer (CMO)',
     department: 'Co-Founder & CMO',
     bio: "Baasith Ahamed B contributes to brand development, marketing strategy, and audience engagement. He focuses on strengthening AEGIS Academy's market presence, communicating its value proposition, and supporting organisational growth.",
-    avatar: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
+    avatar: '/images/leadership/baasith.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/baasith-ahamed-103551371/',
     isSampleProfile: false
   },
@@ -194,7 +194,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Chief Technology Officer (CTO)',
     department: 'Co-Founder & CTO',
     bio: 'Abinaya G contributes to the technology direction and technical development strategy of AEGIS Academy. She focuses on technology planning, engineering excellence, and aligning technical development with organisational goals.',
-    avatar: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
+    avatar: '/images/leadership/abinaya.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/abinaya-ganesan-677144361/',
     isSampleProfile: false
   },
@@ -204,7 +204,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Event Manager',
     department: 'Co-Founder & Event Manager',
     bio: 'Ishwarya R manages event planning, coordination, and execution. She contributes to organising workshops, educational programs, and institutional events while focusing on scheduling, team coordination, and participant engagement.',
-    avatar: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
+    avatar: '/images/leadership/ishwarya.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/ishwarya-r-b326a2378/',
     isSampleProfile: false
   },
@@ -214,7 +214,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'General Manager',
     department: 'Co-Founder & General Manager',
     bio: 'Santhosh S contributes to organisational operations, cross-functional coordination, and execution management. He focuses on operational planning, team coordination, and ensuring that organisational activities progress efficiently.',
-    avatar: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
+    avatar: '/images/leadership/santhosh.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/santhosh-sadagopan-8b2a64371/',
     isSampleProfile: false
   },
@@ -224,7 +224,7 @@ export const LEADERSHIP_TEAM: Leader[] = [
     designation: 'Research & Development Manager',
     department: 'Co-Founder & R&D Manager',
     bio: 'Vasantharaja M focuses on research initiatives, innovation, and technology exploration. He contributes to evaluating emerging technologies, conducting experiments, exploring new ideas, and supporting research-driven product development.',
-    avatar: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
+    avatar: '/images/leadership/vasantharaja.jpg',
     linkedInUrl: 'https://www.linkedin.com/in/vasantha-raja-806287355/',
     isSampleProfile: false
   }
