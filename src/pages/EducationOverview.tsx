@@ -286,16 +286,40 @@ export const EducationOverview: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="lg:col-span-5 bg-white p-6 rounded-2xl border border-[#C9D9EC] space-y-4 shadow-sm">
-                  <div className="flex items-center gap-2 text-xs font-bold text-[#0C1B30]">
-                    <Users className="w-4 h-4 text-[#285B91]" />
-                    <span>Peer-to-Peer Mentoring Model</span>
-                  </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    Empowering students through accessible mentoring networks that provide candid guidance on collegiate streams, career choices, and technological skill development.
-                  </p>
-                  <div className="text-[11px] text-slate-500 font-mono pt-2 border-t border-[#C9D9EC]">
-                    Delivery: {init.delivery}
+                <div className="lg:col-span-5 space-y-4">
+                  {init.image && (
+                    <div className="rounded-2xl overflow-hidden border border-[#C9D9EC] shadow-md group relative">
+                      <img
+                        src={init.image}
+                        alt={init.title}
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (target.src.endsWith('.jpeg')) {
+                            target.src = target.src.replace('.jpeg', '.jpg');
+                          } else if (target.src.endsWith('.jpg')) {
+                            target.src = target.src.replace('.jpg', '.jpeg');
+                          }
+                        }}
+                        className="w-full h-56 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/60 via-transparent to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3 text-white text-xs font-semibold bg-[#0C1B30]/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20">
+                        Classroom Mentoring & Guidance Session
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="bg-white p-6 rounded-2xl border border-[#C9D9EC] space-y-4 shadow-sm">
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#0C1B30]">
+                      <Users className="w-4 h-4 text-[#285B91]" />
+                      <span>Peer-to-Peer Mentoring Model</span>
+                    </div>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Empowering students through accessible mentoring networks that provide candid guidance on collegiate streams, career choices, and technological skill development.
+                    </p>
+                    <div className="text-[11px] text-slate-500 font-mono pt-2 border-t border-[#C9D9EC]">
+                      Delivery: {init.delivery}
+                    </div>
                   </div>
                 </div>
               </div>

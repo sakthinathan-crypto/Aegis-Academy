@@ -76,6 +76,14 @@ export const ProjectDetail: React.FC = () => {
               src={project.image}
               alt={project.title}
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (target.src.endsWith('.jpeg')) {
+                  target.src = target.src.replace('.jpeg', '.jpg');
+                } else if (target.src.endsWith('.jpg')) {
+                  target.src = target.src.replace('.jpg', '.jpeg');
+                }
+              }}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#071426]/80 via-transparent to-transparent" />

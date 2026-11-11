@@ -98,6 +98,7 @@ export interface EducationInitiative {
   description: string;
   focusAreas: string[];
   delivery: string;
+  image?: string;
 }
 
 export interface Leader {

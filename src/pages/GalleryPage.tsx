@@ -70,6 +70,14 @@ export const GalleryPage: React.FC = () => {
                   src={item.imageUrl}
                   alt={item.title}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src.endsWith('.jpeg')) {
+                      target.src = target.src.replace('.jpeg', '.jpg');
+                    } else if (target.src.endsWith('.jpg')) {
+                      target.src = target.src.replace('.jpg', '.jpeg');
+                    }
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-[#071426]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -128,6 +136,14 @@ export const GalleryPage: React.FC = () => {
                 src={selectedItem.imageUrl}
                 alt={selectedItem.title}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src.endsWith('.jpeg')) {
+                    target.src = target.src.replace('.jpeg', '.jpg');
+                  } else if (target.src.endsWith('.jpg')) {
+                    target.src = target.src.replace('.jpg', '.jpeg');
+                  }
+                }}
                 className="w-full h-auto max-h-[70vh] object-contain"
               />
             </div>

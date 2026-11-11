@@ -244,7 +244,8 @@ export const EDUCATION_INITIATIVES: EducationInitiative[] = [
       'Student Mentoring',
       'Educational & Technology Awareness'
     ],
-    delivery: 'On-Campus, School Outreach & Community Seminars'
+    delivery: 'On-Campus, School Outreach & Community Seminars',
+    image: '/images/projects/thiran-thedal.jpeg'
   }
 ];
 
@@ -1167,6 +1168,34 @@ export const PROJECTS: Project[] = [
     clientSector: 'Smart City & Automation',
     duration: 'In Development',
     status: 'Awaiting Confirmation'
+  },
+  {
+    id: 'proj-8',
+    slug: 'thiran-thedal-thittam',
+    title: 'Thiran Thedal Thittam – Mentoring Initiative',
+    category: 'Academic & Research',
+    shortDescription:
+      'A student-to-student mentoring and higher education guidance initiative empowering school students to explore career possibilities and emerging technology fields.',
+    problemStatement:
+      'High school students frequently lack direct mentorship, awareness of emerging technology careers, and firsthand perspectives from active engineering undergraduates.',
+    proposedSolution:
+      'AEGIS team conducts direct classroom mentorship sessions and interactive career roadmaps, bridging the gap between secondary school education and higher engineering disciplines.',
+    keyFeatures: [
+      'Direct classroom interactive career mentoring sessions',
+      'Higher education pathways and engineering branch orientation',
+      'Peer-to-peer relatable guidance from active engineering undergraduates',
+      'Technology career awareness and practical motivation'
+    ],
+    techStack: ['Peer Mentoring', 'Career Roadmaps', 'Interactive Workshops', 'Education Outreach'],
+    image: '/images/projects/thiran-thedal.jpeg',
+    outcomes: [
+      'Conducted direct classroom mentoring sessions for secondary school students',
+      'Active student engagement and practical career clarity',
+      'Ongoing flagship community education outreach initiative'
+    ],
+    clientSector: 'Higher Education & School Outreach',
+    duration: 'Active Initiative',
+    status: 'In Development'
   }
 ];
 
@@ -1206,6 +1235,14 @@ export const EVENTS: EventItem[] = [
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 'gal-1',
+    title: 'Thiran Thedal Thittam – Classroom Mentoring Outreach',
+    category: 'Workshops',
+    imageUrl: '/images/gallery/thiran-thedal.jpeg',
+    caption: 'AEGIS team conducting student-to-student mentoring, career guidance, and higher education awareness in classroom with school students.',
+    date: '2026'
+  },
+  {
+    id: 'gal-2',
     title: 'Technical Training & Code Labs',
     category: 'Workshops',
     imageUrl: '/src/assets/images/aegis_education_campus_1793890911409.jpg',

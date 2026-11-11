@@ -69,6 +69,14 @@ export const ProjectsPortfolio: React.FC = () => {
                       src={proj.image}
                       alt={proj.title}
                       referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src.endsWith('.jpeg')) {
+                          target.src = target.src.replace('.jpeg', '.jpg');
+                        } else if (target.src.endsWith('.jpg')) {
+                          target.src = target.src.replace('.jpg', '.jpeg');
+                        }
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/80 via-transparent to-transparent opacity-90" />
