@@ -77,8 +77,8 @@ export const AegisLogoOrb: React.FC<AegisLogoOrbProps> = ({ className = '' }) =>
             {/* Ambient Lighting Cone Inside Aperture */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#00A3FF]/15 to-transparent pointer-events-none" />
 
-            {/* Dimensional Monolithic 3D "A" Emblem (Matching Reference Image 2) */}
-            <div className="relative w-28 sm:w-36 h-36 sm:h-44 drop-shadow-[12px_18px_25px_rgba(0,0,0,0.8)] flex items-center justify-center">
+            {/* Dimensional Monolithic 3D "A" Emblem (Zoomed & prominent) */}
+            <div className="relative w-32 sm:w-40 h-40 sm:h-48 scale-105 drop-shadow-[12px_18px_25px_rgba(0,0,0,0.8)] flex items-center justify-center">
               <svg
                 viewBox="0 0 140 180"
                 fill="none"
