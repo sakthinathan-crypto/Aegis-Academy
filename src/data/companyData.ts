@@ -969,7 +969,7 @@ export const SERVICES: Service[] = [
     ],
     sampleProjects: [
       { name: 'UPTIME OS', description: 'Deep-tech refrigeration and equipment intelligence R&D initiative.' },
-      { name: 'Hospital Waste Segregation Machine', description: 'UK Registered Design automated crushing and segregation system.' }
+      { name: 'PAG Document Processing', description: 'Intelligent multi-format document analysis and contextual data extraction.' }
     ],
     faqs: [
       { question: 'What is your engagement model for custom software?', answer: 'We offer project-based development, monthly maintenance, and long-term technology partnerships.' }
@@ -997,7 +997,6 @@ export const PROJECTS: Project[] = [
       'Actionable recommendations designed for regional farmers'
     ],
     techStack: ['Python', 'Computer Vision', 'FastAPI', 'React', 'IoT Telemetry'],
-    image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
     outcomes: [
       'Formulated for Smart India Hackathon problem statement SIH26180',
       'Awaiting confirmation for field deployment milestones',
@@ -1025,7 +1024,6 @@ export const PROJECTS: Project[] = [
       'Intelligent monitoring and alert notifications'
     ],
     techStack: ['Embedded Systems', 'IoT Edge', 'Python', 'Telemetry Pipelines', 'Data Modeling'],
-    image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg',
     outcomes: [
       'Deep-tech research and development initiative',
       'Laboratory experimental prototype validation',
@@ -1053,7 +1051,6 @@ export const PROJECTS: Project[] = [
       'Responsive design with seamless mobile accessibility'
     ],
     techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Cloud Hosting'],
-    image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
     outcomes: [
       'Built for the International Student Symposium on Humanizing Technology',
       'Awaiting confirmation for production archive stats',
@@ -1065,62 +1062,6 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'proj-4',
-    slug: 'hospital-waste-segregation',
-    title: 'Hospital Waste Segregation System',
-    category: 'Automation Solutions',
-    shortDescription:
-      'A technology-driven medical waste management system designed around the segregation of hospital waste materials such as metal, glass, and plastic.',
-    problemStatement:
-      'Clinical waste management poses serious biohazard and physical injury risks when medical metal, glass vials, and plastic disposables are mingled in general hospital waste streams.',
-    proposedSolution:
-      'An automated crushing and collection machine concept engineered to isolate waste materials safely. Related to the UK Registered Design achievement.',
-    keyFeatures: [
-      'Automated segregation of metal, glass, and plastic medical waste',
-      'AI-assisted mechanical crushing and collection mechanics',
-      'Sanitary containment preventing physical touch exposure',
-      'Direct link to UK Registered Design No. 6529168'
-    ],
-    techStack: ['Robotics', 'Automation Engineering', 'Mechanical Design', 'Sensor Array'],
-    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
-    outcomes: [
-      'Granted UK Registered Design (Design Number 6529168)',
-      'Innovative milestone in healthcare waste technology',
-      'Awaiting confirmation for commercial licensing phase'
-    ],
-    clientSector: 'Healthcare Technology & Environmental Engineering',
-    duration: 'Design Registered',
-    status: 'Awaiting Confirmation'
-  },
-  {
-    id: 'proj-5',
-    slug: 'fertilizer-recommendation-model',
-    title: 'Fertilizer Recommendation Model',
-    category: 'AI Solutions',
-    shortDescription:
-      'A machine learning-based recommendation system that analyses soil nutrient information and related agricultural parameters to support fertilizer recommendations.',
-    problemStatement:
-      'Imbalanced chemical fertilizer application damages soil health, increases costs, and reduces crop output due to lack of precise nutrient matching.',
-    proposedSolution:
-      'A machine learning model trained on soil nutrient data (Nitrogen, Phosphorus, Potassium, pH) to recommend optimal fertilizer blends.',
-    keyFeatures: [
-      'Soil NPK and pH data analysis',
-      'Crop-specific fertilizer dosage calculation',
-      'Nutrient replenishment advice to prevent soil degradation',
-      'Fast algorithmic calculation'
-    ],
-    techStack: ['Python', 'Scikit-Learn', 'Pandas', 'FastAPI', 'NumPy'],
-    image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
-    outcomes: [
-      'Empirical machine learning model prototype',
-      'Awaiting confirmation for broader field testing validation',
-      'Promotes sustainable agricultural soil management'
-    ],
-    clientSector: 'Agritech & Applied Machine Learning',
-    duration: 'Prototype',
-    status: 'Awaiting Confirmation'
-  },
-  {
-    id: 'proj-6',
     slug: 'smart-exam-seat-allocation',
     title: 'Smart Exam Seat Allocation System',
     category: 'Web Applications',
@@ -1137,7 +1078,6 @@ export const PROJECTS: Project[] = [
       'Administrative dashboard for exam controllers'
     ],
     techStack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
-    image: '/src/assets/images/aegis_education_campus_1793890911409.jpg',
     outcomes: [
       'Automates institutional exam seating logistics',
       'Awaiting confirmation for production deployment tracking',
@@ -1148,7 +1088,7 @@ export const PROJECTS: Project[] = [
     status: 'Awaiting Confirmation'
   },
   {
-    id: 'proj-7',
+    id: 'proj-5',
     slug: 'pag-document-processing',
     title: 'PAG – Process, Analyse, Generate',
     category: 'AI Solutions',
@@ -1165,7 +1105,6 @@ export const PROJECTS: Project[] = [
       'Clean data export for workflow integration'
     ],
     techStack: ['Python', 'FastAPI', 'LangChain', 'Vector Embeddings', 'React'],
-    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg',
     outcomes: [
       'Intelligent document processing concept in active development',
       'Awaiting confirmation for enterprise benchmarks',
@@ -1176,7 +1115,7 @@ export const PROJECTS: Project[] = [
     status: 'Awaiting Confirmation'
   },
   {
-    id: 'proj-8',
+    id: 'proj-6',
     slug: 'placement-readiness-platform',
     title: 'AI-Powered Placement Readiness & Career Intelligence Platform',
     category: 'AI Solutions',
@@ -1193,7 +1132,6 @@ export const PROJECTS: Project[] = [
       'Candidate progress tracking'
     ],
     techStack: ['React', 'TypeScript', 'Python', 'FastAPI', 'Tailwind CSS'],
-    image: '/src/assets/images/hero_cinematic_tech_ed_1793890908961.jpg',
     outcomes: [
       'Career intelligence platform concept in development',
       'Awaiting confirmation for student pilot cohorts',
@@ -1204,7 +1142,7 @@ export const PROJECTS: Project[] = [
     status: 'Awaiting Confirmation'
   },
   {
-    id: 'proj-9',
+    id: 'proj-7',
     slug: 'smart-traffic-management',
     title: 'Smart Traffic Management System',
     category: 'Automation Solutions',
@@ -1221,7 +1159,6 @@ export const PROJECTS: Project[] = [
       'Automated telemetry communication'
     ],
     techStack: ['Computer Vision', 'Python', 'IoT Controllers', 'Edge Devices'],
-    image: '/src/assets/images/smart_agriculture_iot_1793890911194.jpg',
     outcomes: [
       'Smart city traffic automation initiative in development',
       'Awaiting confirmation for junction trial results',

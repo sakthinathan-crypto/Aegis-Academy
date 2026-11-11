@@ -65,7 +65,7 @@ export interface Project {
   proposedSolution: string;
   keyFeatures: string[];
   techStack: string[];
-  image: string;
+  image?: string;
   outcomes: string[];
   clientSector: string;
   duration: string;

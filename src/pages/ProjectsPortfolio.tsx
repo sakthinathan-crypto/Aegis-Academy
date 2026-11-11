@@ -63,23 +63,38 @@ export const ProjectsPortfolio: React.FC = () => {
               className="glass-light-card rounded-2xl overflow-hidden flex flex-col justify-between hover:border-[#285B91]/40 transition-all duration-300 group shadow-sm hover:shadow-xl"
             >
               <div>
-                <div className="h-56 overflow-hidden relative">
-                  <img
-                    src={proj.image}
-                    alt={proj.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/80 via-transparent to-transparent opacity-90" />
-                  <div className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-[#285B91] bg-white/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#C9D9EC]">
-                    {proj.category}
-                  </div>
-                  {proj.status && (
-                    <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-[#B88E3E] bg-[#0C1B30]/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#D5AD63]/30">
-                      {proj.status}
+                {proj.image ? (
+                  <div className="h-56 overflow-hidden relative">
+                    <img
+                      src={proj.image}
+                      alt={proj.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0C1B30]/80 via-transparent to-transparent opacity-90" />
+                    <div className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-[#285B91] bg-white/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#C9D9EC]">
+                      {proj.category}
                     </div>
-                  )}
-                </div>
+                    {proj.status && (
+                      <div className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider text-[#B88E3E] bg-[#0C1B30]/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#D5AD63]/30">
+                        {proj.status}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-6 pb-2 border-b border-[#C9D9EC]/50 bg-gradient-to-br from-[#EAF1FA]/60 to-white/40">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#285B91] bg-[#EAF1FA] px-2.5 py-1 rounded-lg border border-[#C9D9EC]">
+                        {proj.category}
+                      </span>
+                      {proj.status && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#B88E3E] bg-[#0C1B30]/5 px-2.5 py-1 rounded-lg border border-[#D5AD63]/30">
+                          {proj.status}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
 
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-[#0C1B30] group-hover:text-[#285B91] transition-colors">

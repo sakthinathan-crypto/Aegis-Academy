@@ -69,16 +69,18 @@ export const ProjectDetail: React.FC = () => {
 
       {/* 2. CASE STUDY BODY */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
-        {/* Full Visual Feature */}
-        <div className="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl relative max-h-[500px]">
-          <img
-            src={project.image}
-            alt={project.title}
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#071426]/80 via-transparent to-transparent" />
-        </div>
+        {/* Full Visual Feature (rendered only if image is provided) */}
+        {project.image && (
+          <div className="rounded-2xl overflow-hidden border border-slate-800 shadow-2xl relative max-h-[500px]">
+            <img
+              src={project.image}
+              alt={project.title}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#071426]/80 via-transparent to-transparent" />
+          </div>
+        )}
 
         {/* Problem Statement vs Proposed Solution */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
