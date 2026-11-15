@@ -68,9 +68,9 @@ export const Leadership: React.FC = () => {
 
               <div className="p-6 pt-0 border-t border-[#C9D9EC]/60 flex items-center justify-between">
                 <a
-                  href={leader.linkedInUrl}
+                  href={/^https?:\/\//i.test(leader.linkedInUrl) ? leader.linkedInUrl : 'https://www.linkedin.com'}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs text-[#285B91] hover:text-[#0C1B30] font-semibold transition-colors"
                   aria-label={`${leader.name} LinkedIn Profile`}
                 >

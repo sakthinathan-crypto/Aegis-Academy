@@ -1,5 +1,6 @@
 /**
  * AEGIS ACADEMY - ADMIN METRICS SERVICE
+ * Uses POST JSON body transport so session tokens are never leaked in URLs.
  */
 
 import { apiClient, ApiResponse } from './apiClient';
@@ -22,17 +23,18 @@ export interface ActivityLog {
   eventType: string;
   description: string;
   metadataJson?: string;
-  createdAt: string;
+  createdAt?: string;
+  timestamp?: string;
 }
 
 export const adminService = {
   async getOverview(): Promise<ApiResponse<{ metrics: DashboardMetrics; recentActivity: ActivityLog[] }>> {
     const token = authService.getToken() || '';
-    return apiClient.get('getOverview', { token });
+    return apiClient.post('getOverview', { token });
   },
 
   async getActivityLogs(): Promise<ApiResponse<ActivityLog[]>> {
     const token = authService.getToken() || '';
-    return apiClient.get('getActivityLogs', { token });
+    return apiClient.post('getActivityLogs', { token });
   }
 };

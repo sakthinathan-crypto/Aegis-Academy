@@ -1,5 +1,6 @@
 /**
  * AEGIS ACADEMY - ENTERPRISE QUOTE SERVICE
+ * Uses POST body transport for authenticated admin reads/updates.
  */
 
 import { apiClient, ApiResponse } from './apiClient';
@@ -14,6 +15,7 @@ export interface QuoteSubmission {
   budgetRange: string;
   targetTimeline: string;
   requirements: string;
+  _hp_field?: string;
 }
 
 export interface QuoteRecord extends QuoteSubmission {
@@ -30,7 +32,7 @@ export const quoteService = {
   },
 
   async listQuotes(token?: string): Promise<ApiResponse<QuoteRecord[]>> {
-    return apiClient.get<QuoteRecord[]>('listQuotes', { token });
+    return apiClient.post<QuoteRecord[]>('listQuotes', { token });
   },
 
   async updateStatus(quoteId: string, status: string, adminNotes?: string, token?: string): Promise<ApiResponse> {

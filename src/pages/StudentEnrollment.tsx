@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { PROGRAMS } from '../data/companyData';
-import { StorageStore } from '../data/store';
 import { enrollmentService } from '../services/enrollmentService';
 import { validateEnrollmentForm, generateApplicationId } from '../utils/validation';
 import {
@@ -29,7 +28,8 @@ export const StudentEnrollment: React.FC = () => {
     district: '',
     selectedProgram: 'full-stack-web-development',
     learningMode: 'Hybrid',
-    additionalInfo: ''
+    additionalInfo: '',
+    _hp_field: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -63,7 +63,8 @@ export const StudentEnrollment: React.FC = () => {
         programDivision: selectedProg ? selectedProg.category : 'Higher Education',
         deliveryMode: formData.learningMode,
         preferredBatch: 'Upcoming Intake 2026',
-        comments: formData.additionalInfo ? `${formData.additionalInfo} | District: ${formData.district}` : `District: ${formData.district}`
+        comments: formData.additionalInfo ? `${formData.additionalInfo} | District: ${formData.district}` : `District: ${formData.district}`,
+        _hp_field: formData._hp_field
       });
 
       const confirmedId = res.data?.enrollmentId || (res as any).enrollmentId;
@@ -166,7 +167,8 @@ export const StudentEnrollment: React.FC = () => {
                       district: '',
                       selectedProgram: 'full-stack-web-development',
                       learningMode: 'Hybrid',
-                      additionalInfo: ''
+                      additionalInfo: '',
+                      _hp_field: ''
                     });
                   }}
                   className="btn-glossy-gold px-6 py-2.5 text-xs font-bold text-[#071426] rounded-xl cursor-pointer"
@@ -178,6 +180,18 @@ export const StudentEnrollment: React.FC = () => {
           ) : (
             /* Enrollment Form */
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="enroll-hp-field">Leave this field empty</label>
+                <input
+                  id="enroll-hp-field"
+                  type="text"
+                  name="_hp_field"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData._hp_field}
+                  onChange={e => setFormData({ ...formData, _hp_field: e.target.value })}
+                />
+              </div>
               <div className="border-b border-[#C9D9EC]/60 pb-4">
                 <h3 className="text-lg font-extrabold text-[#0C1B30]">Student Personal Details</h3>
                 <p className="text-xs text-slate-500 mt-0.5">Please provide accurate contact coordinates for cohort communications.</p>
@@ -372,6 +386,7 @@ export const StudentEnrollment: React.FC = () => {
                 </label>
                 <textarea
                   rows={3}
+                  maxLength={2500}
                   value={formData.additionalInfo}
                   onChange={e => setFormData({ ...formData, additionalInfo: e.target.value })}
                   placeholder="Tell us about your technical aspirations, past coding experience, or placement targets..."

@@ -3,12 +3,15 @@
  * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
  * File: Database.gs
  * Description: Low-level Google Sheets operations, LockService concurrency
- * protection, sequential unique ID generation, formula sanitization & audit logging.
+ * protection, sequential unique ID generation, formula sanitization,
+ * field redaction, and safe audit logging.
  * ============================================================================
  */
 
 var Database = {
   ACTIVITY_HEADERS: ['logId', 'timestamp', 'eventType', 'description', 'userEmail', 'metadataJson'],
+
+  SENSITIVE_KEYS: ['token', 'password', 'passwordHash', 'salt', 'secret', 'base64', 'ADMIN_SECRET_KEY'],
 
   getSpreadsheet: function() {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -22,7 +25,7 @@ var Database = {
     var ss = this.getSpreadsheet();
     var sheet = ss.getSheetByName(sheetName);
     if (!sheet) {
-      throw new Error('Sheet "' + sheetName + '" not found in spreadsheet. Run setupSpreadsheetDatabase() once to initialize.');
+      throw new Error('Sheet "' + sheetName + '" not found in spreadsheet.');
     }
     return sheet;
   },
@@ -35,7 +38,7 @@ var Database = {
     var lock = LockService.getScriptLock();
     var hasLock = lock.tryLock(10000);
     if (!hasLock) {
-      throw new Error('Database is currently busy. Could not obtain write lock.');
+      throw Validation.createError('SERVICE_BUSY', 'Database is currently busy. Please retry.');
     }
 
     try {
@@ -45,7 +48,6 @@ var Database = {
       var sequence = 1;
 
       if (lastRow > 1) {
-        // Scan ID column to find maximum sequence
         var idCol = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
         var targetPrefix = prefix + '-' + year + '-';
         for (var i = 0; i < idCol.length; i++) {
@@ -74,16 +76,16 @@ var Database = {
     var lock = LockService.getScriptLock();
     var hasLock = lock.tryLock(10000);
     if (!hasLock) {
-      throw new Error('Database is currently busy. Please retry.');
+      throw Validation.createError('SERVICE_BUSY', 'Database is currently busy. Please retry.');
     }
 
     try {
       var sheet = this.getSheet(sheetName);
       var row = headers.map(function(h) {
-        var val = record[h];
+        var val = Object.prototype.hasOwnProperty.call(record, h) ? record[h] : '';
         if (val === undefined || val === null) return '';
-        if (typeof val === 'object') return JSON.stringify(val);
-        // Formula injection protection
+        if (typeof val === 'boolean' || typeof val === 'number') return val;
+        if (typeof val === 'object') return Validation.sanitizeFormula(JSON.stringify(val));
         return Validation.sanitizeFormula(String(val));
       });
       sheet.appendRow(row);
@@ -94,9 +96,9 @@ var Database = {
   },
 
   /**
-   * Batch read all rows from sheet
+   * Batch read rows from sheet with optional field exclusion
    */
-  getAllRecords: function(sheetName, headers, filterObj) {
+  getAllRecords: function(sheetName, headers, filterObj, excludeFields) {
     var sheet = this.getSheet(sheetName);
     var lastRow = sheet.getLastRow();
     if (lastRow <= 1) return [];
@@ -106,7 +108,9 @@ var Database = {
     var records = values.map(function(row) {
       var obj = {};
       headers.forEach(function(h, idx) {
-        obj[h] = row[idx];
+        if (!excludeFields || excludeFields.indexOf(h) === -1) {
+          obj[h] = row[idx];
+        }
       });
       return obj;
     });
@@ -114,6 +118,7 @@ var Database = {
     if (filterObj) {
       return records.filter(function(item) {
         for (var k in filterObj) {
+          if (!Object.prototype.hasOwnProperty.call(filterObj, k)) continue;
           if (String(item[k]).toLowerCase() !== String(filterObj[k]).toLowerCase()) {
             return false;
           }
@@ -136,19 +141,19 @@ var Database = {
   },
 
   /**
-   * Update an existing record in-place by ID
+   * Update an existing record in-place by ID (schema-restricted, formula-sanitized)
    */
   updateRecord: function(sheetName, headers, idField, idValue, updates) {
     var lock = LockService.getScriptLock();
     var hasLock = lock.tryLock(10000);
     if (!hasLock) {
-      throw new Error('Database is currently busy. Please retry.');
+      throw Validation.createError('SERVICE_BUSY', 'Database is currently busy. Please retry.');
     }
 
     try {
       var sheet = this.getSheet(sheetName);
       var lastRow = sheet.getLastRow();
-      if (lastRow <= 1) throw new Error('No records in sheet ' + sheetName);
+      if (lastRow <= 1) throw Validation.createError('NOT_FOUND', 'Record not found.');
 
       var idColIdx = headers.indexOf(idField);
       if (idColIdx === -1) throw new Error('ID field ' + idField + ' not in headers');
@@ -163,15 +168,24 @@ var Database = {
       }
 
       if (targetRow === -1) {
-        throw new Error('Record not found with ' + idField + '=' + idValue);
+        throw Validation.createError('NOT_FOUND', 'Record not found.');
       }
 
       for (var key in updates) {
+        if (!Object.prototype.hasOwnProperty.call(updates, key)) continue;
+        // Never allow in-place overwrite of the primary key column
+        if (key === idField) continue;
         var colIdx = headers.indexOf(key);
         if (colIdx !== -1) {
           var val = updates[key];
-          if (typeof val === 'object' && val !== null) val = JSON.stringify(val);
-          sheet.getRange(targetRow, colIdx + 1).setValue(Validation.sanitizeFormula(String(val)));
+          if (val === undefined || val === null) {
+            sheet.getRange(targetRow, colIdx + 1).setValue('');
+          } else if (typeof val === 'boolean' || typeof val === 'number') {
+            sheet.getRange(targetRow, colIdx + 1).setValue(val);
+          } else {
+            if (typeof val === 'object') val = JSON.stringify(val);
+            sheet.getRange(targetRow, colIdx + 1).setValue(Validation.sanitizeFormula(String(val)));
+          }
         }
       }
 
@@ -182,18 +196,37 @@ var Database = {
   },
 
   /**
-   * Log administrative and transactional events
+   * Strip any sensitive keys before writing metadata to logs
+   */
+  redactMetadata: function(obj) {
+    if (!obj || typeof obj !== 'object') return {};
+    var clean = {};
+    for (var k in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
+      if (this.SENSITIVE_KEYS.indexOf(k) !== -1 || /token|password|secret/i.test(k)) {
+        clean[k] = '[REDACTED]';
+      } else {
+        var v = obj[k];
+        clean[k] = typeof v === 'string' && v.length > 300 ? v.substring(0, 300) + '...' : v;
+      }
+    }
+    return clean;
+  },
+
+  /**
+   * Log administrative and transactional events safely
    */
   logActivity: function(eventType, description, metadata, userEmail) {
     try {
-      var logId = 'LOG-' + Date.now();
+      var logId = 'LOG-' + Date.now() + '-' + Utilities.getUuid().substring(0, 4).toUpperCase();
+      var safeMeta = this.redactMetadata(metadata || {});
       var logRecord = {
         logId: logId,
         timestamp: new Date().toISOString(),
-        eventType: eventType,
-        description: description,
-        userEmail: userEmail || 'system',
-        metadataJson: JSON.stringify(metadata || {})
+        eventType: Validation.sanitizeText(eventType, 80, false),
+        description: Validation.sanitizeText(description, 400, false),
+        userEmail: Validation.sanitizeText(userEmail || 'system', 150, false),
+        metadataJson: JSON.stringify(safeMeta)
       };
       this.appendRecord(Config.SHEETS.ACTIVITY_LOGS, this.ACTIVITY_HEADERS, logRecord);
     } catch (e) {

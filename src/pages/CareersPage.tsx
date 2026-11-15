@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 
 import { careerService, fileToBase64 } from '../services/careerService';
+import { validateCareerApplicationForm } from '../utils/validation';
 
 export const CareersPage: React.FC = () => {
   const { navigate } = useRouter();
@@ -35,7 +36,8 @@ export const CareersPage: React.FC = () => {
     academicYear: 'Final Year',
     experienceYears: '0-1',
     linkedInOrPortfolio: '',
-    coverNote: ''
+    coverNote: '',
+    _hp_field: ''
   });
 
   const handleApply = async (e: React.FormEvent) => {
@@ -43,6 +45,20 @@ export const CareersPage: React.FC = () => {
     setApiError(null);
 
     if (!selectedJob) return;
+
+    const validation = validateCareerApplicationForm({
+      candidateName: appForm.candidateName,
+      email: appForm.email,
+      phone: appForm.phone,
+      qualification: appForm.qualification,
+      collegeOrOrg: appForm.collegeOrOrg,
+      linkedInOrPortfolio: appForm.linkedInOrPortfolio,
+      coverNote: appForm.coverNote
+    });
+    if (!validation.isValid) {
+      setApiError(Object.values(validation.errors)[0] || 'Please verify your application details.');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
@@ -64,6 +80,7 @@ export const CareersPage: React.FC = () => {
         linkedinUrl: appForm.linkedInOrPortfolio,
         portfolioUrl: appForm.linkedInOrPortfolio,
         coverNote: appForm.coverNote,
+        _hp_field: appForm._hp_field,
         resumeFile: filePayload
       });
 
@@ -333,6 +350,18 @@ export const CareersPage: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleApply} className="space-y-4">
+                <div className="sr-only" aria-hidden="true">
+                  <label htmlFor="career-hp-field">Leave this field empty</label>
+                  <input
+                    id="career-hp-field"
+                    type="text"
+                    name="_hp_field"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={appForm._hp_field}
+                    onChange={e => setAppForm({ ...appForm, _hp_field: e.target.value })}
+                  />
+                </div>
                 <div>
                   <span className="text-[11px] uppercase tracking-wider text-[#D5AD63] font-semibold">{selectedJob.department}</span>
                   <h3 className="text-xl font-bold text-white mt-0.5">{selectedJob.title}</h3>
@@ -478,6 +507,7 @@ export const CareersPage: React.FC = () => {
                     <label className="block text-xs font-semibold text-slate-200 mb-1">Brief Introduction & Why Aegis?</label>
                     <textarea
                       rows={3}
+                      maxLength={2500}
                       value={appForm.coverNote}
                       onChange={e => setAppForm({ ...appForm, coverNote: e.target.value })}
                       placeholder="Tell us about your background, favorite projects, and what excites you about this role..."

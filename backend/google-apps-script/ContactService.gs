@@ -2,7 +2,8 @@
  * ============================================================================
  * AEGIS ACADEMY — GOOGLE APPS SCRIPT BACKEND
  * File: ContactService.gs
- * Description: Visitor contact messages & inquiries management.
+ * Description: Visitor contact messages & inquiries management with abuse
+ * protection, field sanitization, and status workflow validation.
  * ============================================================================
  */
 
@@ -28,18 +29,28 @@ var ContactService = {
   submitMessage: function(data) {
     Validation.validateContact(data);
 
+    var cleanEmail = String(data.email).trim().toLowerCase();
+    var subject = Validation.sanitizeText(data.subject || 'Website Inquiry', 160, false);
+    var messageBody = Validation.sanitizeText(data.message, 2500, true);
+
+    Validation.enforcePublicAbuseProtection(
+      'submitContact',
+      cleanEmail,
+      subject + '|' + messageBody.substring(0, 120)
+    );
+
     var messageId = Database.generateSequentialId(Config.SHEETS.CONTACT_MESSAGES, Config.ID_PREFIXES.CONTACT);
     var nowIso = new Date().toISOString();
 
     var record = {
       messageId: messageId,
-      fullName: String(data.fullName).trim(),
-      email: String(data.email).trim().toLowerCase(),
-      phone: String(data.phone || '').trim(),
-      organization: String(data.organization || '').trim(),
-      inquiryType: String(data.inquiryType || 'General Inquiry').trim(),
-      subject: String(data.subject || 'Website Inquiry').trim(),
-      message: String(data.message).trim(),
+      fullName: Validation.sanitizeText(data.fullName, 100, false),
+      email: cleanEmail,
+      phone: Validation.sanitizeText(data.phone || '', 25, false),
+      organization: Validation.sanitizeText(data.organization || '', 150, false),
+      inquiryType: Validation.sanitizeText(data.inquiryType || 'General Inquiry', 80, false),
+      subject: subject,
+      message: messageBody,
       status: 'New',
       submittedAt: nowIso,
       updatedAt: nowIso,
@@ -76,26 +87,37 @@ var ContactService = {
   },
 
   /**
-   * Update message status
+   * Update message status with transition validation
    */
-  updateMessageStatus: function(messageId, newStatus, adminNotes, userEmail) {
+  updateMessageStatus: function(messageId, newStatus, adminNotes, userEmail, userRole) {
     var record = Database.getRecordById(Config.SHEETS.CONTACT_MESSAGES, this.HEADERS, 'messageId', messageId);
     if (!record) {
-      throw new Error('Message not found: ' + messageId);
+      throw Validation.createError('NOT_FOUND', 'Message record not found.');
     }
+
+    Validation.validateStatusUpdate(
+      messageId,
+      Config.ID_PREFIXES.CONTACT,
+      record.status,
+      newStatus,
+      Config.STATUSES.CONTACT,
+      adminNotes,
+      userRole
+    );
 
     var updates = {
       status: newStatus,
       updatedAt: new Date().toISOString()
     };
     if (adminNotes !== undefined) {
-      updates.adminNotes = adminNotes;
+      updates.adminNotes = Validation.sanitizeText(adminNotes, 1000, true);
     }
 
     Database.updateRecord(Config.SHEETS.CONTACT_MESSAGES, this.HEADERS, 'messageId', messageId, updates);
 
-    Database.logActivity('CONTACT_STATUS_UPDATED', 'Status changed to ' + newStatus + ' for ' + messageId, {
+    Database.logActivity('CONTACT_STATUS_UPDATED', 'Status changed for ' + messageId, {
       messageId: messageId,
+      previousStatus: record.status,
       newStatus: newStatus
     }, userEmail);
 

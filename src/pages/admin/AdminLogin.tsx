@@ -16,12 +16,18 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !password) {
+      setError('Administrative email and password are required.');
+      return;
+    }
+
     setError(null);
     setLoading(true);
 
     try {
       const res = await authService.login(email, password);
-      if (res.success && res.data?.user) {
+      if (res.success && res.data?.user && authService.isAuthenticated()) {
+        setPassword('');
         onSuccess(res.data.user);
       } else {
         const errorMsg = typeof res.error === 'object' && res.error?.message
@@ -29,8 +35,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
           : (typeof res.error === 'string' ? res.error : res.message || 'Invalid credentials. Please verify your administrative email and password.');
         setError(errorMsg);
       }
-    } catch (err: any) {
-      setError(err.message || 'Authentication failed. Please check network connection.');
+    } catch {
+      setError('Authentication failed. Please check network connection.');
     } finally {
       setLoading(false);
     }
@@ -83,6 +89,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
               <input
                 type="email"
                 required
+                maxLength={150}
+                autoComplete="username"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="admin@aegisacademy.in"
@@ -100,6 +108,8 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess }) => {
               <input
                 type="password"
                 required
+                maxLength={256}
+                autoComplete="current-password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••••••"

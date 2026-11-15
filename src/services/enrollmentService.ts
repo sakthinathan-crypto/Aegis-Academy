@@ -1,5 +1,6 @@
 /**
  * AEGIS ACADEMY - ENROLLMENT SERVICE
+ * Uses POST body transport for authenticated admin reads/updates.
  */
 
 import { apiClient, ApiResponse } from './apiClient';
@@ -17,6 +18,7 @@ export interface EnrollmentSubmission {
   deliveryMode: string;
   preferredBatch: string;
   comments?: string;
+  _hp_field?: string;
 }
 
 export interface EnrollmentRecord extends EnrollmentSubmission {
@@ -33,7 +35,7 @@ export const enrollmentService = {
   },
 
   async listEnrollments(token?: string): Promise<ApiResponse<EnrollmentRecord[]>> {
-    return apiClient.get<EnrollmentRecord[]>('listEnrollments', { token });
+    return apiClient.post<EnrollmentRecord[]>('listEnrollments', { token });
   },
 
   async updateStatus(enrollmentId: string, status: string, adminNotes?: string, token?: string): Promise<ApiResponse> {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { SERVICES } from '../data/companyData';
-import { StorageStore } from '../data/store';
 import { validateQuoteRequest, generateApplicationId } from '../utils/validation';
 import {
   Send,
@@ -27,7 +26,8 @@ export const RequestQuote: React.FC = () => {
     projectDescription: '',
     estimatedBudget: '$15,000 - $30,000',
     expectedTimeline: '2-3 Months',
-    additionalRequirements: ''
+    additionalRequirements: '',
+    _hp_field: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -60,7 +60,8 @@ export const RequestQuote: React.FC = () => {
         targetTimeline: formData.expectedTimeline,
         requirements: formData.additionalRequirements 
           ? `${formData.projectDescription} | Infrastructure notes: ${formData.additionalRequirements}`
-          : formData.projectDescription
+          : formData.projectDescription,
+        _hp_field: formData._hp_field
       });
 
       const confirmedId = res.data?.quoteId || (res as any).quoteId;
@@ -159,7 +160,8 @@ export const RequestQuote: React.FC = () => {
                       projectDescription: '',
                       estimatedBudget: '$15,000 - $30,000',
                       expectedTimeline: '2-3 Months',
-                      additionalRequirements: ''
+                      additionalRequirements: '',
+                      _hp_field: ''
                     });
                   }}
                   className="btn-glossy-gold px-6 py-2.5 text-xs font-bold text-[#071426] rounded-xl cursor-pointer"
@@ -171,6 +173,18 @@ export const RequestQuote: React.FC = () => {
           ) : (
             /* Request Form */
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="quote-hp-field">Leave this field empty</label>
+                <input
+                  id="quote-hp-field"
+                  type="text"
+                  name="_hp_field"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData._hp_field}
+                  onChange={e => setFormData({ ...formData, _hp_field: e.target.value })}
+                />
+              </div>
               <div className="border-b border-[#C9D9EC]/60 pb-4">
                 <h3 className="text-lg font-extrabold text-[#0C1B30]">Client & Organization Coordinates</h3>
               </div>
@@ -271,6 +285,7 @@ export const RequestQuote: React.FC = () => {
                 </label>
                 <textarea
                   rows={4}
+                  maxLength={3000}
                   value={formData.projectDescription}
                   onChange={e => setFormData({ ...formData, projectDescription: e.target.value })}
                   placeholder="Describe your current system bottleneck, desired platform capabilities, user scale, and any legacy data integrations..."

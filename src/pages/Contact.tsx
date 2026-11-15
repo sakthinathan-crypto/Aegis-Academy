@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { COMPANY_INFO } from '../data/companyData';
-import { StorageStore } from '../data/store';
 import { validateContactForm } from '../utils/validation';
 import { Mail, Phone, MapPin, MessageSquare, Clock, CheckCircle2, AlertCircle, Send, ArrowRight } from 'lucide-react';
 
@@ -14,7 +13,8 @@ export const Contact: React.FC = () => {
     organization: '',
     category: 'General Enquiry',
     subject: '',
-    message: ''
+    message: '',
+    _hp_field: ''
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -43,7 +43,8 @@ export const Contact: React.FC = () => {
         organization: formData.organization,
         inquiryType: formData.category,
         subject: formData.subject,
-        message: formData.message
+        message: formData.message,
+        _hp_field: formData._hp_field
       });
 
       const confirmedId = res.data?.messageId || (res as any).messageId;
@@ -130,7 +131,7 @@ export const Contact: React.FC = () => {
                 <a
                   href={`https://wa.me/${COMPANY_INFO.contact.whatsapp.replace(/[^0-9]/g, '')}`}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
                 >
                   <MessageSquare className="w-4 h-4" />
@@ -189,7 +190,8 @@ export const Contact: React.FC = () => {
                           organization: '',
                           category: 'General Enquiry',
                           subject: '',
-                          message: ''
+                          message: '',
+                          _hp_field: ''
                         });
                       }}
                       className="btn-glossy-gold px-5 py-2 text-xs font-bold text-[#071426] rounded-lg cursor-pointer"
@@ -200,6 +202,18 @@ export const Contact: React.FC = () => {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="sr-only" aria-hidden="true">
+                    <label htmlFor="contact-hp-field">Leave this field empty</label>
+                    <input
+                      id="contact-hp-field"
+                      type="text"
+                      name="_hp_field"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData._hp_field}
+                      onChange={e => setFormData({ ...formData, _hp_field: e.target.value })}
+                    />
+                  </div>
                   <div>
                     <label className="block text-xs font-bold text-[#0C1B30] mb-1">
                       Enquiry Type <span className="text-[#B88E3E]">*</span>
@@ -302,6 +316,7 @@ export const Contact: React.FC = () => {
                     </label>
                     <textarea
                       rows={4}
+                      maxLength={2500}
                       value={formData.message}
                       onChange={e => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Please provide context on your institution, requirement, or questions..."

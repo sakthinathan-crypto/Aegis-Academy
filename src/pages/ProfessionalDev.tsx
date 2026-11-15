@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { PROGRAMS } from '../data/companyData';
-import { StorageStore } from '../data/store';
+import { quoteService } from '../services/quoteService';
 import { validateQuoteRequest } from '../utils/validation';
 import {
   Award,
@@ -29,15 +29,19 @@ export const ProfessionalDev: React.FC = () => {
     serviceRequired: 'Corporate Technical Upskilling',
     projectDescription: '',
     estimatedBudget: '$5,000 - $10,000',
-    expectedTimeline: '1-2 Months'
+    expectedTimeline: '1-2 Months',
+    _hp_field: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [submissionId, setSubmissionId] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleInquirySubmit = (e: React.FormEvent) => {
+  const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
     const result = validateQuoteRequest(formData);
     if (!result.isValid) {
       setErrors(result.errors);
@@ -45,23 +49,34 @@ export const ProfessionalDev: React.FC = () => {
     }
 
     setErrors({});
-    const newId = `AEGIS-CORP-${Date.now().toString().slice(-5)}`;
-    StorageStore.saveQuoteRequest({
-      id: newId,
-      name: formData.name,
-      organization: formData.organization,
-      email: formData.email,
-      phone: formData.phone,
-      serviceRequired: formData.serviceRequired,
-      projectDescription: formData.projectDescription,
-      estimatedBudget: formData.estimatedBudget,
-      expectedTimeline: formData.expectedTimeline,
-      submittedAt: new Date().toISOString(),
-      status: 'New'
-    });
+    setIsSubmitting(true);
+    try {
+      const res = await quoteService.submitQuote({
+        fullName: formData.name,
+        workEmail: formData.email,
+        phone: formData.phone,
+        companyName: formData.organization,
+        companyType: 'Corporate Training Inquiry',
+        serviceRequired: formData.serviceRequired,
+        budgetRange: formData.estimatedBudget,
+        targetTimeline: formData.expectedTimeline,
+        requirements: formData.projectDescription,
+        _hp_field: formData._hp_field
+      });
 
-    setSubmissionId(newId);
-    setSubmitted(true);
+      const confirmedId = res.data?.quoteId || (res as any).quoteId;
+      if (res.success && confirmedId) {
+        setSubmissionId(confirmedId);
+        setSubmitted(true);
+      } else {
+        const errMsg = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to submit proposal request. Please try again.');
+        setApiError(errMsg);
+      }
+    } catch {
+      setApiError('Network error communicating with backend. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -147,6 +162,18 @@ export const ProfessionalDev: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleInquirySubmit} className="space-y-4">
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="prodev-hp-field">Leave this field empty</label>
+                <input
+                  id="prodev-hp-field"
+                  type="text"
+                  name="_hp_field"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData._hp_field}
+                  onChange={e => setFormData({ ...formData, _hp_field: e.target.value })}
+                />
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-[#0C1B30] mb-1">
@@ -213,6 +240,7 @@ export const ProfessionalDev: React.FC = () => {
                 </label>
                 <textarea
                   rows={4}
+                  maxLength={3000}
                   value={formData.projectDescription}
                   onChange={e => setFormData({ ...formData, projectDescription: e.target.value })}
                   placeholder="Outline your target team size (e.g., 25 junior engineers), key technical domains (e.g., Docker, Kubernetes, Next.js), and preferred dates..."
@@ -221,13 +249,20 @@ export const ProfessionalDev: React.FC = () => {
                 {errors.projectDescription && <p className="text-[11px] text-red-500 mt-1">{errors.projectDescription}</p>}
               </div>
 
+              {apiError && (
+                <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+                  {apiError}
+                </div>
+              )}
+
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="btn-glossy-gold px-6 py-3 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  disabled={isSubmitting}
+                  className="btn-glossy-gold px-6 py-3 rounded-xl text-[#071426] font-bold text-xs tracking-wide transition-all shadow-md flex items-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <Send className="w-4 h-4" />
-                  <span>Request Customized Proposal</span>
+                  <Send className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+                  <span>{isSubmitting ? 'Submitting Proposal Request...' : 'Request Customized Proposal'}</span>
                 </button>
               </div>
             </form>

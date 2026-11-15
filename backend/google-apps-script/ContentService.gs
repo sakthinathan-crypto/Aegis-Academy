@@ -1,9 +1,9 @@
 /**
  * AEGIS ACADEMY - CONTENT SERVICE (Google Apps Script)
- * Manages CRUD operations for Programs, Projects, and Events.
+ * Manages CRUD operations for Programs, Projects, and Events with validation.
  */
 
-var ContentService = (function() {
+var CatalogContentService = (function() {
   var PROGRAM_HEADERS = [
     'id', 'slug', 'title', 'code', 'division', 'level', 'duration',
     'badge', 'overview', 'curriculumJson', 'toolsJson', 'outcomesJson',
@@ -37,28 +37,35 @@ var ContentService = (function() {
     return Database.getRecordById(Config.SHEETS.PROGRAMS, PROGRAM_HEADERS, 'slug', slug);
   }
 
-  function saveProgram(data) {
-    var id = data.id || ('PRG-' + Utilities.getUuid().substring(0, 8).toUpperCase());
+  function saveProgram(data, userEmail) {
+    Validation.validateProgramData(data);
+
+    var id = data.id ? Validation.sanitizeText(data.id, 40, false) : ('PRG-' + Utilities.getUuid().substring(0, 8).toUpperCase());
     var nowIso = new Date().toISOString();
     var existing = Database.getRecordById(Config.SHEETS.PROGRAMS, PROGRAM_HEADERS, 'id', id);
 
+    var cleanTitle = Validation.sanitizeText(data.title, 150, false);
+    var cleanSlug = data.slug
+      ? Validation.sanitizeText(data.slug, 120, false)
+      : cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
     var record = {
       id: id,
-      slug: data.slug || data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-      title: data.title,
-      code: data.code || 'AEG-PRG',
-      division: data.division || 'College Programs',
-      level: data.level || 'Intermediate',
-      duration: data.duration || '12 Weeks',
-      badge: data.badge || '',
-      overview: data.overview || '',
-      curriculumJson: typeof data.curriculum === 'string' ? data.curriculum : JSON.stringify(data.curriculum || []),
-      toolsJson: typeof data.tools === 'string' ? data.tools : JSON.stringify(data.tools || []),
-      outcomesJson: typeof data.outcomes === 'string' ? data.outcomes : JSON.stringify(data.outcomes || []),
-      prerequisites: data.prerequisites || '',
-      certification: data.certification || 'Aegis Verified Industry Credential',
-      active: data.active !== undefined ? data.active : true,
-      displayOrder: data.displayOrder || 1,
+      slug: cleanSlug,
+      title: cleanTitle,
+      code: Validation.sanitizeText(data.code || 'AEG-PRG', 30, false),
+      division: Validation.sanitizeText(data.division || 'College Programs', 60, false),
+      level: Validation.sanitizeText(data.level || 'Intermediate', 40, false),
+      duration: Validation.sanitizeText(data.duration || '12 Weeks', 40, false),
+      badge: Validation.sanitizeText(data.badge || '', 40, false),
+      overview: Validation.sanitizeText(data.overview || '', 3000, true),
+      curriculumJson: typeof data.curriculum === 'string' ? data.curriculum.substring(0, 15000) : JSON.stringify(data.curriculum || []),
+      toolsJson: typeof data.tools === 'string' ? data.tools.substring(0, 5000) : JSON.stringify(data.tools || []),
+      outcomesJson: typeof data.outcomes === 'string' ? data.outcomes.substring(0, 5000) : JSON.stringify(data.outcomes || []),
+      prerequisites: Validation.sanitizeText(data.prerequisites || '', 500, true),
+      certification: Validation.sanitizeText(data.certification || 'Aegis Verified Industry Credential', 150, false),
+      active: data.active !== undefined ? Boolean(data.active) : true,
+      displayOrder: typeof data.displayOrder === 'number' && isFinite(data.displayOrder) ? data.displayOrder : 1,
       updatedAt: nowIso
     };
 
@@ -69,6 +76,8 @@ var ContentService = (function() {
       record.createdAt = nowIso;
       Database.appendRecord(Config.SHEETS.PROGRAMS, PROGRAM_HEADERS, record);
     }
+
+    Database.logActivity('PROGRAM_SAVED', 'Program catalog updated: ' + id, { programId: id }, userEmail);
 
     return { success: true, programId: id };
   }

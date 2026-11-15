@@ -1,5 +1,6 @@
 /**
  * AEGIS ACADEMY - CONTACT SERVICE
+ * Uses POST body transport for authenticated admin reads/updates.
  */
 
 import { apiClient, ApiResponse } from './apiClient';
@@ -12,6 +13,7 @@ export interface ContactSubmission {
   inquiryType: string;
   subject: string;
   message: string;
+  _hp_field?: string;
 }
 
 export interface ContactRecord extends ContactSubmission {
@@ -28,7 +30,7 @@ export const contactService = {
   },
 
   async listMessages(token?: string): Promise<ApiResponse<ContactRecord[]>> {
-    return apiClient.get<ContactRecord[]>('listContacts', { token });
+    return apiClient.post<ContactRecord[]>('listContacts', { token });
   },
 
   async updateStatus(messageId: string, status: string, adminNotes?: string, token?: string): Promise<ApiResponse> {

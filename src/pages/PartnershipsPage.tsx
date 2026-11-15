@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from '../context/RouterContext';
 import { PARTNERSHIP_MODELS } from '../data/companyData';
 import { contactService } from '../services/contactService';
+import { validateEmail, validatePhone } from '../utils/validation';
 import {
   Building2,
   GraduationCap,
@@ -22,8 +23,9 @@ export const PartnershipsPage: React.FC = () => {
     organization: '',
     email: '',
     phone: '',
-    type: 'College Partnership',
-    message: ''
+    type: 'Collegiate Center of Excellence (CoE)',
+    message: '',
+    _hp_field: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -48,16 +50,20 @@ export const PartnershipsPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError(null);
-    if (!formData.name || formData.name.trim().length < 2) {
-      setErrors({ name: 'Contact person name is required.' });
+    if (!formData.name || formData.name.trim().length < 2 || formData.name.trim().length > 100) {
+      setErrors({ name: 'Contact person name is required (2-100 characters).' });
       return;
     }
-    if (!formData.organization || formData.organization.trim().length < 2) {
-      setErrors({ organization: 'Institution or company name is required.' });
+    if (!formData.organization || formData.organization.trim().length < 2 || formData.organization.trim().length > 150) {
+      setErrors({ organization: 'Institution or company name is required (2-150 characters).' });
       return;
     }
-    if (!formData.email || !formData.email.includes('@')) {
+    if (!validateEmail(formData.email)) {
       setErrors({ email: 'Valid email address is required.' });
+      return;
+    }
+    if (formData.phone && formData.phone.trim().length > 0 && !validatePhone(formData.phone)) {
+      setErrors({ phone: 'Please enter a valid 10-15 digit phone number.' });
       return;
     }
 
@@ -69,18 +75,23 @@ export const PartnershipsPage: React.FC = () => {
         fullName: formData.name,
         email: formData.email,
         phone: formData.phone,
-        inquiryType: 'Partnership',
+        organization: formData.organization,
+        inquiryType: 'Institutional Partnership',
         subject: `Institutional Partnership: ${formData.organization} (${formData.type})`,
-        message: formData.message || `Expressed interest in ${formData.type} collaboration.`
+        message: formData.message || `Expressed interest in ${formData.type} collaboration.`,
+        _hp_field: formData._hp_field
       });
 
-      const confirmedId = res.data?.messageId || (res as any).messageId || `AEG-PRT-${Date.now().toString().slice(-4)}`;
-      setSubmissionId(confirmedId);
-      setSubmitted(true);
-    } catch (err: any) {
-      const fallbackId = `AEG-PRT-${Date.now().toString().slice(-4)}`;
-      setSubmissionId(fallbackId);
-      setSubmitted(true);
+      const confirmedId = res.data?.messageId || (res as any).messageId;
+      if (res.success && confirmedId) {
+        setSubmissionId(confirmedId);
+        setSubmitted(true);
+      } else {
+        const errMsg = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to submit partnership inquiry. Please try again.');
+        setApiError(errMsg);
+      }
+    } catch {
+      setApiError('Network error communicating with backend. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -217,6 +228,18 @@ export const PartnershipsPage: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="partner-hp-field">Leave this field empty</label>
+                <input
+                  id="partner-hp-field"
+                  type="text"
+                  name="_hp_field"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData._hp_field}
+                  onChange={e => setFormData({ ...formData, _hp_field: e.target.value })}
+                />
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-200 mb-1">
@@ -299,12 +322,19 @@ export const PartnershipsPage: React.FC = () => {
                 </label>
                 <textarea
                   rows={3}
+                  maxLength={2500}
                   value={formData.message}
                   onChange={e => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Outline expected student counts, academic calendar preferences, or specific department requirements..."
                   className="w-full px-3 py-2.5 rounded-lg bg-[#071426] border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-[#D5AD63]"
                 />
               </div>
+
+              {apiError && (
+                <div className="p-3 rounded-lg bg-rose-500/20 border border-rose-500/50 text-rose-300 text-xs">
+                  {apiError}
+                </div>
+              )}
 
               <div className="pt-2">
                 <button

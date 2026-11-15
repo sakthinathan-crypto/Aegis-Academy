@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from '../../context/RouterContext';
-import { StorageStore } from '../../data/store';
 import {
   EnrollmentSubmission,
   QuoteRequestSubmission,
   ContactMessage
 } from '../../types';
+import { getSafeExternalUrl } from '../../utils/validation';
 import { PROGRAMS, PROJECTS, EVENTS, LEADERSHIP_TEAM, COMPANY_INFO } from '../../data/companyData';
 import {
   LayoutDashboard,
@@ -56,6 +56,7 @@ export const AdminDashboard: React.FC = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [applications, setApplications] = useState<CareerRecord[]>([]);
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
+  const [overviewMetrics, setOverviewMetrics] = useState<DashboardMetrics | null>(null);
   const [isLoadingData, setIsLoadingData] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -72,173 +73,286 @@ export const AdminDashboard: React.FC = () => {
   const [resumeError, setResumeError] = useState<string | null>(null);
   const [isLoadingResume, setIsLoadingResume] = useState(false);
 
-  // Load from backend API with fail-fast notification (No silent localStorage fallback)
-  const refreshData = async () => {
+  const [sessionVerified, setSessionVerified] = useState(false);
+
+  // Enforce automatic sign-out whenever backend returns UNAUTHORIZED
+  useEffect(() => {
+    const unsubscribe = apiClient.onUnauthorized(() => {
+      authService.clearLocalSession();
+      setCurrentUser(null);
+      setSessionVerified(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  // Load from backend API according to user RBAC permissions
+  const refreshData = async (activeUser?: AdminUser | null) => {
+    const userObj = activeUser || currentUser;
+    const token = authService.getToken();
+    if (!token || !userObj) {
+      authService.clearLocalSession();
+      setCurrentUser(null);
+      return;
+    }
+
     setIsLoadingData(true);
     setFetchError(null);
-    const token = authService.getToken() || '';
 
     try {
-      // 1. Enrollments
-      const enrRes = await enrollmentService.listEnrollments(token);
-      if (enrRes.success && Array.isArray(enrRes.data)) {
-        setEnrollments(enrRes.data.map((r: any) => ({
-          id: r.enrollmentId || r.id,
-          studentName: r.fullName || r.studentName,
-          email: r.email,
-          phone: r.phone,
-          whatsapp: r.guardianPhone || r.whatsapp,
-          institutionName: r.institution || r.institutionName,
-          department: r.department || '',
-          yearOfStudy: r.yearOfStudy || '',
-          district: r.district || '',
-          selectedProgram: r.programTitle || r.selectedProgram,
-          learningMode: r.deliveryMode || r.learningMode,
-          additionalInfo: r.comments || r.additionalInfo,
-          submittedAt: r.submittedAt,
-          status: r.status
-        })));
+      // 0. Overview metrics (available to all authenticated roles including Viewer)
+      const ovRes = await adminService.getOverview();
+      if (ovRes.success && ovRes.data?.metrics) {
+        setOverviewMetrics(ovRes.data.metrics);
       } else {
-        setEnrollments([]);
-        if (!enrRes.success && enrRes.error) {
-          const errText = typeof enrRes.error === 'object' && enrRes.error ? enrRes.error.message : String(enrRes.error);
-          setFetchError(errText || 'Unable to load enrollments from backend');
-        }
+        setOverviewMetrics(null);
       }
 
-      // 2. Quotes
-      const quoRes = await quoteService.listQuotes(token);
-      if (quoRes.success && Array.isArray(quoRes.data)) {
-        setQuotes(quoRes.data.map((r: any) => ({
-          id: r.quoteId || r.id,
-          name: r.fullName || r.name,
-          organization: r.companyName || r.organization,
-          email: r.workEmail || r.email,
-          phone: r.phone,
-          serviceRequired: r.serviceRequired,
-          projectDescription: r.requirements || r.projectDescription,
-          estimatedBudget: r.budgetRange || r.estimatedBudget,
-          expectedTimeline: r.targetTimeline || r.expectedTimeline,
-          additionalRequirements: r.adminNotes || r.additionalRequirements,
-          submittedAt: r.submittedAt,
-          status: r.status
-        })));
+      // 1. Enrollments (Admin / Super Admin / Coordinator)
+      if (authService.hasPermission('manage_enrollments', userObj)) {
+        const enrRes = await enrollmentService.listEnrollments(token);
+        if (enrRes.success && Array.isArray(enrRes.data)) {
+          setEnrollments(enrRes.data.map((r: any) => ({
+            id: r.enrollmentId || r.id,
+            studentName: r.fullName || r.studentName,
+            email: r.email,
+            phone: r.phone,
+            whatsapp: r.guardianPhone || r.whatsapp,
+            institutionName: r.institution || r.institutionName,
+            department: r.department || '',
+            yearOfStudy: r.yearOfStudy || '',
+            district: r.district || '',
+            selectedProgram: r.programTitle || r.selectedProgram,
+            learningMode: r.deliveryMode || r.learningMode,
+            additionalInfo: r.comments || r.additionalInfo,
+            submittedAt: r.submittedAt,
+            status: r.status
+          })));
+        } else {
+          setEnrollments([]);
+          if (!enrRes.success && enrRes.error) {
+            const errText = typeof enrRes.error === 'object' && enrRes.error ? enrRes.error.message : String(enrRes.error);
+            setFetchError(errText || 'Unable to load enrollments from backend');
+          }
+        }
+      } else {
+        setEnrollments([]);
+      }
+
+      // 2. Quotes (Admin / Super Admin)
+      if (authService.hasPermission('manage_quotes', userObj)) {
+        const quoRes = await quoteService.listQuotes(token);
+        if (quoRes.success && Array.isArray(quoRes.data)) {
+          setQuotes(quoRes.data.map((r: any) => ({
+            id: r.quoteId || r.id,
+            name: r.fullName || r.name,
+            organization: r.companyName || r.organization,
+            email: r.workEmail || r.email,
+            phone: r.phone,
+            serviceRequired: r.serviceRequired,
+            projectDescription: r.requirements || r.projectDescription,
+            estimatedBudget: r.budgetRange || r.estimatedBudget,
+            expectedTimeline: r.targetTimeline || r.expectedTimeline,
+            additionalRequirements: r.adminNotes || r.additionalRequirements,
+            submittedAt: r.submittedAt,
+            status: r.status
+          })));
+        } else {
+          setQuotes([]);
+        }
       } else {
         setQuotes([]);
       }
 
-      // 3. Contact Messages
-      const cntRes = await contactService.listMessages(token);
-      if (cntRes.success && Array.isArray(cntRes.data)) {
-        setMessages(cntRes.data.map((r: any) => ({
-          id: r.messageId || r.id,
-          name: r.fullName || r.name,
-          email: r.email,
-          phone: r.phone,
-          category: r.inquiryType || r.category,
-          subject: r.subject,
-          message: r.message,
-          submittedAt: r.submittedAt,
-          status: r.status
-        })));
+      // 3. Contact Messages (Admin / Super Admin / Coordinator)
+      if (authService.hasPermission('manage_contacts', userObj)) {
+        const cntRes = await contactService.listMessages(token);
+        if (cntRes.success && Array.isArray(cntRes.data)) {
+          setMessages(cntRes.data.map((r: any) => ({
+            id: r.messageId || r.id,
+            name: r.fullName || r.name,
+            email: r.email,
+            phone: r.phone,
+            category: r.inquiryType || r.category,
+            subject: r.subject,
+            message: r.message,
+            submittedAt: r.submittedAt,
+            status: r.status
+          })));
+        } else {
+          setMessages([]);
+        }
       } else {
         setMessages([]);
       }
 
-      // 4. Job Applications
-      const appRes = await careerService.listApplications(token);
-      if (appRes.success && Array.isArray(appRes.data)) {
-        setApplications(appRes.data);
+      // 4. Job Applications (Admin / Super Admin)
+      if (authService.hasPermission('manage_careers', userObj)) {
+        const appRes = await careerService.listApplications(token);
+        if (appRes.success && Array.isArray(appRes.data)) {
+          setApplications(appRes.data);
+        } else {
+          setApplications([]);
+        }
       } else {
         setApplications([]);
       }
 
-      // 5. Activity Logs
-      const logRes = await adminService.getActivityLogs();
-      if (logRes.success && Array.isArray(logRes.data)) {
-        setActivityLogs(logRes.data);
+      // 5. Activity Logs (Admin / Super Admin)
+      if (authService.hasPermission('view_logs', userObj)) {
+        const logRes = await adminService.getActivityLogs();
+        if (logRes.success && Array.isArray(logRes.data)) {
+          setActivityLogs(logRes.data);
+        } else {
+          setActivityLogs([]);
+        }
       } else {
         setActivityLogs([]);
       }
-    } catch (err: any) {
-      console.warn('[AdminDashboard] Fetch error:', err);
-      setFetchError(err.message || 'Backend connection error. Please verify Google Apps Script deployment URL.');
+    } catch {
+      setFetchError('Backend connection error. Please verify Google Apps Script deployment URL.');
     } finally {
       setIsLoadingData(false);
     }
   };
 
   useEffect(() => {
-    if (currentUser) {
-      refreshData();
+    let active = true;
+    if (!currentUser) {
+      setSessionVerified(false);
+      return;
     }
-  }, [currentUser]);
 
-  // Update status handlers
+    const verifyAndLoad = async () => {
+      const verifyRes = await authService.verifySession();
+      if (!active) return;
+      if (!verifyRes.success || !verifyRes.data?.valid || !verifyRes.data?.user) {
+        authService.clearLocalSession();
+        setCurrentUser(null);
+        setSessionVerified(false);
+        return;
+      }
+      setSessionVerified(true);
+      await refreshData(verifyRes.data.user);
+    };
+
+    verifyAndLoad();
+    return () => {
+      active = false;
+    };
+  }, [currentUser?.userId]);
+
+  // Update status handlers with rollback on backend failure
   const handleUpdateEnrollmentStatus = async (id: string, status: any) => {
+    const token = authService.getToken();
+    if (!token) return;
+    const prevList = enrollments;
     setEnrollments(prev => prev.map(e => e.id === id ? { ...e, status } : e));
     if (viewEnrollment && viewEnrollment.id === id) {
       setViewEnrollment(prev => prev ? { ...prev, status } : null);
     }
-    await enrollmentService.updateStatus(id, status, '', authService.getToken() || '');
+    const res = await enrollmentService.updateStatus(id, status, '', token);
+    if (!res.success) {
+      setEnrollments(prevList);
+      setFetchError(typeof res.error === 'object' && res.error ? res.error.message : 'Status update rejected.');
+    }
   };
 
   const handleUpdateQuoteStatus = async (id: string, status: any) => {
+    const token = authService.getToken();
+    if (!token) return;
+    const prevList = quotes;
     setQuotes(prev => prev.map(q => q.id === id ? { ...q, status } : q));
     if (viewQuote && viewQuote.id === id) {
       setViewQuote(prev => prev ? { ...prev, status } : null);
     }
-    await quoteService.updateStatus(id, status, '', authService.getToken() || '');
+    const res = await quoteService.updateStatus(id, status, '', token);
+    if (!res.success) {
+      setQuotes(prevList);
+      setFetchError(typeof res.error === 'object' && res.error ? res.error.message : 'Quote status update rejected.');
+    }
   };
 
   const handleUpdateMessageStatus = async (id: string, status: any) => {
+    const token = authService.getToken();
+    if (!token) return;
+    const prevList = messages;
     setMessages(prev => prev.map(m => m.id === id ? { ...m, status } : m));
     if (viewMessage && viewMessage.id === id) {
       setViewMessage(prev => prev ? { ...prev, status } : null);
     }
-    await contactService.updateStatus(id, status, '', authService.getToken() || '');
+    const res = await contactService.updateStatus(id, status, '', token);
+    if (!res.success) {
+      setMessages(prevList);
+      setFetchError(typeof res.error === 'object' && res.error ? res.error.message : 'Contact status update rejected.');
+    }
   };
 
   const handleUpdateApplicationStatus = async (id: string, status: any) => {
+    const token = authService.getToken();
+    if (!token) return;
+    const prevList = applications;
     setApplications(prev => prev.map(a => a.applicationId === id ? { ...a, status } : a));
     if (viewApplication && viewApplication.applicationId === id) {
       setViewApplication(prev => prev ? { ...prev, status } : null);
     }
-    await careerService.updateStatus(id, status, '', authService.getToken() || '');
+    const res = await careerService.updateStatus(id, status, '', token);
+    if (!res.success) {
+      setApplications(prevList);
+      setFetchError(typeof res.error === 'object' && res.error ? res.error.message : 'Application status update rejected.');
+    }
   };
 
   const handleViewResume = async (applicationId: string) => {
+    const token = authService.getToken();
+    if (!token) return;
     setIsLoadingResume(true);
     setResumeError(null);
-    const token = authService.getToken() || '';
     try {
       const res = await careerService.getResumeDownloadUrl(applicationId, token);
       if (res.success && res.data?.downloadUrl) {
-        window.open(res.data.downloadUrl, '_blank', 'noopener,noreferrer');
+        const safeUrl = getSafeExternalUrl(res.data.downloadUrl, ['google.com', 'googleusercontent.com']);
+        if (!safeUrl) {
+          setResumeError('Blocked unsafe resume download URL.');
+          return;
+        }
+        const link = document.createElement('a');
+        link.href = safeUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       } else {
         const errText = typeof res.error === 'object' && res.error ? res.error.message : String(res.error || res.message || 'Failed to retrieve private resume URL from Google Drive.');
         setResumeError(errText);
       }
-    } catch (err: any) {
-      setResumeError(err.message || 'Error communicating with Google Apps Script backend.');
+    } catch {
+      setResumeError('Error communicating with Google Apps Script backend.');
     } finally {
       setIsLoadingResume(false);
     }
   };
 
-  const handleLogout = () => {
-    authService.logout();
+  const handleLogout = async () => {
+    await authService.logout();
     setCurrentUser(null);
+    setSessionVerified(false);
   };
 
-  if (!currentUser) {
+  if (!currentUser || !authService.isAuthenticated()) {
     return <AdminLogin onSuccess={user => setCurrentUser(user)} />;
   }
 
-  // KPI Calculations
-  const totalEnrollments = enrollments.length;
-  const totalLeads = quotes.length;
-  const pendingInquiries = messages.filter(m => m.status === 'Unread').length;
+  // KPI Calculations (use backend overview metrics when list access is restricted, e.g., Viewer role)
+  const totalEnrollments = authService.hasPermission('manage_enrollments', currentUser)
+    ? enrollments.length
+    : (overviewMetrics?.totalEnrollments ?? 0);
+  const totalLeads = authService.hasPermission('manage_quotes', currentUser)
+    ? quotes.length
+    : (overviewMetrics?.totalQuotes ?? 0);
+  const pendingInquiries = authService.hasPermission('manage_contacts', currentUser)
+    ? messages.filter(m => m.status === 'Unread').length
+    : (overviewMetrics?.newContacts ?? 0);
   const activeProgramsCount = PROGRAMS.length;
   const totalProjectsCount = PROJECTS.length;
   const upcomingEventsCount = EVENTS.filter(e => e.status === 'Upcoming').length;
@@ -455,8 +569,10 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           <div className="pt-6 border-t border-slate-800 text-[11px] text-slate-400 space-y-1">
-            <div>Logged in as: <span className="text-white">Aegis Executive</span></div>
-            <div className="text-[10px] text-slate-500">Security: Prototype Session</div>
+            <div>Logged in as: <span className="text-white">{currentUser.name}</span></div>
+            <div className="text-[10px] text-slate-500">
+              Security: {sessionVerified ? 'Verified HMAC Session' : 'Verifying Session...'}
+            </div>
           </div>
         </aside>
 
@@ -1315,23 +1431,38 @@ export const AdminDashboard: React.FC = () => {
 
             <div className="text-xs text-slate-300 space-y-1">
               <div>Candidate: <strong className="text-white">{viewApplication.fullName}</strong></div>
-              <div>Email: <a href={`mailto:${viewApplication.email}`} className="text-[#38BDF8] underline">{viewApplication.email}</a></div>
+              <div>
+                Email:{' '}
+                <a
+                  href={`mailto:${encodeURIComponent(String(viewApplication.email || '').trim())}`}
+                  className="text-[#38BDF8] underline"
+                >
+                  {viewApplication.email}
+                </a>
+              </div>
               <div>Phone: <span className="font-mono text-white">{viewApplication.phone}</span></div>
               <div>Experience: <span className="text-white font-semibold">{viewApplication.experienceYears} Years</span></div>
-              {viewApplication.linkedinUrl && (
-                <div>
-                  Portfolio / LinkedIn:{' '}
-                  <a
-                    href={viewApplication.linkedinUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[#38BDF8] underline inline-flex items-center gap-1"
-                  >
-                    <span>{viewApplication.linkedinUrl}</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              )}
+              {viewApplication.linkedinUrl && (() => {
+                const safeLinkedinUrl = getSafeExternalUrl(viewApplication.linkedinUrl);
+                return safeLinkedinUrl ? (
+                  <div>
+                    Portfolio / LinkedIn:{' '}
+                    <a
+                      href={safeLinkedinUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#38BDF8] underline inline-flex items-center gap-1"
+                    >
+                      <span>{safeLinkedinUrl}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                ) : (
+                  <div className="text-slate-400">
+                    Portfolio / LinkedIn: <span className="text-rose-400">Invalid URL blocked</span>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Authenticated Resume Drive Action */}
