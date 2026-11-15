@@ -1249,42 +1249,6 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     location: 'Arunai Engineering College, Tiruvannamalai'
   },
   {
-    id: 'gal-arunai-1',
-    title: 'UI/UX Workshop (Sequence 1) – Arunai Engineering College',
-    category: 'Workshops',
-    imageUrl: '/images/gallery/uiux-workshop-arunai-1.jpeg',
-    caption: 'Part 1: Introduction to user interface design principles and wireframing at Arunai Engineering College, Tiruvannamalai.',
-    date: '2026',
-    location: 'Arunai Engineering College, Tiruvannamalai'
-  },
-  {
-    id: 'gal-arunai-2',
-    title: 'UI/UX Workshop (Sequence 2) – Arunai Engineering College',
-    category: 'Workshops',
-    imageUrl: '/images/gallery/uiux-workshop-arunai-2.jpeg',
-    caption: 'Part 2: Hands-on Figma prototyping and UI component architecture at Arunai Engineering College, Tiruvannamalai.',
-    date: '2026',
-    location: 'Arunai Engineering College, Tiruvannamalai'
-  },
-  {
-    id: 'gal-arunai-3',
-    title: 'UI/UX Workshop (Sequence 3) – Arunai Engineering College',
-    category: 'Workshops',
-    imageUrl: '/images/gallery/uiux-workshop-arunai-3.jpeg',
-    caption: 'Part 3: Interactive user testing and student experience lab at Arunai Engineering College, Tiruvannamalai.',
-    date: '2026',
-    location: 'Arunai Engineering College, Tiruvannamalai'
-  },
-  {
-    id: 'gal-arunai-4',
-    title: 'UI/UX Workshop (Sequence 4) – Arunai Engineering College',
-    category: 'Workshops',
-    imageUrl: '/images/gallery/uiux-workshop-arunai-4.jpeg',
-    caption: 'Part 4: Student prototype presentations and design critique session at Arunai Engineering College, Tiruvannamalai.',
-    date: '2026',
-    location: 'Arunai Engineering College, Tiruvannamalai'
-  },
-  {
     id: 'gal-1',
     title: 'Career Guidance – Akkarapettai, Nagapattinam',
     category: 'Workshops',
