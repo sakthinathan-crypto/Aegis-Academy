@@ -330,7 +330,7 @@ export const PROGRAMS: Program[] = [
       { question: 'Will I receive a certificate upon completion?', answer: 'Yes, students who successfully complete curriculum modules and defend their capstone receive the AEGIS Academy Full-Stack Engineering Certificate.' },
       { question: 'Are classes recorded if I miss a lecture?', answer: 'All live sessions are recorded and made available immediately on the AEGIS Student Portal along with instructor code repositories.' }
     ],
-    image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg'
+    image: '/images/prog-1.jpeg'
   },
   {
     id: 'prog-2',
@@ -371,7 +371,7 @@ export const PROGRAMS: Program[] = [
       { question: 'Do I need a high-end GPU to enroll?', answer: 'No. Cloud computing credits and hosted inference environments are provided as part of the course laboratory access.' },
       { question: 'Is mathematical background required?', answer: 'A high-school level comfort with vectors, matrix operations, and probability is helpful, but the course emphasizes applied system architecture.' }
     ],
-    image: '/src/assets/images/ai_learning_assistant_1793890911044.jpg'
+    image: '/images/prog-2.jpeg'
   },
   {
     id: 'prog-3',
@@ -410,7 +410,7 @@ export const PROGRAMS: Program[] = [
     faqs: [
       { question: 'Is ethical hacking legal to practice in this course?', answer: 'Yes, all exercises are strictly confined to isolated virtual sandbox labs provided by AEGIS Academy with strict safety controls.' }
     ],
-    image: '/src/assets/images/aegis_tech_engineering_1793890910041.jpg'
+    image: '/images/prog-3.jpeg'
   },
   {
     id: 'prog-4',
