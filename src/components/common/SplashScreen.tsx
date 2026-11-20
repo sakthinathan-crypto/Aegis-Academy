@@ -143,7 +143,9 @@ const AegisBotFallbackVisual: React.FC = () => (
 );
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
-  mascotSrc = typeof __AEGIS_BOT_ASSET__ !== 'undefined' ? __AEGIS_BOT_ASSET__ : null,
+  mascotSrc = typeof __AEGIS_BOT_ASSET__ !== 'undefined' && __AEGIS_BOT_ASSET__
+    ? __AEGIS_BOT_ASSET__
+    : '/images/aegis-bot.png',
   onRevealStart,
   onComplete,
 }) => {
@@ -295,27 +297,27 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       />
 
       {/* Main Centered Composition */}
-      <div className="relative z-10 flex w-full max-w-2xl flex-col items-center justify-center px-6 text-center">
+      <div className="relative z-10 flex w-full max-w-4xl flex-col items-center justify-center px-4 sm:px-6 text-center">
         {/* Scene 2 & 3: AEGIS BOT Arrival + Floating Levitation + Welcoming Gesture */}
-        <div className="splash-bot-entrance relative flex items-center justify-center">
-          {/* Concentric subtle orbital tech rings */}
+        <div className="splash-bot-entrance relative flex items-center justify-center w-full">
+          {/* Concentric subtle orbital tech rings framing the showcase */}
           <div
             aria-hidden="true"
-            className="aegis-orbit-cw pointer-events-none absolute w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-full border border-[#00A3FF]/20 border-dashed"
+            className="aegis-orbit-cw pointer-events-none absolute w-72 h-72 sm:w-[420px] sm:h-[420px] md:w-[500px] md:h-[500px] rounded-full border border-[#00A3FF]/15 border-dashed"
           />
           <div
             aria-hidden="true"
-            className="aegis-orbit-ccw pointer-events-none absolute w-56 h-56 sm:w-76 sm:h-76 md:w-84 md:h-84 rounded-full border border-[#0077FE]/15"
+            className="aegis-orbit-ccw pointer-events-none absolute w-84 h-84 sm:w-[500px] sm:h-[500px] md:w-[580px] md:h-[580px] rounded-full border border-[#0077FE]/10"
           />
 
-          {/* Soft blue backlighting aura around mascot */}
+          {/* Wide luminous blue backlighting aura behind the showcase */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 rounded-full bg-[radial-gradient(circle,_rgba(0,163,255,0.34)_0%,_rgba(0,119,254,0.14)_55%,_transparent_76%)] blur-2xl"
+            className="pointer-events-none absolute w-[88vw] max-w-[390px] sm:max-w-[580px] md:max-w-[700px] lg:max-w-[780px] h-56 sm:h-72 md:h-88 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(0,163,255,0.34)_0%,_rgba(0,119,254,0.14)_54%,_transparent_76%)] blur-3xl"
           />
 
           {/* Scene 3: Blue energy sparks around AEGIS BOT */}
-          <div aria-hidden="true" className="pointer-events-none absolute -inset-3">
+          <div aria-hidden="true" className="pointer-events-none absolute -inset-3 sm:-inset-5">
             {WELCOME_SPARKS.map(spark => (
               <span
                 key={spark.id}
@@ -325,10 +327,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           </div>
 
           {/* Floating + subtle welcoming tilt wrapper */}
-          <div className="splash-bot-float">
-            <div className="splash-bot-welcome relative w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 flex items-center justify-center">
+          <div className="splash-bot-float w-full flex justify-center">
+            <div className="splash-bot-welcome relative flex items-center justify-center w-full">
               {showSuppliedMascot ? (
-                <>
+                <div className="relative w-[92vw] max-w-[380px] sm:max-w-[540px] md:max-w-[660px] lg:max-w-[740px] aspect-[4/3] sm:aspect-[16/9] max-h-[50dvh] rounded-3xl overflow-hidden border border-[#00A3FF]/35 bg-[#020617] shadow-[0_22px_70px_rgba(0,119,254,0.42),0_0_32px_rgba(0,163,255,0.22),inset_0_1px_0_rgba(255,255,255,0.16)]">
                   <img
                     src={mascotSrc!}
                     alt="AEGIS BOT — Official Mascot of AEGIS Academy"
@@ -336,23 +338,38 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
                     decoding="async"
                     fetchPriority="high"
                     onError={() => setMascotFailed(true)}
-                    className="relative z-10 max-h-full max-w-full object-contain select-none drop-shadow-[0_14px_34px_rgba(0,119,254,0.45)]"
+                    className="relative z-10 w-full h-full object-cover object-right select-none"
                   />
-                  {/* Scene 3: Subtle blue eye-zone luminescence sweep overlay */}
+
+                  {/* Scene 3: Subtle blue eye-zone luminescence aligned with AEGIS BOT's smiling eyes */}
                   <span
                     aria-hidden="true"
-                    className="splash-eye-pulse pointer-events-none absolute top-[28%] left-1/2 -translate-x-1/2 z-20 w-16 h-6 sm:w-20 sm:h-7 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.5)_0%,_rgba(0,163,255,0.15)_55%,_transparent_80%)] blur-md mix-blend-screen"
+                    className="splash-eye-pulse pointer-events-none absolute top-[39%] left-[61%] sm:left-[71%] -translate-x-1/2 -translate-y-1/2 -rotate-[18deg] z-20 w-24 h-10 sm:w-32 sm:h-12 md:w-36 md:h-14 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.48)_0%,_rgba(0,163,255,0.15)_58%,_transparent_82%)] blur-md mix-blend-screen"
                   />
-                </>
+
+                  {/* Subtle perimeter feathering so the widescreen stage melts cleanly into the dark splash */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-10 bg-gradient-to-t from-[#020617]/75 via-[#020617]/20 to-transparent"
+                  />
+
+                  {/* Right-edge electric blue highlight matching the portal edge AEGIS BOT grips */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 right-0 z-20 w-0.5 bg-gradient-to-b from-transparent via-[#38BDF8]/85 to-transparent shadow-[0_0_18px_rgba(0,163,255,0.95)]"
+                  />
+                </div>
               ) : (
-                <AegisBotFallbackVisual />
+                <div className="relative w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 flex items-center justify-center">
+                  <AegisBotFallbackVisual />
+                </div>
               )}
             </div>
           </div>
         </div>
 
         {/* Scene 4: Brand Reveal (AEGIS ACADEMY Text Animation + Tagline + Pillars) */}
-        <div className="splash-brand-reveal mt-6 sm:mt-8 flex flex-col items-center">
+        <div className="splash-brand-reveal mt-6 sm:mt-7 flex flex-col items-center">
           {/* Primary Wordmark with Subtle Blue Light Sweep */}
           <div className="relative overflow-hidden px-4 py-1">
             <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.22em] text-white drop-shadow-[0_0_26px_rgba(0,119,254,0.5)]">
