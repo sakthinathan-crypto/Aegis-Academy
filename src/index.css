@@ -426,3 +426,266 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: #D5AD63;
 }
+
+/* =========================================================================
+   AEGIS BOT PREMIUM SPLASH SCREEN & HOMEPAGE FADE-IN TRANSITION
+   GPU-composited (transform & opacity only) 5-scene choreography (~3.6s)
+   ========================================================================= */
+
+@keyframes splashRadialAwaken {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes splashParticleDrift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.6);
+  }
+  20% {
+    opacity: 0.78;
+  }
+  80% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift-x, 12px), var(--drift-y, -42px), 0) scale(1.1);
+  }
+}
+
+@keyframes splashBotEntrance {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.84);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(0, -4px, 0) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes splashBotFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@keyframes splashBotWelcomeGesture {
+  0% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+  28% {
+    transform: rotate(-3.2deg) translate3d(-2px, -3px, 0);
+  }
+  62% {
+    transform: rotate(2.8deg) translate3d(2px, -4px, 0);
+  }
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes splashEyeIlluminate {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.95);
+  }
+  45% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+  70% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+}
+
+@keyframes splashEnergySpark {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0) scale(0.4);
+  }
+  30% {
+    opacity: 0.95;
+    transform: translate3d(var(--spark-x, 8px), -8px, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(calc(var(--spark-x, 8px) * 1.8), -34px, 0) scale(0.3);
+  }
+}
+
+@keyframes splashBrandReveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes splashLightSweep {
+  0% {
+    transform: translate3d(-140%, 0, 0) skewX(-22deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.9;
+  }
+  78% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(260%, 0, 0) skewX(-22deg);
+    opacity: 0;
+  }
+}
+
+@keyframes splashTransitionBloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  55% {
+    opacity: 0.7;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.38);
+  }
+}
+
+@layer components {
+  .splash-radial-awaken {
+    animation: splashRadialAwaken 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+  }
+
+  .splash-particle {
+    animation-name: splashParticleDrift;
+    animation-duration: var(--p-dur, 3.2s);
+    animation-timing-function: ease-out;
+    animation-delay: var(--p-delay, 0s);
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+  }
+
+  .splash-bot-entrance {
+    animation: splashBotEntrance 0.95s cubic-bezier(0.22, 1, 0.36, 1) 0.58s both;
+    will-change: transform, opacity;
+  }
+
+  .splash-bot-float {
+    animation: splashBotFloat 3.2s ease-in-out 1.5s infinite;
+    will-change: transform;
+  }
+
+  .splash-bot-welcome {
+    animation: splashBotWelcomeGesture 0.72s cubic-bezier(0.22, 1, 0.36, 1) 1.62s 1 both;
+    will-change: transform;
+  }
+
+  .splash-eye-pulse {
+    animation: splashEyeIlluminate 0.85s ease-in-out 1.68s 1 both;
+    will-change: transform, opacity;
+  }
+
+  .splash-energy-spark {
+    animation-name: splashEnergySpark;
+    animation-duration: 1.15s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-delay: var(--spark-delay, 1.65s);
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+  }
+
+  .splash-brand-reveal {
+    animation: splashBrandReveal 0.68s cubic-bezier(0.22, 1, 0.36, 1) 2.2s both;
+    will-change: transform, opacity;
+  }
+
+  .splash-pillars-reveal {
+    animation: splashBrandReveal 0.62s cubic-bezier(0.22, 1, 0.36, 1) 2.48s both;
+    will-change: transform, opacity;
+  }
+
+  .splash-light-sweep {
+    animation: splashLightSweep 1.05s cubic-bezier(0.22, 1, 0.36, 1) 2.38s 1 both;
+    will-change: transform, opacity;
+  }
+
+  .splash-transition-bloom {
+    animation: splashTransitionBloom 0.9s cubic-bezier(0.22, 1, 0.36, 1) 3.05s 1 both;
+    will-change: transform, opacity;
+  }
+
+  /* Homepage simultaneous fade-in & subtle upward reveal */
+  .homepage-reveal-hidden {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+
+  .homepage-reveal-entering {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity 820ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 820ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-radial-awaken,
+  .splash-particle,
+  .splash-bot-entrance,
+  .splash-bot-float,
+  .splash-bot-welcome,
+  .splash-eye-pulse,
+  .splash-energy-spark,
+  .splash-brand-reveal,
+  .splash-pillars-reveal,
+  .splash-light-sweep,
+  .splash-transition-bloom {
+    animation: none !important;
+    opacity: 1;
+    transform: none !important;
+  }
+
+  .splash-particle,
+  .splash-energy-spark,
+  .splash-light-sweep,
+  .splash-transition-bloom {
+    display: none !important;
+  }
+
+  .homepage-reveal-hidden {
+    opacity: 0;
+    transform: none;
+  }
+
+  .homepage-reveal-entering {
+    opacity: 1;
+    transform: none;
+    transition: opacity 420ms ease-out;
+    will-change: opacity;
+  }
+}
