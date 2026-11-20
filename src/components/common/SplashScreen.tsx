@@ -147,7 +147,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
   mascotSrc = typeof __AEGIS_BOT_ASSET__ !== 'undefined' && __AEGIS_BOT_ASSET__
     ? __AEGIS_BOT_ASSET__
     : '/images/aegis-bot.png',
-  logoSrc = '/logo.png',
+  logoSrc = '/images/splash-logo.png',
   onRevealStart,
   onComplete,
 }) => {
@@ -383,10 +383,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
         {/* Scene 4: Brand Reveal (Official Logo Asset + Title + Tagline + Pillars) */}
         <div className="splash-brand-reveal mt-5 sm:mt-6 flex flex-col items-center">
-          {/* Official AEGIS Academy Logo Asset */}
+          {/* Official AEGIS Academy Transparent Logo Asset (Splash Screen Only) */}
           {!logoFailed ? (
-            <div className="relative mb-2 flex items-center justify-center">
-              <div className="relative h-14 w-48 sm:h-16 sm:w-56 overflow-hidden flex items-center justify-center">
+            <div className="relative mb-3 flex items-center justify-center">
+              {/* Soft subtle luminance behind the transparent mark so both blue 'A' and white letters stay crisp */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-2 -inset-y-2 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.24)_0%,_rgba(0,119,254,0.1)_55%,_transparent_80%)] blur-xl"
+              />
+              <div className="relative overflow-hidden px-3 py-1 flex items-center justify-center">
                 <img
                   src={logoSrc}
                   alt="AEGIS Academy Official Logo"
@@ -394,12 +399,12 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
                   decoding="async"
                   fetchPriority="high"
                   onError={() => setLogoFailed(true)}
-                  className="w-44 sm:w-52 max-w-none object-contain mix-blend-screen brightness-110 contrast-110"
+                  className="relative z-10 h-14 sm:h-16 md:h-20 w-auto object-contain drop-shadow-[0_0_20px_rgba(56,189,248,0.55)]"
                 />
                 {/* Blue light sweep across official brand mark */}
                 <span
                   aria-hidden="true"
-                  className="splash-light-sweep pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-transparent via-sky-300/45 to-transparent blur-sm"
+                  className="splash-light-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-24 bg-gradient-to-r from-transparent via-sky-300/45 to-transparent blur-sm"
                 />
               </div>
             </div>
