@@ -3,7 +3,6 @@ import { ChevronRight } from 'lucide-react';
 
 export interface SplashScreenProps {
   mascotSrc?: string | null;
-  logoSrc?: string;
   onRevealStart: () => void;
   onComplete: () => void;
 }
@@ -144,17 +143,13 @@ const AegisBotFallbackVisual: React.FC = () => (
 );
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({
-  mascotSrc = typeof __AEGIS_BOT_ASSET__ !== 'undefined' && __AEGIS_BOT_ASSET__
-    ? __AEGIS_BOT_ASSET__
-    : '/images/aegis-bot.png',
-  logoSrc = '/images/splash-logo.png',
+  mascotSrc = typeof __AEGIS_BOT_ASSET__ !== 'undefined' ? __AEGIS_BOT_ASSET__ : null,
   onRevealStart,
   onComplete,
 }) => {
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isFastFade, setIsFastFade] = useState(false);
   const [mascotFailed, setMascotFailed] = useState(false);
-  const [logoFailed, setLogoFailed] = useState(false);
 
   const hasDismissedRef = useRef(false);
   const timersRef = useRef<number[]>([]);
@@ -195,17 +190,13 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     triggerDismiss(520, true);
   }, [triggerDismiss]);
 
-  // Preload official logo and supplied mascot asset cleanly
+  // Preload supplied mascot asset cleanly when present
   useEffect(() => {
-    if (logoSrc) {
-      const preloadLogo = new Image();
-      preloadLogo.src = logoSrc;
-    }
     if (mascotSrc) {
       const preloadMascot = new Image();
       preloadMascot.src = mascotSrc;
     }
-  }, [logoSrc, mascotSrc]);
+  }, [mascotSrc]);
 
   // Lock background scroll while active & restore cleanly on unmount
   useEffect(() => {
@@ -310,21 +301,21 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
           {/* Concentric subtle orbital tech rings */}
           <div
             aria-hidden="true"
-            className="aegis-orbit-cw pointer-events-none absolute w-56 h-56 sm:w-72 sm:h-72 md:w-84 md:h-84 rounded-full border border-[#00A3FF]/20 border-dashed"
+            className="aegis-orbit-cw pointer-events-none absolute w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-full border border-[#00A3FF]/20 border-dashed"
           />
           <div
             aria-hidden="true"
-            className="aegis-orbit-ccw pointer-events-none absolute w-68 h-68 sm:w-88 sm:h-88 md:w-96 md:h-96 rounded-full border border-[#0077FE]/15"
+            className="aegis-orbit-ccw pointer-events-none absolute w-56 h-56 sm:w-76 sm:h-76 md:w-84 md:h-84 rounded-full border border-[#0077FE]/15"
           />
 
           {/* Soft blue backlighting aura around mascot */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute w-56 h-48 sm:w-72 sm:h-60 md:w-84 md:h-68 rounded-full bg-[radial-gradient(circle,_rgba(0,163,255,0.34)_0%,_rgba(0,119,254,0.14)_55%,_transparent_76%)] blur-2xl"
+            className="pointer-events-none absolute w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 rounded-full bg-[radial-gradient(circle,_rgba(0,163,255,0.34)_0%,_rgba(0,119,254,0.14)_55%,_transparent_76%)] blur-2xl"
           />
 
           {/* Scene 3: Blue energy sparks around AEGIS BOT */}
-          <div aria-hidden="true" className="pointer-events-none absolute -inset-4">
+          <div aria-hidden="true" className="pointer-events-none absolute -inset-3">
             {WELCOME_SPARKS.map(spark => (
               <span
                 key={spark.id}
@@ -335,15 +326,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
 
           {/* Floating + subtle welcoming tilt wrapper */}
           <div className="splash-bot-float">
-            <div className="splash-bot-welcome relative flex items-center justify-center">
+            <div className="splash-bot-welcome relative w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 flex items-center justify-center">
               {showSuppliedMascot ? (
-                <div className="relative w-[264px] h-[220px] sm:w-[336px] sm:h-[280px] md:w-[384px] md:h-[320px] rounded-3xl overflow-hidden border border-[#00A3FF]/30 bg-gradient-to-br from-[#061533]/80 via-[#030C22]/90 to-[#020617]/95 shadow-[0_18px_60px_rgba(0,119,254,0.35),inset_0_1px_0_rgba(255,255,255,0.14)]">
-                  {/* Soft interior blue rim light behind AEGIS BOT */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_42%,_rgba(0,163,255,0.22)_0%,_rgba(0,119,254,0.08)_46%,_transparent_75%)]"
-                  />
-
+                <>
                   <img
                     src={mascotSrc!}
                     alt="AEGIS BOT — Official Mascot of AEGIS Academy"
@@ -351,73 +336,31 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
                     decoding="async"
                     fetchPriority="high"
                     onError={() => setMascotFailed(true)}
-                    className="relative z-10 w-full h-full object-cover object-right select-none drop-shadow-[0_12px_28px_rgba(0,119,254,0.38)]"
+                    className="relative z-10 max-h-full max-w-full object-contain select-none drop-shadow-[0_14px_34px_rgba(0,119,254,0.45)]"
                   />
-
-                  {/* Scene 3: Subtle blue eye-zone luminescence aligned with AEGIS BOT's smiling eyes */}
+                  {/* Scene 3: Subtle blue eye-zone luminescence sweep overlay */}
                   <span
                     aria-hidden="true"
-                    className="splash-eye-pulse pointer-events-none absolute top-[38%] left-[55%] -translate-x-1/2 -translate-y-1/2 -rotate-[18deg] z-20 w-24 h-10 sm:w-28 sm:h-11 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.5)_0%,_rgba(0,163,255,0.16)_58%,_transparent_82%)] blur-md mix-blend-screen"
+                    className="splash-eye-pulse pointer-events-none absolute top-[28%] left-1/2 -translate-x-1/2 z-20 w-16 h-6 sm:w-20 sm:h-7 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.5)_0%,_rgba(0,163,255,0.15)_55%,_transparent_80%)] blur-md mix-blend-screen"
                   />
-
-                  {/* Subtle bottom fade blending lower torso smoothly into the portal */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-10 bg-gradient-to-t from-[#020617]/85 via-[#020617]/30 to-transparent"
-                  />
-
-                  {/* Right-edge electric blue highlight matching the portal edge AEGIS BOT grips */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-y-0 right-0 z-20 w-0.5 bg-gradient-to-b from-transparent via-[#38BDF8]/80 to-transparent shadow-[0_0_16px_rgba(0,163,255,0.9)]"
-                  />
-                </div>
+                </>
               ) : (
-                <div className="relative w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 flex items-center justify-center">
-                  <AegisBotFallbackVisual />
-                </div>
+                <AegisBotFallbackVisual />
               )}
             </div>
           </div>
         </div>
 
-        {/* Scene 4: Brand Reveal (Official Logo Asset + Title + Tagline + Pillars) */}
-        <div className="splash-brand-reveal mt-5 sm:mt-6 flex flex-col items-center">
-          {/* Official AEGIS Academy Transparent Logo Asset (Splash Screen Only) */}
-          {!logoFailed ? (
-            <div className="relative mb-3 flex items-center justify-center">
-              {/* Soft subtle luminance behind the transparent mark so both blue 'A' and white letters stay crisp */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-2 -inset-y-2 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(56,189,248,0.24)_0%,_rgba(0,119,254,0.1)_55%,_transparent_80%)] blur-xl"
-              />
-              <div className="relative overflow-hidden px-3 py-1 flex items-center justify-center">
-                <img
-                  src={logoSrc}
-                  alt="AEGIS Academy Official Logo"
-                  referrerPolicy="no-referrer"
-                  decoding="async"
-                  fetchPriority="high"
-                  onError={() => setLogoFailed(true)}
-                  className="relative z-10 h-14 sm:h-16 md:h-20 w-auto object-contain drop-shadow-[0_0_20px_rgba(56,189,248,0.55)]"
-                />
-                {/* Blue light sweep across official brand mark */}
-                <span
-                  aria-hidden="true"
-                  className="splash-light-sweep pointer-events-none absolute inset-y-0 left-0 z-20 w-24 bg-gradient-to-r from-transparent via-sky-300/45 to-transparent blur-sm"
-                />
-              </div>
-            </div>
-          ) : null}
-
+        {/* Scene 4: Brand Reveal (AEGIS ACADEMY Text Animation + Tagline + Pillars) */}
+        <div className="splash-brand-reveal mt-6 sm:mt-8 flex flex-col items-center">
           {/* Primary Wordmark with Subtle Blue Light Sweep */}
-          <div className="relative overflow-hidden px-3 py-0.5">
-            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-[0.22em] text-white drop-shadow-[0_0_24px_rgba(0,119,254,0.45)]">
+          <div className="relative overflow-hidden px-4 py-1">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.22em] text-white drop-shadow-[0_0_26px_rgba(0,119,254,0.5)]">
               AEGIS <span className="blue-gradient-text">ACADEMY</span>
             </h1>
             <span
               aria-hidden="true"
-              className="splash-light-sweep pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-transparent via-[#38BDF8]/50 to-transparent blur-[2px]"
+              className="splash-light-sweep pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-transparent via-[#38BDF8]/55 to-transparent blur-[2px]"
             />
           </div>
 
